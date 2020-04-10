@@ -1,0 +1,24 @@
+.anu-chat-overlay-active .chat-list__lines {
+  position: absolute;
+  height: 400px;
+  width: 300px;
+  overflow: hidden;
+  top: 110px;
+  left: 0;
+}
+
+.anu-chat-overlay-active .chat-list__lines .simplebar-track.vertical {
+  display: none;
+}
+
+.anu-chat-overlay-active .chat-list__lines .chat-list__list-container .chat-line__message {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.anu-chat-overlay-active .right-column {
+  display: none !important;
+}
+
+.anu-chat-overlay-active .persistent-player--theatre {
+  width: 100% !important;
+}

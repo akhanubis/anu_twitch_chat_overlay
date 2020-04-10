@@ -1,0 +1,13 @@
+{
+  "name": "Twitch Chat Overlay",
+  "version": "0.0.1",
+  "permissions": [
+    "*://*.twitch.tv/"
+  ],
+  "manifest_version": 2,
+  "content_scripts": [{
+    "matches": ["*://*.twitch.tv/*"],
+    "css": ["index.css"],
+    "js": ["index.js"]
+  }]
+}
