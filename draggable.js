@@ -41,10 +41,30 @@ const drag = (dragState, e) => {
     clientY = e.clientY
   }
   const deltaX = clientX - dragState.initialX,
-        deltaY = clientY - dragState.initialY
+        deltaY = clientY - dragState.initialY,
+        endX = deltaX + dragState.initialOffsetX,
+        endY = deltaY + dragState.initialOffsetY,
+        containerWidth = dragState.container.clientWidth,
+        containerHeight = dragState.container.clientHeight,
+        draggedWidth = dragState.dragged.clientWidth,
+        draggedHeight = dragState.dragged.clientHeight
 
-  dragState.dragged.style.left = `${ (deltaX + dragState.initialOffsetX) * 100 / dragState.container.clientWidth }%`
-  dragState.dragged.style.top = `${ (deltaY + dragState.initialOffsetY) * 100 / dragState.container.clientHeight }%`
+  if (endX + 0.5 * draggedWidth <= 0.5 * containerWidth) {
+    dragState.dragged.style.left = `${ 100 * endX / containerWidth }%`
+    dragState.dragged.style.right = 'unset'
+  }
+  else {
+    dragState.dragged.style.left = 'unset'
+    dragState.dragged.style.right = `${ 100 * (1 - (endX + draggedWidth) / containerWidth) }%`
+  }
+  if (endY + 0.5 * draggedHeight <= 0.5 * containerHeight) {
+    dragState.dragged.style.top = `${ 100 * endY / containerHeight }%`
+    dragState.dragged.style.bottom = 'unset'
+  }
+  else {
+    dragState.dragged.style.top = 'unset'
+    dragState.dragged.style.bottom = `${ 100 * (1 - (endY + draggedHeight) / containerHeight) }%`
+  }
 }
 
 window.TwitchChatOverlay.makeDraggable = (element, container) => {
