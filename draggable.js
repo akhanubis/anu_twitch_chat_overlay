@@ -11,8 +11,10 @@ const dragStart = (dragState, e) => {
     clientY = e.clientY
   }
   
-  dragState.initialX = clientX - dragState.xOffset
-  dragState.initialY = clientY - dragState.yOffset
+  dragState.initialX = clientX
+  dragState.initialY = clientY
+  dragState.initialOffsetX = dragState.dragged.offsetLeft
+  dragState.initialOffsetY = dragState.dragged.offsetTop
 
   if (e.target === dragState.anchor || dragState.anchor.contains(e.target)) {
     dragState.active = true
@@ -38,13 +40,11 @@ const drag = (dragState, e) => {
     clientX = e.clientX
     clientY = e.clientY
   }
-  currentX = clientX - dragState.initialX
-  currentY = clientY - dragState.initialY
+  const deltaX = clientX - dragState.initialX,
+        deltaY = clientY - dragState.initialY
 
-  dragState.xOffset = currentX
-  dragState.yOffset = currentY
-
-  dragState.dragged.style.transform = `translate3d(${ currentX }px, ${ currentY }px, 0)`
+  dragState.dragged.style.left = `${ (deltaX + dragState.initialOffsetX) * 100 / dragState.container.clientWidth }%`
+  dragState.dragged.style.top = `${ (deltaY + dragState.initialOffsetY) * 100 / dragState.container.clientHeight }%`
 }
 
 window.TwitchChatOverlay.makeDraggable = (element, container) => {
@@ -63,10 +63,9 @@ window.TwitchChatOverlay.makeDraggable = (element, container) => {
 
   const dragState = {
     dragged: element,
+    container: container,
     anchor: anchor,
-    active: false,
-    xOffset: 0,
-    yOffset: 0
+    active: false
   }
   container.addEventListener("touchstart", dragStart.bind(this, dragState), false)
   container.addEventListener("touchend", dragEnd.bind(this, dragState), false)
@@ -74,15 +73,4 @@ window.TwitchChatOverlay.makeDraggable = (element, container) => {
   container.addEventListener("mousedown", dragStart.bind(this, dragState), false)
   container.addEventListener("mouseup", dragEnd.bind(this, dragState), false)
   container.addEventListener("mousemove", drag.bind(this, dragState), false)
-}
-
-window.TwitchChatOverlay.unmakeDraggable = (element, container) => {
-  element.removeChild(element.querySelector('.drag-anchor'))
-  element.style.transform = ""
-  container.removeEventListener("touchstart", dragStart)
-  container.removeEventListener("touchend", dragEnd)
-  container.removeEventListener("touchmove", drag)
-  container.removeEventListener("mousedown", dragStart)
-  container.removeEventListener("mouseup", dragEnd)
-  container.removeEventListener("mousemove", drag)
 }

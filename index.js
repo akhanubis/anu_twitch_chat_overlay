@@ -1,51 +1,47 @@
 /* TODO: fix race condition, use listener on body? */
 if (document.querySelector('.click-handler')) {
+  const streamerName = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1]
   let enabled,
-      initialCollapsed,
       chatContainer
 
-  const chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
-
-  const enable = _ => {
-    const rightColumnCollapsed = document.querySelector('.right-column--collapsed')
-    initialCollapsed = !!rightColumnCollapsed
-    if (initialCollapsed)
+  const initialSetup = _ => {
+    const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),
+          chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
+    if (rightColumnCollapsed)
       chatCollapser.click()
-    window.TwitchChatOverlay.addClass(document.body, 'anu-chat-overlay-active')
+    chatContainer = document.createElement('div')
+    chatContainer.className = 'anu-chat-overlay-container'
+    const iframe = document.createElement('iframe')
+    /* TODO: show loader */
+    iframe.style = 'display: none'
+    iframe.addEventListener('load', _ => {
+      window.TwitchChatOverlay.attachFrameStyle(iframe)
+      iframe.style = ''
+      if (rightColumnCollapsed)
+        chatCollapser.click()
+    })
+    iframe.setAttribute('width', '100%') 
+    iframe.setAttribute('height', '100%')
+    iframe.src = `https://twitch.tv/popout/${ streamerName }/chat`
+    chatContainer.prepend(iframe)
+    document.querySelector('.click-handler').prepend(chatContainer)
     window.TwitchChatOverlay.makeDraggable(chatContainer, chatContainer.closest('.click-handler'))
   }
 
+  const enable = _ => {
+    window.TwitchChatOverlay.addClass(document.body, 'anu-chat-overlay-active')
+  }
+
   const disable = _ => {
-    window.TwitchChatOverlay.unmakeDraggable(chatContainer, chatContainer.closest('.click-handler'))
     window.TwitchChatOverlay.removeClass(document.body, 'anu-chat-overlay-active')
-    if (initialCollapsed)
-      chatCollapser.click()
-    const twitchChatContainer = document.querySelector('.chat-list__lines')
-    if (twitchChatContainer)
-      twitchChatContainer.scrollTop = twitchChatContainer.scrollHeight
   }
 
   const ENABLED_ICON_PATH = 'M 3 6 L 3 26 L 12.585938 26 L 16 29.414063 L 19.414063 26 L 29 26 L 29 6 Z M 5 8 L 27 8 L 27 24 L 18.585938 24 L 16 26.585938 L 13.414063 24 L 5 24 Z M 9 11 L 9 13 L 23 13 L 23 11 Z M 9 15 L 9 17 L 23 17 L 23 15 Z M 9 19 L 9 21 L 19 21 L 19 19 Z',
         DISABLED_ICON_PATH = 'M 3 5 L 3 23 L 8 23 L 8 28.078125 L 14.351563 23 L 29 23 L 29 5 Z M 5 7 L 27 7 L 27 21 L 13.648438 21 L 10 23.917969 L 10 21 L 5 21 Z'
   const toggle = document.createElement('div')
   toggle.onclick = _ => {
-    if (!chatContainer) {
-
-      chatContainer = document.createElement('div')
-      chatContainer.className = 'anu-chat-overlay-container'
-      const iframe = document.createElement('iframe')
-      /* TODO: show loader */
-      iframe.style = 'display: none'
-      iframe.addEventListener('load', _ => {
-        window.TwitchChatOverlay.attachFrameStyle(iframe)
-        iframe.style = ''
-      })
-      iframe.setAttribute('width', '100%') 
-      iframe.setAttribute('height', '100%')
-      iframe.src = "https://twitch.tv/popout/39daph/chat"
-      chatContainer.prepend(iframe)
-      document.querySelector('.click-handler').prepend(chatContainer)
-    }
+    if (!chatContainer)
+      initialSetup()
     enabled = !enabled
     if (enabled)
       enable()
@@ -75,5 +71,5 @@ if (document.querySelector('.click-handler')) {
   const playerSettingsButtons = document.querySelector('.player-controls__right-control-group .settings-menu-button-component')
   playerSettingsButtons.parentNode.after(toggle)
 
-  console.log('Twitch Chat Overlay initialized')
+  console.log(`Twitch Chat Overlay initialized for ${ streamerName }`)
 }
