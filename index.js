@@ -45,7 +45,7 @@ if (document.querySelector('.chat-list__lines') && document.querySelector('.clic
   toggle.className = 'tw-inline-flex tw-relative tw-tooltip-wrapper'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
-    <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-button-icon--overlay tw-core-button tw-core-button--overlay tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="Anu Chat overlay">
+    <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-button-icon--overlay tw-core-button tw-core-button--overlay tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="Chat overlay">
       <span class="tw-button-icon__icon">
         <div style="width: 2rem; height: 2rem;">
           <div class="tw-align-items-center tw-full-width tw-icon tw-icon--fill tw-inline-flex">
@@ -57,10 +57,10 @@ if (document.querySelector('.chat-list__lines') && document.querySelector('.clic
         </div>
       </span>
     </button>
-    <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--up" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip">Anu Chat Overlay</div>
+    <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--up" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip">Chat Overlay</div>
   `
   const playerSettingsButtons = document.querySelector('.player-controls__right-control-group .settings-menu-button-component')
   playerSettingsButtons.parentNode.after(toggle)
 
-  console.log('Anu Chat Overlay initialized')
+  console.log('Twitch Chat Overlay initialized')
 }

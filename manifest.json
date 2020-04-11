@@ -13,5 +13,10 @@
       "draggable.js",
       "index.js"
     ]
-  }]
+  }],
+  "icons": {
+    "16": "assets/logo_16x16.png",
+    "48": "assets/logo_48x48.png",
+    "128": "assets/logo_128x128.png"
+  }
 }
