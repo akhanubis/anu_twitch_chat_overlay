@@ -1,16 +1,10 @@
-if (document.querySelector('.chat-list__lines') && document.querySelector('.video-player__overlay')) {
+/* TODO: fix race condition, use listener on body? */
+if (document.querySelector('.chat-list__lines') && document.querySelector('.click-handler')) {
   let enabled,
       initialContainer,
       initialCollapsed
 
   const chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
-
-  const addClass = (element, klass) => {
-    removeClass(element, klass)
-    element.className += ` ${ klass }`
-  }
-
-  const removeClass = (element, klass) => element.className = element.className.replace(klass, '').replace(/\s+/g, ' ').trim()
 
   const enable = chatContainer => {
     const currentParent = chatContainer.parentNode,
@@ -20,13 +14,16 @@ if (document.querySelector('.chat-list__lines') && document.querySelector('.vide
       chatCollapser.click()
     initialContainer = currentParent
     currentParent.removeChild(chatContainer)
-    document.querySelector('.video-player__overlay').prepend(chatContainer)
-    addClass(document.body, 'anu-chat-overlay-active')
+    document.querySelector('.click-handler').prepend(chatContainer)
+    window.TwitchChatOverlay.addClass(document.body, 'anu-chat-overlay-active')
+    window.TwitchChatOverlay.makeDraggable(chatContainer, chatContainer.closest('.click-handler'))
   }
 
   const disable = chatContainer => {
+    window.TwitchChatOverlay.unmakeDraggable(chatContainer, chatContainer.closest('.click-handler'))
+    window.TwitchChatOverlay.removeClass(document.body, 'anu-chat-overlay-active')
     initialContainer.append(chatContainer)
-    removeClass(document.body, 'anu-chat-overlay-active')
+    chatContainer.scrollTop = chatContainer.scrollHeight
     if (initialCollapsed)
       chatCollapser.click()
   }
@@ -44,6 +41,7 @@ if (document.querySelector('.chat-list__lines') && document.querySelector('.vide
     toggle.querySelector('svg.tw-icon__svg path').setAttribute('d', enabled ? ENABLED_ICON_PATH : DISABLED_ICON_PATH)
   }
 
+  toggle.id = "anu-chat-overlay-toggle"
   toggle.className = 'tw-inline-flex tw-relative tw-tooltip-wrapper'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
