@@ -21,16 +21,26 @@ window.TwitchChatOverlay.attachFrameStyle = iframe => {
     visibility: visible;
   }
 
-  body.anu-chat-overlay-inner .chat-list__list-container * {
+  body.anu-chat-overlay-inner .simplebar-content {
+    visibility: visible;
+    background-color: rgba(0, 0, 0, 0.25);
+    padding-bottom: 0 !important;
+    margin-bottom: -5px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  body.anu-chat-overlay-inner .simplebar-content * {
     visibility: visible;
   }
 
   body.anu-chat-overlay-inner .chat-list__list-container > * {
-    background-color: rgba(0, 0, 0, 0.25);
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  body.anu-chat-overlay-inner:hover .chat-list__list-container > *,
-  body.anu-chat-overlay-inner.drag-hovered .chat-list__list-container > * {
+  body.anu-chat-overlay-inner:hover .simplebar-content,
+  body.anu-chat-overlay-inner.drag-hovered .simplebar-content {
     background-color: unset;
   }
 `
