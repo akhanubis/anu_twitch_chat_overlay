@@ -11,6 +11,7 @@
     "js": [
       "class_utils.js",
       "draggable.js",
+      "frame_style.js",
       "index.js"
     ]
   }],

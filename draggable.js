@@ -57,6 +57,10 @@ window.TwitchChatOverlay.makeDraggable = (element, container) => {
 `
   element.prepend(anchor)
 
+  const innerFrame = element.querySelector('iframe')
+  anchor.addEventListener('mouseover', _ => window.TwitchChatOverlay.addClass(innerFrame.contentDocument.body, 'drag-hovered'))
+  anchor.addEventListener('mouseout', _ => window.TwitchChatOverlay.removeClass(innerFrame.contentDocument.body, 'drag-hovered'))
+
   const dragState = {
     dragged: element,
     anchor: anchor,

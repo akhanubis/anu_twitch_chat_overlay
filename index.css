@@ -2,50 +2,62 @@ body.dragging-chat {
   user-select: none;
 }
 
-body.dragging-chat, body.dragging-chat.anu-chat-overlay-active .chat-list__lines .drag-anchor {
+body.dragging-chat, body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
   cursor: grabbing;
 }
 
-.anu-chat-overlay-active .chat-list__lines {
+.anu-chat-overlay-active .anu-chat-overlay-container {
+  display: block;
+}
+
+.anu-chat-overlay-container {
+  display: none;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container {
   position: absolute;
-  height: 400px;
+  height: 700px;
   width: 300px;
   overflow: hidden;
   top: 110px;
   left: 0;
 }
 
-.anu-chat-overlay-active .chat-list__lines .drag-anchor {
+.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
   display: none;
   z-index: 2;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 15px;
+  left: 15px;  
   cursor: grab;
 }
 
-.anu-chat-overlay-active .chat-list__lines:hover .drag-anchor {
+.anu-chat-overlay-active .anu-chat-overlay-container:hover .drag-anchor {
   display: inline-block;
 }
 
-.anu-chat-overlay-active .chat-list__lines .drag-anchor svg {
+.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
+  display: none;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor svg {
   fill: white;
   width: 20px;
   height: 20px;
 }
 
-.anu-chat-overlay-active .chat-list__lines .simplebar-track.vertical {
+.anu-chat-overlay-active .anu-chat-overlay-container .chat-list__lines .simplebar-track.vertical {
   display: none;
 }
 
-.anu-chat-overlay-active .chat-list__lines .chat-list__list-container .chat-line__message {
+.anu-chat-overlay-active .anu-chat-overlay-container .chat-list__lines .chat-list__list-container .chat-line__message {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.anu-chat-overlay-active .right-column {
+/* .anu-chat-overlay-active .right-column {
   display: none !important;
 }
 
 .anu-chat-overlay-active .persistent-player--theatre {
   width: 100% !important;
-}
+} */
