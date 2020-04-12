@@ -14,13 +14,37 @@ body.dragging-chat, body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay
   display: none;
 }
 
+.anu-chat-overlay-active .anu-chat-overlay-container .loader {
+  display: none;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner .tw-loading-spinner {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .anu-chat-overlay-active .anu-chat-overlay-container {
   position: absolute;
   height: 700px;
   width: 300px;
   overflow: hidden;
-  top: 110px;
-  left: 0;
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {

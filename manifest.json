@@ -2,13 +2,17 @@
   "name": "Twitch Chat Overlay",
   "version": "0.0.1",
   "permissions": [
-    "*://*.twitch.tv/"
+    "*://*.twitch.tv/",
+    "storage"
   ],
   "manifest_version": 2,
   "content_scripts": [{
     "matches": ["*://*.twitch.tv/*"],
     "css": ["index.css"],
     "js": [
+      "tco.js",
+      "loader.js",
+      "settings.js",
       "class_utils.js",
       "draggable.js",
       "frame_style.js",

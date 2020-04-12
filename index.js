@@ -1,6 +1,7 @@
-/* TODO: fix race condition, use listener on body? */
-if (document.querySelector('.click-handler')) {
-  const streamerName = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1]
+const init = async _ => {
+  const currentStream = window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
+  const settings = await window._TCO.getSettings()
+
   let enabled,
       chatContainer
 
@@ -10,30 +11,36 @@ if (document.querySelector('.click-handler')) {
     if (rightColumnCollapsed)
       chatCollapser.click()
     chatContainer = document.createElement('div')
-    chatContainer.className = 'anu-chat-overlay-container'
+    chatContainer.className = 'anu-chat-overlay-container loading'
+    chatContainer.innerHTML = window._TCO.loader('Loading chat')
+    window._TCO.applyStyle(chatContainer, {
+      ...window._TCO.positionToStyle(settings.position),
+      /* TODO: */
+    })
     const iframe = document.createElement('iframe')
     /* TODO: show loader */
     iframe.style = 'display: none'
     iframe.addEventListener('load', _ => {
-      window.TwitchChatOverlay.attachFrameStyle(iframe)
+      window._TCO.attachFrameStyle(iframe)
       iframe.style = ''
       if (rightColumnCollapsed)
         chatCollapser.click()
+      window._TCO.removeClass(chatContainer, 'loading')
     })
     iframe.setAttribute('width', '100%') 
     iframe.setAttribute('height', '100%')
-    iframe.src = `https://twitch.tv/popout/${ streamerName }/chat`
+    iframe.src = `https://twitch.tv/popout/${ currentStream }/chat`
     chatContainer.prepend(iframe)
     document.querySelector('.click-handler').prepend(chatContainer)
-    window.TwitchChatOverlay.makeDraggable(chatContainer, chatContainer.closest('.click-handler'))
+    window._TCO.makeDraggable(chatContainer, chatContainer.closest('.click-handler'))
   }
 
   const enable = _ => {
-    window.TwitchChatOverlay.addClass(document.body, 'anu-chat-overlay-active')
+    window._TCO.addClass(document.body, 'anu-chat-overlay-active')
   }
 
   const disable = _ => {
-    window.TwitchChatOverlay.removeClass(document.body, 'anu-chat-overlay-active')
+    window._TCO.removeClass(document.body, 'anu-chat-overlay-active')
   }
 
   const ENABLED_ICON_PATH = 'M 3 6 L 3 26 L 12.585938 26 L 16 29.414063 L 19.414063 26 L 29 26 L 29 6 Z M 5 8 L 27 8 L 27 24 L 18.585938 24 L 16 26.585938 L 13.414063 24 L 5 24 Z M 9 11 L 9 13 L 23 13 L 23 11 Z M 9 15 L 9 17 L 23 17 L 23 15 Z M 9 19 L 9 21 L 19 21 L 19 19 Z',
@@ -71,5 +78,8 @@ if (document.querySelector('.click-handler')) {
   const playerSettingsButtons = document.querySelector('.player-controls__right-control-group .settings-menu-button-component')
   playerSettingsButtons.parentNode.after(toggle)
 
-  console.log(`Twitch Chat Overlay initialized for ${ streamerName }`)
+  console.log(`Twitch Chat Overlay initialized for ${ currentStream }`)
 }
+
+/* TODO: fix race condition, use listener on body? */
+if (document.querySelector('.click-handler')) init()

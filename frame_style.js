@@ -1,19 +1,17 @@
-window.TwitchChatOverlay = window.TwitchChatOverlay || {}
-
-window.TwitchChatOverlay.attachFrameStyle = iframe => {
+window._TCO.attachFrameStyle = iframe => {
   const style = document.createElement('style')
   style.innerHTML = `
   body.anu-chat-overlay-inner {
     background: none !important;
   }
 
-  body.anu-chat-overlay-inner .channel-leaderboard {
+  body.anu-chat-overlay-inner .channel-leaderboard,
+  body.anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
     display: none;
   }
 
   body.anu-chat-overlay-inner * {
     visibility: hidden;
-    background: none;
   }
 
   body.anu-chat-overlay-inner:hover *,
@@ -45,5 +43,22 @@ window.TwitchChatOverlay.attachFrameStyle = iframe => {
   }
 `
   iframe.contentDocument.head.prepend(style)
-  window.TwitchChatOverlay.addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
+  window._TCO.addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
+}
+
+window._TCO.positionToStyle = position => {
+  const [left, right, top, bottom] = position.split('_')
+  return {
+    left,
+    right,
+    top,
+    bottom
+  }
+}
+
+window._TCO.styleToPosition = style => ['left', 'right', 'top', 'bottom'].map(coord => style[coord], '').join('_')
+
+window._TCO.applyStyle = (element, style) => {
+  for (const e of Object.entries(style))
+    element.style[e[0]] = e[1]
 }

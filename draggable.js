@@ -1,5 +1,3 @@
-window.TwitchChatOverlay = window.TwitchChatOverlay || {}
-
 const dragStart = (dragState, e) => {
   let clientX, clientY
   if (e.type === 'touchstart') {
@@ -18,13 +16,14 @@ const dragStart = (dragState, e) => {
 
   if (e.target === dragState.anchor || dragState.anchor.contains(e.target)) {
     dragState.active = true
-    window.TwitchChatOverlay.addClass(document.body, 'dragging-chat')
+    window._TCO.addClass(document.body, 'dragging-chat')
   }
 }
 
 const dragEnd = dragState => {
   dragState.active = false
-  window.TwitchChatOverlay.removeClass(document.body, 'dragging-chat')
+  window._TCO.removeClass(document.body, 'dragging-chat')
+  window._TCO.setSettings('position', window._TCO.styleToPosition(dragState.dragged.style))
 }
 
 const drag = (dragState, e) => {
@@ -67,7 +66,7 @@ const drag = (dragState, e) => {
   }
 }
 
-window.TwitchChatOverlay.makeDraggable = (element, container) => {
+window._TCO.makeDraggable = (element, container) => {
   const anchor = document.createElement('div')
   anchor.className = 'drag-anchor'
   anchor.innerHTML = `
@@ -78,8 +77,8 @@ window.TwitchChatOverlay.makeDraggable = (element, container) => {
   element.prepend(anchor)
 
   const innerFrame = element.querySelector('iframe')
-  anchor.addEventListener('mouseover', _ => window.TwitchChatOverlay.addClass(innerFrame.contentDocument.body, 'drag-hovered'))
-  anchor.addEventListener('mouseout', _ => window.TwitchChatOverlay.removeClass(innerFrame.contentDocument.body, 'drag-hovered'))
+  anchor.addEventListener('mouseover', _ => window._TCO.addClass(innerFrame.contentDocument.body, 'drag-hovered'))
+  anchor.addEventListener('mouseout', _ => window._TCO.removeClass(innerFrame.contentDocument.body, 'drag-hovered'))
 
   const dragState = {
     dragged: element,
