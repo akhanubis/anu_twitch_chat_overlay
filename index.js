@@ -1,7 +1,6 @@
 const init = async _ => {
   const currentStream = window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
   const settings = await window._TCO.getSettings()
-
   let enabled,
       chatContainer
 
@@ -81,5 +80,19 @@ const init = async _ => {
   console.log(`Twitch Chat Overlay initialized for ${ currentStream }`)
 }
 
-/* TODO: fix race condition, use listener on body? */
-if (document.querySelector('.click-handler')) init()
+const checkMutations = mutations => {
+  for (const m of mutations)
+    for (const n of m.addedNodes)
+      if (checkForPlayer(n))
+        init()
+}
+
+const checkForPlayer = node => {
+  return (node.classList && Array.from(node.classList).includes('player-controls__right-control-group')) || (node.children && Array.from(node.children).some(c => checkForPlayer(c)))
+}
+
+new MutationObserver(checkMutations).observe(document.body, {
+  childList: true,
+  subtree: true
+})
+checkMutations([{ addedNodes: document.body.children }])

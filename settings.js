@@ -1,3 +1,5 @@
+const browserInstance = chrome
+
 window._TCO.setSettings = (k, v) => {
   if (window._TCO.currentSettings[k] === v)
     return
@@ -6,7 +8,8 @@ window._TCO.setSettings = (k, v) => {
     ...window._TCO.currentSettings,
     [k]: v
   }
-  chrome.storage.sync.set({
+  
+  browserInstance.storage.sync.set({
     default: window._TCO.currentSettings,
     [window._TCO.currentStream]: window._TCO.currentSettings
   })
@@ -21,6 +24,7 @@ window._TCO.getSettings = async _ => {
       bottom: 'unset'
     })
   }
-  const storedSettings = await new Promise(r => chrome.storage.sync.get(['default', window._TCO.currentStream], r))
+  
+  const storedSettings = await new Promise(r => browserInstance.storage.sync.get(['default', window._TCO.currentStream], r))
   return window._TCO.currentSettings = storedSettings[window._TCO.currentStream] || storedSettings.default || DEFAULT_SETTINGS
 }
