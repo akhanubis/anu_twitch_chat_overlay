@@ -2,8 +2,19 @@ body.dragging-chat {
   user-select: none;
 }
 
-body.dragging-chat, body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
+body.dragging-chat,
+body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
   cursor: grabbing;
+}
+
+.anu-chat-overlay-active #anu-chat-overlay-toggle path.active,
+#anu-chat-overlay-toggle path.inactive {
+  display: block;
+}
+
+.anu-chat-overlay-active #anu-chat-overlay-toggle path.inactive,
+#anu-chat-overlay-toggle path.active {
+  display: none;
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container {
@@ -47,24 +58,44 @@ body.dragging-chat, body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay
   overflow: hidden;
 }
 
-.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
+.anu-chat-overlay-active .anu-chat-overlay-container .header {
   display: none;
-  z-index: 2;
   position: absolute;
-  top: 15px;
-  left: 15px;  
+  height: 50px;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container:hover .header {
+  display: flex;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container:hover .header .title {
+  height: 16px;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container .header .drag-anchor {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  right: 15px;  
   cursor: grab;
 }
 
-.anu-chat-overlay-active .anu-chat-overlay-container:hover .drag-anchor {
+.anu-chat-overlay-active .anu-chat-overlay-container .header *:hover > .tw-tooltip {
+  display: block;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container .header .settings {
   display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 15px;  
+  cursor: pointer;
 }
 
-.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
-  display: none;
-}
-
-.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor svg {
+.anu-chat-overlay-active .anu-chat-overlay-container .header svg {
   fill: white;
   width: 20px;
   height: 20px;

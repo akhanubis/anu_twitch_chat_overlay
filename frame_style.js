@@ -5,9 +5,10 @@ window._TCO.attachFrameStyle = iframe => {
     background: none !important;
   }
 
+  body.anu-chat-overlay-inner .stream-chat-header,
   body.anu-chat-overlay-inner .channel-leaderboard,
   body.anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
-    display: none;
+    display: none !important;
   }
 
   body.anu-chat-overlay-inner * {

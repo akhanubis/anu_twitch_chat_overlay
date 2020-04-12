@@ -12,6 +12,8 @@
     "js": [
       "tco.js",
       "loader.js",
+      "toggle.js",
+      "header.js",
       "settings.js",
       "class_utils.js",
       "draggable.js",
