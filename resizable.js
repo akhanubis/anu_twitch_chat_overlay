@@ -3,10 +3,14 @@ window._TCO.makeResizable = (element, container, excludedElements) => {
     if (!resizeState.resized.contains(e.target) || resizeState.excludedElements.includes(e.target))
       return
   
-    if (e.offsetX >= element.clientWidth - 4)
+    if (e.target.className === 'resize-right')
       resizeState.direction = 'right'
-    else if (e.offsetX <= 4)
+    else if (e.target.className === 'resize-left')
       resizeState.direction = 'left'
+    else if (e.target.className === 'resize-top')
+      resizeState.direction = 'up'
+    else if (e.target.className === 'resize-bottom')
+      resizeState.direction = 'down'
     else
       return
     
@@ -60,11 +64,14 @@ window._TCO.makeResizable = (element, container, excludedElements) => {
     const deltaX = clientX - resizeState.initialX,
           deltaY = clientY - resizeState.initialY
   
-    if (['right', 'left'].includes(resizeState.direction))
-      window._TCO.BoundingBoxToStyle(resizeState.container, resizeState.resized, resizeState.initialOffsetX + (resizeState.direction === 'left' ? deltaX : 0), resizeState.initialOffsetY, resizeState.initialOffsetX + resizeState.initialWidth + (resizeState.direction === 'right' ? deltaX : 0), resizeState.initialOffsetY + resizeState.initialHeight)
-    else
-      /* TODO: vertical */
-      return
+    window._TCO.BoundingBoxToStyle(
+      resizeState.container,
+      resizeState.resized,
+      resizeState.initialOffsetX + (resizeState.direction === 'left' ? deltaX : 0),
+      resizeState.initialOffsetY + (resizeState.direction === 'up' ? deltaY : 0),
+      resizeState.initialOffsetX + resizeState.initialWidth + (resizeState.direction === 'right' ? deltaX : 0),
+      resizeState.initialOffsetY + resizeState.initialHeight + (resizeState.direction === 'down' ? deltaY : 0)
+    )
   }
 
   const resizeState = {

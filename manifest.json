@@ -17,6 +17,8 @@
       "loader.js",
       "toggle.js",
       "header.js",
+      "chat_container.js",
+      "iframe.js",
       "settings.js",
       "class_utils.js",
       "observer.js",

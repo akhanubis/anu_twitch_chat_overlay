@@ -3,20 +3,41 @@
   min-height: 100px;
 }
 
-.anu-chat-overlay-container:before,
-.anu-chat-overlay-container:after {
-  content: " ";
+.anu-chat-overlay-container .resize-left,
+.anu-chat-overlay-container .resize-right,
+.anu-chat-overlay-container .resize-top,
+.anu-chat-overlay-container .resize-bottom {
+  z-index: 1;
   background-color: transparent;
   position: absolute;
-  width: 4px;
-  height: 100%;
-  cursor: w-resize;
 }
 
-.anu-chat-overlay-container:before {
+.anu-chat-overlay-container .resize-left,
+.anu-chat-overlay-container .resize-right {
+  width: 5px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.anu-chat-overlay-container .resize-top,
+.anu-chat-overlay-container .resize-bottom {
+  width: 100%;
+  height: 5px;
+  cursor: ns-resize;
+}
+
+.anu-chat-overlay-container .resize-left {
   left: 0;
 }
 
-.anu-chat-overlay-container:after {
+.anu-chat-overlay-container .resize-right {
   right: 0;
+}
+
+.anu-chat-overlay-container .resize-top {
+  top: 0;
+}
+
+.anu-chat-overlay-container .resize-bottom {
+  bottom: 0;
 }

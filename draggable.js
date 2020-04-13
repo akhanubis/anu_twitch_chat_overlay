@@ -52,8 +52,6 @@ window._TCO.makeDraggable = (element, container, anchor) => {
   
     window._TCO.BoundingBoxToStyle(dragState.container, dragState.dragged, endX, endY, endX + dragState.dragged.clientWidth, endY + dragState.dragged.clientHeight)
   }
-
-  anchor = anchor || element
   
   const dragState = {
     dragged: element,
