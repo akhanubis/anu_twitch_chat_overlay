@@ -1,18 +1,17 @@
-window._TCO.makeResizable = (element, container, excludedElements) => {
+window._TCO.makeResizable = (element, container) => {
   const resizeStart = (resizeState, e) => {
-    if (!resizeState.resized.contains(e.target) || resizeState.excludedElements.includes(e.target))
+    if (!window._TCO.hasClass(e.target, 'resize-handler'))
       return
-  
-    if (e.target.className === 'resize-right')
-      resizeState.direction = 'right'
-    else if (e.target.className === 'resize-left')
-      resizeState.direction = 'left'
-    else if (e.target.className === 'resize-top')
-      resizeState.direction = 'up'
-    else if (e.target.className === 'resize-bottom')
-      resizeState.direction = 'down'
-    else
-      return
+
+    if (window._TCO.hasClass(e.target, 'resize-left'))
+      resizeState.left = true
+    else if (window._TCO.hasClass(e.target, 'resize-right'))
+      resizeState.right = true
+
+    if (window._TCO.hasClass(e.target, 'resize-top'))
+      resizeState.up = true
+    else if (window._TCO.hasClass(e.target, 'resize-bottom'))
+      resizeState.down = true
     
     resizeState.active = true
 
@@ -41,8 +40,11 @@ window._TCO.makeResizable = (element, container, excludedElements) => {
       return
   
     resizeState.active = false
-    resizeState.horizontal = false
-    resizeState.vertical = false
+    resizeState.left = false
+    resizeState.right = false
+    resizeState.up = false
+    resizeState.down = false
+
     window._TCO.removeClass(document.body, 'resizing-chat')
     window._TCO.setSettings('position', window._TCO.styleToPosition(resizeState.resized.style))
   }
@@ -67,20 +69,17 @@ window._TCO.makeResizable = (element, container, excludedElements) => {
     window._TCO.BoundingBoxToStyle(
       resizeState.container,
       resizeState.resized,
-      resizeState.initialOffsetX + (resizeState.direction === 'left' ? deltaX : 0),
-      resizeState.initialOffsetY + (resizeState.direction === 'up' ? deltaY : 0),
-      resizeState.initialOffsetX + resizeState.initialWidth + (resizeState.direction === 'right' ? deltaX : 0),
-      resizeState.initialOffsetY + resizeState.initialHeight + (resizeState.direction === 'down' ? deltaY : 0)
+      resizeState.initialOffsetX + (resizeState.left ? deltaX : 0),
+      resizeState.initialOffsetY + (resizeState.up ? deltaY : 0),
+      resizeState.initialOffsetX + resizeState.initialWidth + (resizeState.right ? deltaX : 0),
+      resizeState.initialOffsetY + resizeState.initialHeight + (resizeState.down ? deltaY : 0)
     )
   }
 
   const resizeState = {
     resized: element,
     container: container,
-    active: false,
-    horizontal: false,
-    vertical: false,
-    excludedElements: excludedElements
+    active: false
   }
   container.addEventListener("touchstart", resizeStart.bind(this, resizeState), false)
   container.addEventListener("touchend", resizeEnd.bind(this, resizeState), false)

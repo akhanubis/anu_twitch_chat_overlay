@@ -1,5 +1,7 @@
-window._TCO.makeDraggable = (element, container, anchor) => {
+window._TCO.makeDraggable = (element, container, anchor, excludedElements) => {
   const dragStart = (dragState, e) => {
+    if (dragState.excludedElements.includes(e.target))
+      return
     if (e.target !== dragState.anchor && !dragState.anchor.contains(e.target))
       return
   
@@ -57,7 +59,8 @@ window._TCO.makeDraggable = (element, container, anchor) => {
     dragged: element,
     container: container,
     anchor: anchor,
-    active: false
+    active: false,
+    excludedElements: Array.from(excludedElements)
   }
   container.addEventListener("touchstart", dragStart.bind(this, dragState), false)
   container.addEventListener("mousedown", dragStart.bind(this, dragState), false)

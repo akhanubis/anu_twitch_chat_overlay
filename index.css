@@ -2,9 +2,8 @@ body.dragging-chat {
   user-select: none;
 }
 
-body.dragging-chat,
-body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anchor {
-  cursor: grabbing;
+body.dragging-chat * {
+  cursor: grabbing !important;
 }
 
 .anu-chat-overlay-active #anu-chat-overlay-toggle path.active,
@@ -65,6 +64,7 @@ body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anc
   top: 0;
   left: 0;
   right: 0;
+  cursor: grab;
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container:hover .header {
@@ -80,6 +80,9 @@ body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anc
   position: absolute;
   top: 10px;
   right: 15px;  
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container .header .drag-anchor * {
   cursor: grab;
 }
 
