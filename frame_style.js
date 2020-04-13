@@ -7,6 +7,7 @@ window._TCO.attachFrameStyle = iframe => {
 
   body.anu-chat-overlay-inner .stream-chat-header,
   body.anu-chat-overlay-inner .channel-leaderboard,
+  body.anu-chat-overlay-inner .simplebar-track horizontal,
   body.anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
     display: none !important;
   }
@@ -20,13 +21,18 @@ window._TCO.attachFrameStyle = iframe => {
     visibility: visible;
   }
 
+  body.anu-chat-overlay-inner .simplebar-scroll-content {
+    margin-bottom: -17px !important;
+    margin-right: -17px !important;
+    padding-right: 0 !important;
+    overflow-x: hidden;
+  }
+
   body.anu-chat-overlay-inner .simplebar-content {
     visibility: visible;
     background-color: rgba(0, 0, 0, 0.25);
     padding-bottom: 0 !important;
     margin-bottom: -5px;
-    margin-left: 10px;
-    margin-right: 10px;
   }
 
   body.anu-chat-overlay-inner .simplebar-content * {
