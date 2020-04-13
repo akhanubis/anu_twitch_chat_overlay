@@ -18,7 +18,6 @@ const init = async _ => {
       /* TODO: */
     })
     const iframe = document.createElement('iframe')
-    /* TODO: show loader */
     iframe.style = 'display: none'
     iframe.addEventListener('load', _ => {
       window._TCO.attachFrameStyle(iframe)
@@ -26,6 +25,11 @@ const init = async _ => {
       if (rightColumnCollapsed)
         chatCollapser.click()
       window._TCO.removeClass(chatContainer, 'loading')
+      window._TCO.whenElementLoaded(iframe.contentDocument.body, 'scrollable-trigger__wrapper', _ => {
+        const scrollbarHack = document.createElement('div')
+        scrollbarHack.className = 'scrollbar-hacky-hack'
+        iframe.contentDocument.body.querySelector('.scrollable-trigger__wrapper').after(scrollbarHack)
+      })
     })
     iframe.setAttribute('width', '100%') 
     iframe.setAttribute('height', '100%')
@@ -63,19 +67,4 @@ const init = async _ => {
   console.log(`Twitch Chat Overlay initialized for ${ currentStream }`)
 }
 
-const checkMutations = mutations => {
-  for (const m of mutations)
-    for (const n of m.addedNodes)
-      if (checkForPlayer(n))
-        init()
-}
-
-const checkForPlayer = node => {
-  return (node.classList && Array.from(node.classList).includes('player-controls__right-control-group')) || (node.children && Array.from(node.children).some(c => checkForPlayer(c)))
-}
-
-new MutationObserver(checkMutations).observe(document.body, {
-  childList: true,
-  subtree: true
-})
-checkMutations([{ addedNodes: document.body.children }])
+window._TCO.whenElementLoaded(document.body, 'player-controls__right-control-group', init)

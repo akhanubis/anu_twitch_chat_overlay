@@ -19,6 +19,7 @@
       "header.js",
       "settings.js",
       "class_utils.js",
+      "observer.js",
       "draggable.js",
       "resizable.js",
       "frame_style.js",

@@ -47,7 +47,7 @@ window._TCO.attachFrameStyle = iframe => {
     background-color: unset;
   }
 
-  body.anu-chat-overlay-inner .chat-list__list-container [data-a-target="chat-welcome-message"] {
+  body.anu-chat-overlay-inner .chat-list__list-container .scrollbar-hacky-hack {
     width: 4000px;
   }
 `

@@ -69,30 +69,30 @@ window._TCO.makeDraggable = (element, container, anchor) => {
   container.addEventListener("mouseup", dragEnd.bind(this, dragState), false)  
 }
 
-window._TCO.moveToFromCenter = (element, container, endX, endY) => {
+window._TCO.moveToFromCenter = (element, container, x, y) => {
   const containerWidth = container.clientWidth,
         containerHeight = container.clientHeight,
         elementWidth = element.clientWidth,
         elementHeight = element.clientHeight
   
   /* out of bounds */
-  if (endX < 0 || endX + elementWidth > containerWidth || endY < 0 || endY + elementHeight > containerHeight)
+  if (x < 0 || x + elementWidth > containerWidth || y < 0 || y + elementHeight > containerHeight)
     return
 
-  if (endX + 0.5 * elementWidth <= 0.5 * containerWidth) {
-    element.style.left = `${ 100 * endX / containerWidth }%`
+  if (x + 0.5 * elementWidth <= 0.5 * containerWidth) {
+    element.style.left = `${ 100 * x / containerWidth }%`
     element.style.right = 'unset'
   }
   else {
     element.style.left = 'unset'
-    element.style.right = `${ 100 * (1 - (endX + elementWidth) / containerWidth) }%`
+    element.style.right = `${ 100 * (1 - (x + elementWidth) / containerWidth) }%`
   }
-  if (endY + 0.5 * elementHeight <= 0.5 * containerHeight) {
-    element.style.top = `${ 100 * endY / containerHeight }%`
+  if (y + 0.5 * elementHeight <= 0.5 * containerHeight) {
+    element.style.top = `${ 100 * y / containerHeight }%`
     element.style.bottom = 'unset'
   }
   else {
     element.style.top = 'unset'
-    element.style.bottom = `${ 100 * (1 - (endY + elementHeight) / containerHeight) }%`
+    element.style.bottom = `${ 100 * (1 - (y + elementHeight) / containerHeight) }%`
   }
 }
