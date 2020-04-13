@@ -48,6 +48,10 @@ const drag = (dragState, e) => {
         draggedWidth = dragState.dragged.clientWidth,
         draggedHeight = dragState.dragged.clientHeight
 
+  /* out of bounds */
+  if (endX < 0 || endX + dragState.dragged.clientWidth > dragState.container.clientWidth || endY < 0 || endY + dragState.dragged.clientHeight > dragState.container.clientHeight)
+    return
+
   if (endX + 0.5 * draggedWidth <= 0.5 * containerWidth) {
     dragState.dragged.style.left = `${ 100 * endX / containerWidth }%`
     dragState.dragged.style.right = 'unset'
@@ -68,7 +72,6 @@ const drag = (dragState, e) => {
 
 window._TCO.makeDraggable = (element, container) => {
   const anchor = element.querySelector('.drag-anchor'),
-        header = element.querySelector('.header'),
         innerFrame = element.querySelector('iframe')
   element.addEventListener('mouseover', _ => window._TCO.addClass(innerFrame.contentDocument.body, 'hovered'))
   element.addEventListener('mouseout', _ => window._TCO.removeClass(innerFrame.contentDocument.body, 'hovered'))
