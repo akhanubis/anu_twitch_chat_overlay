@@ -61,14 +61,8 @@ window._TCO.makeResizable = (element, container, excludedElements) => {
     const deltaX = clientX - resizeState.initialX,
           deltaY = clientY - resizeState.initialY
   
-    if (resizeState.direction === 'right') {
-      resizeState.resized.style.width = `${ resizeState.initialWidth + deltaX }px`
-      window._TCO.moveToFromCenter(resizeState.resized, resizeState.container, resizeState.initialOffsetX, resizeState.initialOffsetY)
-    }
-    else if (resizeState.direction === 'left') {
-      resizeState.resized.style.width = `${ resizeState.initialWidth - deltaX }px`
-      window._TCO.moveToFromCenter(resizeState.resized, resizeState.container, resizeState.initialOffsetX + deltaX, resizeState.initialOffsetY)
-    }
+    if (['right', 'left'].includes(resizeState.direction))
+      window._TCO.BoundingBoxToStyle(resizeState.container, resizeState.resized, resizeState.initialOffsetX + (resizeState.direction === 'left' ? deltaX : 0), resizeState.initialOffsetY, resizeState.initialOffsetX + resizeState.initialWidth + (resizeState.direction === 'right' ? deltaX : 0), resizeState.initialOffsetY + resizeState.initialHeight)
     else
       /* TODO: vertical */
       return

@@ -18,10 +18,10 @@ window._TCO.setSettings = (k, v) => {
 window._TCO.getSettings = async _ => {
   const DEFAULT_SETTINGS = {
     position: window._TCO.styleToPosition({
-      left: '-10px',
-      right: 'unset',
-      top: '100px',
-      bottom: 'unset'
+      left: '0%',
+      right: '25%',
+      top: '25%',
+      bottom: '25%'
     })
   }
   

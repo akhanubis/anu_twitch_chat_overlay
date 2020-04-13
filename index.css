@@ -53,8 +53,8 @@ body.dragging-chat.anu-chat-overlay-active .anu-chat-overlay-container .drag-anc
 
 .anu-chat-overlay-active .anu-chat-overlay-container {
   position: absolute;
-  height: 700px;
-  width: 300px;
+  height: auto;
+  width: auto;
   overflow: hidden;
 }
 

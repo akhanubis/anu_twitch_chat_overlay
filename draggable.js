@@ -50,7 +50,7 @@ window._TCO.makeDraggable = (element, container, anchor) => {
           endX = deltaX + dragState.initialOffsetX,
           endY = deltaY + dragState.initialOffsetY
   
-    window._TCO.moveToFromCenter(dragState.dragged, dragState.container, endX, endY)
+    window._TCO.BoundingBoxToStyle(dragState.container, dragState.dragged, endX, endY, endX + dragState.dragged.clientWidth, endY + dragState.dragged.clientHeight)
   }
 
   anchor = anchor || element
@@ -69,30 +69,16 @@ window._TCO.makeDraggable = (element, container, anchor) => {
   container.addEventListener("mouseup", dragEnd.bind(this, dragState), false)  
 }
 
-window._TCO.moveToFromCenter = (element, container, x, y) => {
+window._TCO.BoundingBoxToStyle = (container, element, minX, minY, maxX, maxY) => {
   const containerWidth = container.clientWidth,
-        containerHeight = container.clientHeight,
-        elementWidth = element.clientWidth,
-        elementHeight = element.clientHeight
+        containerHeight = container.clientHeight
   
   /* out of bounds */
-  if (x < 0 || x + elementWidth > containerWidth || y < 0 || y + elementHeight > containerHeight)
+  if (minX < 0 || maxX > containerWidth || minY < 0 || maxY > containerHeight)
     return
 
-  if (x + 0.5 * elementWidth <= 0.5 * containerWidth) {
-    element.style.left = `${ 100 * x / containerWidth }%`
-    element.style.right = 'unset'
-  }
-  else {
-    element.style.left = 'unset'
-    element.style.right = `${ 100 * (1 - (x + elementWidth) / containerWidth) }%`
-  }
-  if (y + 0.5 * elementHeight <= 0.5 * containerHeight) {
-    element.style.top = `${ 100 * y / containerHeight }%`
-    element.style.bottom = 'unset'
-  }
-  else {
-    element.style.top = 'unset'
-    element.style.bottom = `${ 100 * (1 - (y + elementHeight) / containerHeight) }%`
-  }
+  element.style.left = `${ 100 * minX / containerWidth }%`
+  element.style.right = `${ 100 * (1 - maxX / containerWidth) }%`
+  element.style.top = `${ 100 * minY / containerHeight }%`
+  element.style.bottom = `${ 100 * (1 - maxY / containerHeight) }%`
 }
