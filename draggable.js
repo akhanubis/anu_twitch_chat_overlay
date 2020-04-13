@@ -70,12 +70,9 @@ const drag = (dragState, e) => {
   }
 }
 
-window._TCO.makeDraggable = (element, container) => {
-  const anchor = element.querySelector('.drag-anchor'),
-        innerFrame = element.querySelector('iframe')
-  element.addEventListener('mouseover', _ => window._TCO.addClass(innerFrame.contentDocument.body, 'hovered'))
-  element.addEventListener('mouseout', _ => window._TCO.removeClass(innerFrame.contentDocument.body, 'hovered'))
-
+window._TCO.makeDraggable = (element, container, anchor) => {
+  anchor = anchor || element
+  
   const dragState = {
     dragged: element,
     container: container,

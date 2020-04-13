@@ -30,9 +30,12 @@ const init = async _ => {
     iframe.setAttribute('width', '100%') 
     iframe.setAttribute('height', '100%')
     iframe.src = `https://twitch.tv/popout/${ currentStream }/chat`
+    chatContainer.addEventListener('mouseover', _ => window._TCO.addClass(iframe.contentDocument.body, 'hovered'))
+    chatContainer.addEventListener('mouseout', _ => window._TCO.removeClass(iframe.contentDocument.body, 'hovered'))
+
     chatContainer.prepend(window._TCO.header(), window._TCO.loader('Loading chat'), iframe)
     prependTo.prepend(chatContainer)
-    window._TCO.makeDraggable(chatContainer, prependTo)
+    window._TCO.makeDraggable(chatContainer, prependTo, chatContainer.querySelector('.drag-anchor'))
   }
 
   const enable = _ => {
