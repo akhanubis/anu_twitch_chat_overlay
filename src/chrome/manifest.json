@@ -1,0 +1,24 @@
+{
+  "name": "Twitch Chat Overlay",
+  "version": "0.0.1",
+  "permissions": [
+    "*://*.twitch.tv/",
+    "storage"
+  ],
+  "manifest_version": 2,
+  "content_scripts": [{
+    "matches": ["*://*.twitch.tv/*"],
+    "css": [
+      "assets/index.css",
+      "assets/resizable.css"
+    ],
+    "js": [
+      "index.js"
+    ]
+  }],
+  "icons": {
+    "16": "assets/pepoG_16x16.png",
+    "48": "assets/pepoG_48x48.png",
+    "128": "assets/pepoG_128x128.png"
+  }
+}

@@ -1,4 +1,4 @@
-window._TCO.loader = text => {
+module.exports = text => {
   const loader = document.createElement('div')
   loader.className = 'loader'
   loader.innerHTML = `

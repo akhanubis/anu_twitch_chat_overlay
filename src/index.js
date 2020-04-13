@@ -1,6 +1,15 @@
+require('./tco')
+const { addClass, removeClass } = require('./class_utils')
+const createChatContainer = require('./chat_container')
+const createIframe = require('./iframe')
+const createToggle = require('./toggle')
+const { attachFrameStyle } = require('./frame_style')
+const { whenElementLoaded } = require('./observer')
+const { getSettings } = require('./settings')
+
 const init = async _ => {
   window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
-  const settings = await window._TCO.getSettings()
+  const settings = await getSettings()
   let enabled,
       chatContainer
 
@@ -9,14 +18,14 @@ const init = async _ => {
           chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
           appendTo = document.createElement('div')
           appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode,
-          chatContainer = window._TCO.chatContainer(settings),
-          iframe = window._TCO.iframe(_ => {
-            window._TCO.attachFrameStyle(iframe)
+          chatContainer = createChatContainer(settings),
+          iframe = createIframe(_ => {
+            attachFrameStyle(iframe)
             iframe.style = ''
             if (rightColumnCollapsed)
               chatCollapser.click()
-            window._TCO.removeClass(chatContainer, 'loading')
-            window._TCO.whenElementLoaded(iframe.contentDocument.body, 'scrollable-trigger__wrapper', _ => {
+            removeClass(chatContainer, 'loading')
+            whenElementLoaded(iframe.contentDocument.body, 'scrollable-trigger__wrapper', _ => {
               const scrollbarHack = document.createElement('div')
               scrollbarHack.className = 'scrollbar-hacky-hack'
               iframe.contentDocument.body.querySelector('.scrollable-trigger__wrapper').after(scrollbarHack)
@@ -30,22 +39,18 @@ const init = async _ => {
       const chatList = iframe.contentDocument.body.querySelector('.chat-list__list-container')
       chatList.scrollTop = chatList.scrollHeight
     })
-    chatContainer.addEventListener('mouseover', _ => window._TCO.addClass(iframe.contentDocument.body, 'hovered'))
-    chatContainer.addEventListener('mouseout', _ => window._TCO.removeClass(iframe.contentDocument.body, 'hovered'))
+    chatContainer.addEventListener('mouseover', _ => addClass(iframe.contentDocument.body, 'hovered'))
+    chatContainer.addEventListener('mouseout', _ => removeClass(iframe.contentDocument.body, 'hovered'))
     chatContainer.append(iframe)
     appendToParent.append(appendTo)
     appendTo.append(chatContainer)
   }
 
-  const enable = _ => {
-    window._TCO.addClass(document.body, 'anu-chat-overlay-active')
-  }
+  const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
 
-  const disable = _ => {
-    window._TCO.removeClass(document.body, 'anu-chat-overlay-active')
-  }
+  const disable = _ => removeClass(document.body, 'anu-chat-overlay-active')
 
-  const toggle = window._TCO.toggle()
+  const toggle = createToggle()
   toggle.onclick = _ => {
     if (!chatContainer)
       initialSetup()
@@ -60,4 +65,4 @@ const init = async _ => {
   console.log(`Twitch Chat Overlay initialized for ${ window._TCO.currentStream }`)
 }
 
-window._TCO.whenElementLoaded(document.body, 'player-controls__right-control-group', init)
+whenElementLoaded(document.body, 'player-controls__right-control-group', init)

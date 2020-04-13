@@ -1,4 +1,10 @@
-window._TCO.chatContainer = settings => {
+const makeDraggable = require('./draggable')
+const makeResizable = require('./resizable')
+const createHeader = require('./header')
+const createLoader = require('./loader')
+const { applyStyle, positionToStyle } = require('./frame_style')
+
+module.exports = settings => {
   const container = document.createElement('div'),
         mouseEventsContainer = document.querySelector('.video-player__overlay')
   container.className = 'anu-chat-overlay-container loading'
@@ -12,11 +18,11 @@ window._TCO.chatContainer = settings => {
     <div class="resize-handler resize-right resize-bottom"></div>
     <div class="resize-handler resize-right resize-top"></div>
   `
-  container.append(window._TCO.header(), window._TCO.loader('Loading chat'))
-  window._TCO.applyStyle(container, {
-    ...window._TCO.positionToStyle(settings.position)
+  container.append(createHeader(), createLoader('Loading chat'))
+  applyStyle(container, {
+    ...positionToStyle(settings.position)
   })
-  window._TCO.makeResizable(container, mouseEventsContainer)
-  window._TCO.makeDraggable(container, mouseEventsContainer, container.querySelector('.header'), container.querySelectorAll('.settings, .settings *'))
+  makeResizable(container, mouseEventsContainer)
+  makeDraggable(container, mouseEventsContainer, container.querySelector('.header'), container.querySelectorAll('.settings, .settings *'))
   return container
 }

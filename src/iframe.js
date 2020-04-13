@@ -1,4 +1,4 @@
-window._TCO.iframe = onLoad => {
+module.exports = onLoad => {
   const iframe = document.createElement('iframe')
   iframe.style = 'display: none'
   iframe.addEventListener('load', onLoad)

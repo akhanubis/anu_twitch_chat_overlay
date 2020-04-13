@@ -1,4 +1,4 @@
-window._TCO.whenElementLoaded = (container, klass, whenFound) => {
+const whenElementLoaded = (container, klass, whenFound) => {
   const checkMutations = mutations => {
     for (const m of mutations)
       for (const n of m.addedNodes)
@@ -15,4 +15,8 @@ window._TCO.whenElementLoaded = (container, klass, whenFound) => {
     subtree: true
   })
   checkMutations([{ addedNodes: container.children }])
+}
+
+module.exports = {
+  whenElementLoaded
 }

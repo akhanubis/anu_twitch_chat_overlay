@@ -1,4 +1,6 @@
-window._TCO.attachFrameStyle = iframe => {
+const { addClass } = require('./class_utils')
+
+const attachFrameStyle = iframe => {
   const style = document.createElement('style')
   style.innerHTML = `
   body.anu-chat-overlay-inner {
@@ -60,10 +62,10 @@ window._TCO.attachFrameStyle = iframe => {
   }
 `
   iframe.contentDocument.head.prepend(style)
-  window._TCO.addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
+  addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
 }
 
-window._TCO.positionToStyle = position => {
+const positionToStyle = position => {
   const [left, right, top, bottom] = position.split('_')
   return {
     left,
@@ -73,9 +75,16 @@ window._TCO.positionToStyle = position => {
   }
 }
 
-window._TCO.styleToPosition = style => ['left', 'right', 'top', 'bottom'].map(coord => style[coord], '').join('_')
+const styleToPosition = style => ['left', 'right', 'top', 'bottom'].map(coord => style[coord], '').join('_')
 
-window._TCO.applyStyle = (element, style) => {
+const applyStyle = (element, style) => {
   for (const e of Object.entries(style))
     element.style[e[0]] = e[1]
+}
+
+module.exports = {
+  attachFrameStyle,
+  positionToStyle,
+  styleToPosition,
+  applyStyle
 }

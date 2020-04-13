@@ -9,22 +9,10 @@
   "content_scripts": [{
     "matches": ["*://*.twitch.tv/*"],
     "css": [
-      "index.css",
-      "resizable.css"
+      "assets/index.css",
+      "assets/resizable.css"
     ],
     "js": [
-      "tco.js",
-      "loader.js",
-      "toggle.js",
-      "header.js",
-      "chat_container.js",
-      "iframe.js",
-      "settings.js",
-      "class_utils.js",
-      "observer.js",
-      "draggable.js",
-      "resizable.js",
-      "frame_style.js",
       "index.js"
     ]
   }],
