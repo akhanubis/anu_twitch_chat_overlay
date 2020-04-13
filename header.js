@@ -36,5 +36,10 @@ window._TCO.header = _ => {
       <div class="tw-tooltip tw-tooltip--align-left tw-tooltip--down" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-settings-tooltip">Settings</div>
     </div>
   `
+
+  const settingsButton = header.querySelector('.settings')
+  settingsButton.onclick = _ => {
+    console.log("open settings")
+  }
   return header
 }

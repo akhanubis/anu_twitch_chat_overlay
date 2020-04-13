@@ -1,0 +1,22 @@
+.anu-chat-overlay-container {
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.anu-chat-overlay-container:before,
+.anu-chat-overlay-container:after {
+  content: " ";
+  background-color: transparent;
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  cursor: w-resize;
+}
+
+.anu-chat-overlay-container:before {
+  left: 0;
+}
+
+.anu-chat-overlay-container:after {
+  right: 0;
+}

@@ -8,7 +8,10 @@
   "manifest_version": 2,
   "content_scripts": [{
     "matches": ["*://*.twitch.tv/*"],
-    "css": ["index.css"],
+    "css": [
+      "index.css",
+      "resizable.css"
+    ],
     "js": [
       "tco.js",
       "loader.js",
@@ -17,6 +20,7 @@
       "settings.js",
       "class_utils.js",
       "draggable.js",
+      "resizable.js",
       "frame_style.js",
       "index.js"
     ]

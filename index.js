@@ -35,7 +35,9 @@ const init = async _ => {
 
     chatContainer.prepend(window._TCO.header(), window._TCO.loader('Loading chat'), iframe)
     prependTo.prepend(chatContainer)
-    window._TCO.makeDraggable(chatContainer, prependTo, chatContainer.querySelector('.drag-anchor'))
+    const chatAnchor = chatContainer.querySelector('.drag-anchor')
+    window._TCO.makeResizable(chatContainer, prependTo, [chatAnchor])
+    window._TCO.makeDraggable(chatContainer, prependTo, chatAnchor)
   }
 
   const enable = _ => {
