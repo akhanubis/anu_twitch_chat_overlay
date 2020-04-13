@@ -20,6 +20,14 @@ window._TCO.attachFrameStyle = iframe => {
     visibility: visible;
   }
 
+  body.anu-chat-overlay-inner .chat-input {
+    display: none !important;
+  }
+
+  body.anu-chat-overlay-inner.hovered .chat-input {
+    display: block !important;
+  }
+
   body.anu-chat-overlay-inner .simplebar-scroll-content {
     margin-bottom: -17px !important;
     margin-right: -17px !important;

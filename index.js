@@ -33,6 +33,11 @@ const init = async _ => {
     iframe.setAttribute('width', '100%') 
     iframe.setAttribute('height', '100%')
     iframe.src = `https://twitch.tv/popout/${ currentStream }/chat`
+
+    chatContainer.addEventListener('mouseenter', _ => {
+      const chatList = iframe.contentDocument.body.querySelector('.chat-list__list-container')
+      chatList.scrollTop = chatList.scrollHeight
+    })
     chatContainer.addEventListener('mouseover', _ => window._TCO.addClass(iframe.contentDocument.body, 'hovered'))
     chatContainer.addEventListener('mouseout', _ => window._TCO.removeClass(iframe.contentDocument.body, 'hovered'))
 
