@@ -39,7 +39,7 @@ window._TCO.header = _ => {
 
   const settingsButton = header.querySelector('.settings')
   settingsButton.onclick = _ => {
-    console.log("open settings")
+    alert("Working on it! Keep in mind that position settings get automatically saved on a per channel basis ;)")
   }
   return header
 }

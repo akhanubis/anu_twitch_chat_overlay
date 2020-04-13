@@ -7,7 +7,8 @@ const init = async _ => {
   const initialSetup = _ => {
     const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),
           chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
-          prependTo = document.querySelector('.player-controls').parentNode.parentNode,
+          appendTo = document.createElement('div')
+          appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode,
           chatContainer = window._TCO.chatContainer(settings),
           iframe = window._TCO.iframe(_ => {
             window._TCO.attachFrameStyle(iframe)
@@ -32,7 +33,8 @@ const init = async _ => {
     chatContainer.addEventListener('mouseover', _ => window._TCO.addClass(iframe.contentDocument.body, 'hovered'))
     chatContainer.addEventListener('mouseout', _ => window._TCO.removeClass(iframe.contentDocument.body, 'hovered'))
     chatContainer.append(iframe)
-    prependTo.prepend(chatContainer)
+    appendToParent.append(appendTo)
+    appendTo.append(chatContainer)
   }
 
   const enable = _ => {
