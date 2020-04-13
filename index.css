@@ -68,11 +68,21 @@ body.dragging-chat * {
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container:hover .header {
-  display: flex;
+  display: block;
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container:hover .header .title {
   height: 16px;
+  margin-top: 17px;
+  text-align: center;
+}
+
+.anu-chat-overlay-active .anu-chat-overlay-container:hover .header img.logo {
+  position: absolute;
+  height: 20px;
+  margin-left: 10px;
+  top: 15px;
+  left: calc(50% + 16px);
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container .header .drag-anchor {

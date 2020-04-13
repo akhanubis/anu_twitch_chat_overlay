@@ -47,8 +47,8 @@ window._TCO.attachFrameStyle = iframe => {
   }
 
   body.anu-chat-overlay-inner .chat-list__list-container > * {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   body.anu-chat-overlay-inner.hovered .simplebar-content {
