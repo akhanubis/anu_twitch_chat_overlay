@@ -7,7 +7,7 @@ window._TCO.attachFrameStyle = iframe => {
 
   body.anu-chat-overlay-inner .stream-chat-header,
   body.anu-chat-overlay-inner .channel-leaderboard,
-  body.anu-chat-overlay-inner .simplebar-track horizontal,
+  body.anu-chat-overlay-inner .simplebar-track.horizontal,
   body.anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
     display: none !important;
   }
@@ -16,8 +16,7 @@ window._TCO.attachFrameStyle = iframe => {
     visibility: hidden;
   }
 
-  body.anu-chat-overlay-inner:hover *,
-  body.anu-chat-overlay-inner.drag-hovered * {
+  body.anu-chat-overlay-inner.hovered * {
     visibility: visible;
   }
 
@@ -44,9 +43,12 @@ window._TCO.attachFrameStyle = iframe => {
     padding-right: 0;
   }
 
-  body.anu-chat-overlay-inner:hover .simplebar-content,
-  body.anu-chat-overlay-inner.drag-hovered .simplebar-content {
+  body.anu-chat-overlay-inner.hovered .simplebar-content {
     background-color: unset;
+  }
+
+  body.anu-chat-overlay-inner .chat-list__list-container [data-a-target="chat-welcome-message"] {
+    width: 4000px;
   }
 `
   iframe.contentDocument.head.prepend(style)
