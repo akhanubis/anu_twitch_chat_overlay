@@ -40,8 +40,7 @@ window._TCO.makeResizable = (element, container, excludedElements) => {
     resizeState.horizontal = false
     resizeState.vertical = false
     window._TCO.removeClass(document.body, 'resizing-chat')
-    /* TODO: save dimensions settings */
-    // window._TCO.setSettings('position', window._TCO.styleToPosition(resizeState.resized.style))
+    window._TCO.setSettings('position', window._TCO.styleToPosition(resizeState.resized.style))
   }
   
   const resize = (resizeState, e) => {

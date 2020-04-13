@@ -14,8 +14,7 @@ const init = async _ => {
     chatContainer.className = 'anu-chat-overlay-container loading'
     
     window._TCO.applyStyle(chatContainer, {
-      ...window._TCO.positionToStyle(settings.position),
-      /* TODO: */
+      ...window._TCO.positionToStyle(settings.position)
     })
     const iframe = document.createElement('iframe')
     iframe.style = 'display: none'
