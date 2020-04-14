@@ -66,7 +66,7 @@ const attachFrameStyle = iframe => {
     width: 4000px;
   }
 
-  body.anu-chat-overlay-inner .chat-list__list-container .chat-line__message {
+  body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message {
     text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, 1px 1px 0 #000000, -1px 1px 0 #000000;
   }
 `

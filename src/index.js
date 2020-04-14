@@ -36,7 +36,6 @@ const init = async _ => {
                   iframeHtml = iframe.contentDocument.querySelector('html'),
                   darkThemeClass = 'tw-root--theme-dark'
             whenClassToggled(html, darkThemeClass, _ => {
-              console.log("TOGGLE")
               if (hasClass(html, darkThemeClass))
                 addClass(iframeHtml, darkThemeClass)
               else
@@ -49,7 +48,8 @@ const init = async _ => {
     
     chatContainer.addEventListener('mouseenter', _ => {
       const chatList = iframe.contentDocument.body.querySelector('.chat-list__list-container')
-      chatList.scrollTop = chatList.scrollHeight
+      if (chatList)
+        chatList.scrollTop = chatList.scrollHeight
     })
     chatContainer.addEventListener('mouseover', _ => addClass(iframe.contentDocument.body, 'hovered'))
     chatContainer.addEventListener('mouseout', _ => removeClass(iframe.contentDocument.body, 'hovered'))
