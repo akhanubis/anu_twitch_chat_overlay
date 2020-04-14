@@ -3,15 +3,13 @@ const { addClass, removeClass, hasClass } = require('./class_utils')
 const createChatContainer = require('./chat_container')
 const createIframe = require('./iframe')
 const createToggle = require('./toggle')
-const createSettingsPanel = require('./settings_panel')
 const { attachFrameStyle } = require('./frame_style')
 const { whenElementLoaded, whenClassToggled } = require('./observer')
 const { getSettings } = require('./settings')
 
 const init = async _ => {
   window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
-  const settings = await getSettings()
-  document.body.append(createSettingsPanel())
+  await getSettings()
   let enabled,
       chatContainer
 
@@ -20,7 +18,7 @@ const init = async _ => {
           chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
           appendTo = document.createElement('div')
           appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode,
-          chatContainer = createChatContainer(settings),
+          chatContainer = createChatContainer(),
           iframe = createIframe(_ => {
             attachFrameStyle(iframe)
             iframe.style = ''

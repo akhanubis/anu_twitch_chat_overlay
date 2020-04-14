@@ -4,7 +4,7 @@ const createHeader = require('./header')
 const createLoader = require('./loader')
 const { applyStyle, settingsToStyle, STYLE_ATTRS } = require('./frame_style')
 
-module.exports = settings => {
+module.exports = _ => {
   const container = document.createElement('div'),
         mouseEventsContainer = document.querySelector('.video-player__overlay')
   container.className = 'anu-chat-overlay-container loading'
@@ -19,9 +19,7 @@ module.exports = settings => {
     <div class="resize-handler resize-right resize-top"></div>
   `
   container.append(createHeader(), createLoader('Loading chat'))
-  applyStyle(document.body, 'chatContainer', '.anu-chat-overlay-container', {
-    ...settingsToStyle(settings.position, STYLE_ATTRS.POSITION)
-  })
+  applyStyle(document.body, 'chatContainer', '.anu-chat-overlay-container', settingsToStyle(window._TCO.currentSettings.position, STYLE_ATTRS.POSITION))
   makeResizable(container, mouseEventsContainer)
   makeDraggable(container, mouseEventsContainer, container.querySelector('.header'), container.querySelectorAll('.settings, .settings *'))
   return container

@@ -1,7 +1,9 @@
-const MicroModal = require('micromodal').default
 const { pepoG } = require('./images')
-
+const createSettingsPanel = require('./settings_panel')
+  
 module.exports = _ => {
+  const settingsPanel = createSettingsPanel()
+  
   const header = document.createElement('div')
   header.className = 'header stream-chat-header tw-align-items-center tw-border-b tw-c-background-base tw-full-width'
   header.innerHTML = `
@@ -42,10 +44,10 @@ module.exports = _ => {
     <img class="logo" src="${ pepoG }">
   `
 
-  const settingsButton = header.querySelector('.settings')
-  settingsButton.onclick = e => {
+  header.querySelector('.settings').onclick = e => {
     e.preventDefault()
-    MicroModal.show('tco-settings-modal')
+    settingsPanel.showPanel()
   }
+
   return header
 }

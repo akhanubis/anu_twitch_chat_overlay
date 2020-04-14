@@ -40,7 +40,6 @@ const attachFrameStyle = iframe => {
 
   body.anu-chat-overlay-inner .simplebar-content {
     visibility: visible;
-    background-color: rgba(0, 0, 0, 0.25);
     padding-bottom: 0 !important;
     margin-bottom: -5px;
     color: white;
@@ -66,10 +65,6 @@ const attachFrameStyle = iframe => {
   body.anu-chat-overlay-inner .chat-list__list-container .scrollbar-hacky-hack {
     width: 4000px;
   }
-
-  body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message {
-    text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, 1px 1px 0 #000000, -1px 1px 0 #000000;
-  }
 `
   iframe.contentDocument.head.prepend(style)
   addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
@@ -77,7 +72,8 @@ const attachFrameStyle = iframe => {
 
 const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
-  FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow']
+  FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow'],
+  BACKGROUND: ['background-color']
 }
 
 const settingsToStyle = (settings, attrNames) => {
@@ -100,12 +96,21 @@ const applyStyle = (body, id, selector, style) => {
     body.append(existingStyleNode)
   }
   existingStyleNode.innerHTML = css
+  console.log("STYLE APLICADO", css)
 }
+
+const iframeBody = _ => document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
+
+const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content', backgroundStyle)
+
+const applyFont = fontStyle => applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message', fontStyle)
 
 module.exports = {
   attachFrameStyle,
   settingsToStyle,
   styleToSettings,
   applyStyle,
+  applyBackground,
+  applyFont,
   STYLE_ATTRS
 }
