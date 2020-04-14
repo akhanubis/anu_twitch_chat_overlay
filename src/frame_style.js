@@ -42,6 +42,11 @@ const attachFrameStyle = iframe => {
     background-color: rgba(0, 0, 0, 0.25);
     padding-bottom: 0 !important;
     margin-bottom: -5px;
+    color: white;
+  }
+
+  body.anu-chat-overlay-inner.hovered .simplebar-content {
+    color: inherit;
   }
 
   body.anu-chat-overlay-inner .simplebar-content * {

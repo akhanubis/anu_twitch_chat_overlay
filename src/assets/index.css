@@ -39,6 +39,10 @@ body.dragging-chat * {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .loader-text {
+  color: #FFFFFF;
+}
+
 .anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner {
   display: flex;
   flex-direction: column;
@@ -115,23 +119,7 @@ body.dragging-chat * {
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container .header svg {
-  fill: white;
+  fill: currentColor;
   width: 20px;
   height: 20px;
 }
-
-.anu-chat-overlay-active .anu-chat-overlay-container .chat-list__lines .simplebar-track.vertical {
-  display: none;
-}
-
-.anu-chat-overlay-active .anu-chat-overlay-container .chat-list__lines .chat-list__list-container .chat-line__message {
-  background-color: rgba(0, 0, 0, 0.25);
-}
-
-/* .anu-chat-overlay-active .right-column {
-  display: none !important;
-}
-
-.anu-chat-overlay-active .persistent-player--theatre {
-  width: 100% !important;
-} */

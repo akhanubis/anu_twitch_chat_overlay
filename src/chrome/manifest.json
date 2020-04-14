@@ -10,7 +10,8 @@
     "matches": ["*://*.twitch.tv/*"],
     "css": [
       "assets/index.css",
-      "assets/resizable.css"
+      "assets/resizable.css",
+      "assets/modal.css"
     ],
     "js": [
       "index.js"

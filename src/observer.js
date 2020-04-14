@@ -17,6 +17,27 @@ const whenElementLoaded = (container, klass, whenFound) => {
   checkMutations([{ addedNodes: container.children }])
 }
 
+const whenClassToggled = (element, klass, whenFound) => {
+  const checkMutations = mutations => {
+    for (const m of mutations) {
+      const wasInOld = ` ${ m.oldValue } `.includes(` ${ klass } `),
+            isInNew = ` ${ m.target.className } `.includes(` ${ klass } `)
+      if ((wasInOld && !isInNew) || (!wasInOld && isInNew)) {
+        whenFound()
+        break
+      }
+    }
+  }
+  
+  new MutationObserver(checkMutations).observe(element, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ['class']
+  })
+  checkMutations([{ oldValue: "", target: { className: klass } }])
+}
+
 module.exports = {
-  whenElementLoaded
+  whenElementLoaded,
+  whenClassToggled
 }

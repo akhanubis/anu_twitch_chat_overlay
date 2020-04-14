@@ -1,15 +1,17 @@
 require('./tco')
-const { addClass, removeClass } = require('./class_utils')
+const { addClass, removeClass, hasClass } = require('./class_utils')
 const createChatContainer = require('./chat_container')
 const createIframe = require('./iframe')
 const createToggle = require('./toggle')
+const createSettingsPanel = require('./settings_panel')
 const { attachFrameStyle } = require('./frame_style')
-const { whenElementLoaded } = require('./observer')
+const { whenElementLoaded, whenClassToggled } = require('./observer')
 const { getSettings } = require('./settings')
 
 const init = async _ => {
   window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
   const settings = await getSettings()
+  document.body.append(createSettingsPanel())
   let enabled,
       chatContainer
 
@@ -29,6 +31,16 @@ const init = async _ => {
               const scrollbarHack = document.createElement('div')
               scrollbarHack.className = 'scrollbar-hacky-hack'
               iframe.contentDocument.body.querySelector('.scrollable-trigger__wrapper').after(scrollbarHack)
+            })
+            const html = document.querySelector('html'),
+                  iframeHtml = iframe.contentDocument.querySelector('html'),
+                  darkThemeClass = 'tw-root--theme-dark'
+            whenClassToggled(html, darkThemeClass, _ => {
+              console.log("TOGGLE")
+              if (hasClass(html, darkThemeClass))
+                addClass(iframeHtml, darkThemeClass)
+              else
+                removeClass(iframeHtml, darkThemeClass)
             })
           })
           
