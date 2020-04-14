@@ -65,6 +65,10 @@ const attachFrameStyle = iframe => {
   body.anu-chat-overlay-inner .chat-list__list-container .scrollbar-hacky-hack {
     width: 4000px;
   }
+
+  body.anu-chat-overlay-inner .chat-list__list-container .chat-line__message {
+    text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, 1px 1px 0 #000000, -1px 1px 0 #000000;
+  }
 `
   iframe.contentDocument.head.prepend(style)
   addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
