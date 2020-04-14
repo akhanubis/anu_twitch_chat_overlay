@@ -20,9 +20,8 @@
 }
 
 .modal__container {
-  background-color: #fff;
   max-width: 500px;
-  max-height: 100vh;
+  max-height: 90%;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -45,6 +44,10 @@
   height: 16px;
   padding-top: 17px;
   text-align: center;
+}
+
+.modal__content {
+  padding: 10px;
 }
 
 .modal__footer {

@@ -39,8 +39,8 @@ body.dragging-chat * {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .loader-text {
-  color: #FFFFFF;
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader {
+  color: #FFFFFF !important;
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner {
