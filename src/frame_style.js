@@ -2,6 +2,7 @@ const { addClass } = require('./class_utils')
 
 const attachFrameStyle = iframe => {
   const style = document.createElement('style')
+  style.id = 'tco-base-style'
   style.innerHTML = `
   body.anu-chat-overlay-inner {
     background: none !important;
@@ -74,26 +75,37 @@ const attachFrameStyle = iframe => {
   addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
 }
 
-const positionToStyle = position => {
-  const [left, right, top, bottom] = position.split('_')
-  return {
-    left,
-    right,
-    top,
-    bottom
-  }
+const STYLE_ATTRS = {
+  POSITION: ['left', 'right', 'top', 'bottom'],
+  FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow']
 }
 
-const styleToPosition = style => ['left', 'right', 'top', 'bottom'].map(coord => style[coord], '').join('_')
+const settingsToStyle = (settings, attrNames) => {
+  const attrs = settings.split('_'),
+        out = {}
+  for (let i = 0; i < attrNames.length; i++)
+    out[attrNames[i]] = attrs[i]
+  return out
+} 
 
-const applyStyle = (element, style) => {
-  for (const e of Object.entries(style))
-    element.style[e[0]] = e[1]
+const styleToSettings = (style, attrNames) => attrNames.map(attr => style[attr]).join('_')
+
+const applyStyle = (body, id, selector, style) => {
+  const fullId = `tco-style-${ id }`,
+        css = `${ selector } {${Object.entries(style).map(([property, value]) => `${ property }: ${ value };`).join('')}}`
+  let existingStyleNode = body.querySelector(`style#${ fullId }`)
+  if (!existingStyleNode) {
+    existingStyleNode = document.createElement('style')
+    existingStyleNode.id = fullId
+    body.append(existingStyleNode)
+  }
+  existingStyleNode.innerHTML = css
 }
 
 module.exports = {
   attachFrameStyle,
-  positionToStyle,
-  styleToPosition,
-  applyStyle
+  settingsToStyle,
+  styleToSettings,
+  applyStyle,
+  STYLE_ATTRS
 }

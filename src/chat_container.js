@@ -2,7 +2,7 @@ const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 const createHeader = require('./header')
 const createLoader = require('./loader')
-const { applyStyle, positionToStyle } = require('./frame_style')
+const { applyStyle, settingsToStyle, STYLE_ATTRS } = require('./frame_style')
 
 module.exports = settings => {
   const container = document.createElement('div'),
@@ -19,8 +19,8 @@ module.exports = settings => {
     <div class="resize-handler resize-right resize-top"></div>
   `
   container.append(createHeader(), createLoader('Loading chat'))
-  applyStyle(container, {
-    ...positionToStyle(settings.position)
+  applyStyle(document.body, 'chatContainer', '.anu-chat-overlay-container', {
+    ...settingsToStyle(settings.position, STYLE_ATTRS.POSITION)
   })
   makeResizable(container, mouseEventsContainer)
   makeDraggable(container, mouseEventsContainer, container.querySelector('.header'), container.querySelectorAll('.settings, .settings *'))

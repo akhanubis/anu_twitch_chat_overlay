@@ -1,7 +1,7 @@
 const { addClass, removeClass, hasClass } = require('./class_utils')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
 const { setSettings } = require('./settings')
-const { styleToPosition } = require('./frame_style')
+const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const resizeStart = (resizeState, e) => {
   if (!hasClass(e.target, 'resize-handler'))
@@ -56,7 +56,7 @@ const resizeEnd = (resizeState, e) => {
   resizeState.down = false
 
   removeClass(document.body, 'resizing-chat')
-  setSettings('position', styleToPosition(resizeState.resized.style))
+  setSettings('position', styleToSettings(resizeState.resized.style, STYLE_ATTRS.POSITION))
 }
 
 const resize = (resizeState, e) => {

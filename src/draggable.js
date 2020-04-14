@@ -1,7 +1,7 @@
 const { addClass, removeClass } = require('./class_utils')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
 const { setSettings } = require('./settings')
-const { styleToPosition } = require('./frame_style')
+const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const dragStart = (dragState, e) => {
   if (dragState.excludedElements.includes(e.target))
@@ -38,7 +38,7 @@ const dragEnd = (dragState, e) => {
 
   dragState.active = false
   removeClass(document.body, 'dragging-chat')
-  setSettings('position', styleToPosition(dragState.dragged.style))
+  setSettings('position', styleToSettings(dragState.dragged.style, STYLE_ATTRS.POSITION))
 }
 
 const drag = (dragState, e) => {

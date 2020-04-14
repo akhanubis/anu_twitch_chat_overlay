@@ -45,7 +45,6 @@ module.exports = _ => {
   const settingsButton = header.querySelector('.settings')
   settingsButton.onclick = e => {
     e.preventDefault()
-    console.log(MicroModal)
     MicroModal.show('tco-settings-modal')
   }
   return header
