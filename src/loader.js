@@ -6,7 +6,9 @@ module.exports = text => {
       <div class="loader-text">
         ${ text }
       </div>
-      <div class="tw-loading-spinner tw-loading-spinner--delay" style="animation-delay: 300ms;"><div class="tw-loading-spinner__circle tw-loading-spinner__circle--inherit-color tw-loading-spinner__circle--large"></div></div>
+      <div class="loader-image">
+        <img src="https://cdn.betterttv.net/emote/5e37903f61ff6b51e652837c/2x">
+      </div>
     </div>
   `
   return loader

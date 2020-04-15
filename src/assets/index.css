@@ -49,9 +49,8 @@ body.dragging-chat * {
   justify-content: center;
 }
 
-.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner .tw-loading-spinner {
-  margin-left: auto;
-  margin-right: auto;
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner .loader-text {
+  text-align: center;
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container {
