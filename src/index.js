@@ -6,6 +6,8 @@ const createToggle = require('./toggle')
 const { attachFrameStyle } = require('./frame_style')
 const { whenElementLoaded, whenClassToggled } = require('./observer')
 const { getSettings } = require('./settings')
+const makeDraggable = require('./draggable')
+const makeResizable = require('./resizable')
 
 const init = async _ => {
   window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
@@ -20,6 +22,10 @@ const init = async _ => {
           appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode,
           chatContainer = createChatContainer(),
           iframe = createIframe(_ => {
+            const mouseEventsContainer = document.querySelector('.video-player__overlay')
+            makeResizable(chatContainer, mouseEventsContainer, iframe)
+            makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), chatContainer.querySelectorAll('.settings, .settings *'))
+
             attachFrameStyle(iframe)
             iframe.style = ''
             if (rightColumnCollapsed)

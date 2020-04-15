@@ -59,7 +59,7 @@ const resizeEnd = (resizeState, e) => {
   setSettings('position', styleToSettings(resizeState.resized.style, STYLE_ATTRS.POSITION))
 }
 
-const resize = (resizeState, e) => {
+const resize = (resizeState, e, iframeAncestor) => {
   if (!resizeState.active)
     return
   if (e) {
@@ -76,13 +76,21 @@ const resize = (resizeState, e) => {
     clientX = e.clientX
     clientY = e.clientY
   }
+
+  if (iframeAncestor || e.target.nodeName === 'IFRAME') {
+    const target = iframeAncestor || e.target,
+          boundingBox = target.getBoundingClientRect()
+    clientX += boundingBox.x
+    clientY += boundingBox.y
+  }
+
   const deltaX = clientX - resizeState.initialX,
         deltaY = clientY - resizeState.initialY
   let minX = resizeState.initialOffsetX + (resizeState.left ? deltaX : 0),
       minY = resizeState.initialOffsetY + (resizeState.up ? deltaY : 0),
       maxX = resizeState.initialOffsetX + resizeState.initialWidth + (resizeState.right ? deltaX : 0),
       maxY = resizeState.initialOffsetY + resizeState.initialHeight + (resizeState.down ? deltaY : 0)
-
+  
   /* handle out of bounds */
   minX = Math.min(Math.max(minX, 0), resizeState.container.clientWidth)
   maxX = Math.min(Math.max(maxX, 0), resizeState.container.clientWidth)
@@ -92,7 +100,7 @@ const resize = (resizeState, e) => {
   boundingBoxToStyle(resizeState.container, resizeState.resized, minX, minY, maxX, maxY)
 }
 
-module.exports = (element, container) => {
+module.exports = (element, container, innerIframeContainer) => {
   const resizeState = {
           resized: element,
           container: container,
@@ -102,6 +110,8 @@ module.exports = (element, container) => {
         container.addEventListener("mousedown", resizeStart.bind(this, resizeState))
         container.addEventListener("touchmove", resize.bind(this, resizeState))
         container.addEventListener("mousemove", resize.bind(this, resizeState))
+        innerIframeContainer.contentDocument.body.addEventListener("touchmove", e => resize(resizeState, e, innerIframeContainer))
+        innerIframeContainer.contentDocument.body.addEventListener("mousemove", e => resize(resizeState, e, innerIframeContainer))
         container.addEventListener("touchend", resizeEnd.bind(this, resizeState))
         container.addEventListener("mouseup", resizeEnd.bind(this, resizeState))
 
