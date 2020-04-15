@@ -72,7 +72,9 @@ const attachFrameStyle = iframe => {
 
 const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
-  FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow'],
+  /* TEMP */
+  // FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow'],
+  FONT: ['color'],
   BACKGROUND: ['background-color']
 }
 

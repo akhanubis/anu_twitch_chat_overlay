@@ -3,7 +3,7 @@
 }
 
 .tco-settings-modal .modal__container .settings-header {
-  margin: 10px 0 20px 0;
+  margin: 10px 0;
 }
 
 .tco-settings-modal .modal__container .settings-label {
@@ -15,8 +15,13 @@
 
 .tco-settings-modal .modal__container .settings-divider {
   margin: 10px auto;
-  border: .5px solid rgba(0, 0, 0, 0.1);
+  border: .5px solid var(--color-border-base);
   width: 100%;
+}
+
+.tco-settings-modal .modal__container .settings-scroller {
+  overflow: auto;
+  max-height: 350px;
 }
 
 .tco-settings-modal .modal__container .settings-input-container {

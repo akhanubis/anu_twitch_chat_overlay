@@ -29,7 +29,7 @@ const getSettings = async _ => {
     font: styleToSettings({
       'font-weight': 'inherit',
       'font-size': 'inherit',
-      color: 'inherit',
+      color: 'rgba(255, 255, 255, 1)',
       'font-family': 'inherit',
       'text-shadow': '-1px -1px 0 #000000, 1px -1px 0 #000000, 1px 1px 0 #000000, -1px 1px 0 #000000'
     }, STYLE_ATTRS.FONT)

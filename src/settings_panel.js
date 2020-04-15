@@ -2,7 +2,7 @@ const MicroModal = require('micromodal').default
 const iro = require('@jaames/iro').default
 require('iro-transparency-plugin').default
 const { peepoPainter } = require('./images')
-const { applyBackground, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
+const { applyBackground, applyFont, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
 const { setSettings } = require('./settings')
 const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
@@ -26,28 +26,40 @@ module.exports = _ => {
           <div class="settings-header">
             Tip: Keep the chat window to the sides of the screen so you can preview your changes
           </div>
-          <div class="settings-row">
-            <div class="settings-label">
-              Placement
-            </div>
-            <div class="settings-input-container">
-              <div class="settings-input position-input">
-                <div class="viewport-model">
-                  <div class="chat-model">
-                    <div class="inner"></div>
+          <div class="settings-divider"></div>
+          <div class="settings-scroller">
+            <div class="settings-row">
+              <div class="settings-label">
+                Placement
+              </div>
+              <div class="settings-input-container">
+                <div class="settings-input position-input">
+                  <div class="viewport-model">
+                    <div class="chat-model">
+                      <div class="inner"></div>
+                    </div>
                   </div>
                 </div>
+                <div class="settings-tip">You can also drag and resize the chat window directly</div>
               </div>
-              <div class="settings-tip">You can also drag and resize the chat window directly</div>
             </div>
-          </div>
-          <div class="settings-divider"></div>
-          <div class="settings-row">
-            <div class="settings-label">
-              Background color
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Background color
+              </div>
+              <div class="settings-input-container">
+                <div class="background-color-picker"></div>
+              </div>
             </div>
-            <div class="settings-input-container">
-              <div class="background-color-picker"></div>
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Font color
+              </div>
+              <div class="settings-input-container">
+                <div class="font-color-picker"></div>
+              </div>
             </div>
           </div>
         </main>
@@ -75,7 +87,7 @@ module.exports = _ => {
     </div>
   `
 
-  const colorPicker = new iro.ColorPicker(panel.querySelector('.background-color-picker'), {
+  const backgroundColorPicker = new iro.ColorPicker(panel.querySelector('.background-color-picker'), {
     transparency: true,
     wheelLightness: false,
     layoutDirection: 'horizontal',
@@ -83,8 +95,20 @@ module.exports = _ => {
     height: 100
   })
 
-  colorPicker.on('color:change', color => {
+  backgroundColorPicker.on('color:change', color => {
     applyBackground({ 'background-color': color.rgbaString })
+  })
+
+  const fontColorPicker = new iro.ColorPicker(panel.querySelector('.font-color-picker'), {
+    transparency: true,
+    wheelLightness: false,
+    layoutDirection: 'horizontal',
+    width: 100,
+    height: 100
+  })
+
+  fontColorPicker.on('color:change', color => {
+    applyFont({ color: color.rgbaString })
   })
 
   const viewportModel = panel.querySelector('.viewport-model'),
@@ -113,7 +137,8 @@ module.exports = _ => {
 
   panel.querySelector('.save-settings-button').onclick = _ => {
     MicroModal.close('tco-settings-modal')
-    setSettings('background', styleToSettings({ 'background-color': colorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
+    setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
+    // setSettings('font', styleToSettings({ 'color': fontColorPicker.color.rgbaString }, STYLE_ATTRS.FONT))
     setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
   }
 
@@ -122,17 +147,24 @@ module.exports = _ => {
     const currentSettings = window._TCO.currentSettings
     applyPositionToOriginal(settingsToStyle(currentSettings.position, STYLE_ATTRS.POSITION))
     applyBackground({ 'background-color': currentSettings.background })
+    // applyFont(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT))
   }
 
   panel.showPanel = _ => {
     const currentSettings = window._TCO.currentSettings
-    colorPicker.color.rgbaString = settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color']
+    backgroundColorPicker.color.rgbaString = settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color']
+    /* TEMP fix for deprecated settings */
+    let currentColor = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT).color
+    if (currentColor === 'inherit')
+      currentColor = 'rgba(255, 255, 255, 1)'
+    fontColorPicker.color.rgbaString = currentColor
 
     const chatContainer = document.querySelector('.anu-chat-overlay-container')
     for (const coord of ['left', 'right', 'top', 'bottom'])
       chatModel.style[coord] = chatContainer.style[coord]
 
     MicroModal.show('tco-settings-modal')
+    panel.querySelector('.save-settings-button').focus()
   }
 
   document.body.append(panel)

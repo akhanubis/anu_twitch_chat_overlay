@@ -21,7 +21,7 @@
 
 .modal__container {
   max-width: 800px;
-  max-height: 90%;
+  max-height: 80%;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -50,10 +50,14 @@
   padding: 10px;
 }
 
-.modal__footer {
+.modal.tco-modal .modal__footer {
   padding: 10px;
+  background-color: rgb(242, 242, 242)
 }
 
+.tw-root--theme-dark .modal.tco-modal .modal__footer {
+  background-color: rgb(41, 41, 44)
+}
 /**************************\
   Demo Animation Style
 \**************************/

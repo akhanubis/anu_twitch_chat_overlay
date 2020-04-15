@@ -86,7 +86,7 @@ module.exports = (element, container, anchor, { onDragEnd, excludedElements, onD
   container.addEventListener("mouseup", dragEnd.bind(this, dragState, onDragEnd))
 
   whenOutOfBounds = e => {
-    drag(dragState, e)
+    drag(dragState, onDrag, e)
     dragEnd(dragState, onDragEnd, e)
   }
   document.body.addEventListener("touchstart", whenOutOfBounds)
