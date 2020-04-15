@@ -39,7 +39,6 @@ const getSettings = async _ => {
   window._TCO.currentSettings = {}
   for (const s in DEFAULT_SETTINGS)
     window._TCO.currentSettings[s] = (storedSettings[window._TCO.currentStream] || {})[s] || (storedSettings.default || {})[s] || DEFAULT_SETTINGS[s]
-  console.log('Twitch Chat Overlay last settings', window._TCO.currentSettings)
 }
 
 module.exports = {

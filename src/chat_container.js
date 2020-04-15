@@ -1,6 +1,6 @@
 const createHeader = require('./header')
 const createLoader = require('./loader')
-const { applyStyle, settingsToStyle, STYLE_ATTRS } = require('./frame_style')
+const { settingsToStyle, STYLE_ATTRS } = require('./frame_style')
 
 module.exports = _ => {
   const container = document.createElement('div')
@@ -16,6 +16,9 @@ module.exports = _ => {
     <div class="resize-handler resize-right resize-top"></div>
   `
   container.append(createHeader(), createLoader('Loading chat'))
-  applyStyle(document.body, 'chatContainer', '.anu-chat-overlay-container', settingsToStyle(window._TCO.currentSettings.position, STYLE_ATTRS.POSITION))
+  
+  const initialStyle = settingsToStyle(window._TCO.currentSettings.position, STYLE_ATTRS.POSITION)
+  for (const coord of ['left', 'right', 'top', 'bottom'])
+    container.style[coord] = initialStyle[coord]
   return container
 }
