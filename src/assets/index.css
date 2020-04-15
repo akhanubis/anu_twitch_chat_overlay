@@ -28,6 +28,10 @@ body.dragging-chat * {
   display: none;
 }
 
+.anu-chat-overlay-active .anu-chat-overlay-container.loading {
+  box-shadow: rgba(0, 0, 0, 0.5) 0 0 15px 0px;
+}
+
 .anu-chat-overlay-active .anu-chat-overlay-container.loading .loader {
   display: flex;
   justify-content: center;
