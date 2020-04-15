@@ -53,6 +53,11 @@ body.dragging-chat * {
   text-align: center;
 }
 
+.anu-chat-overlay-active .anu-chat-overlay-container.loading .loader .inner .loader-image {
+  text-align: center;
+  margin-top: 10px;
+}
+
 .anu-chat-overlay-active .anu-chat-overlay-container {
   position: absolute;
   height: auto;

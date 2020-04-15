@@ -2,7 +2,7 @@ const MicroModal = require('micromodal').default
 const iro = require('@jaames/iro').default
 require('iro-transparency-plugin').default
 const { peepoPainter } = require('./images')
-const { applyBackground, applyStyle, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
+const { applyBackground, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
 const { setSettings } = require('./settings')
 const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
@@ -90,10 +90,10 @@ module.exports = _ => {
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
     
-  applyModelToOriginal = _ => {
+  applyPositionToOriginal = style => {
     const chatContainer = document.querySelector('.anu-chat-overlay-container')
     for (const coord of ['left', 'right', 'top', 'bottom'])
-      chatContainer.style[coord] = chatModel.style[coord]
+      chatContainer.style[coord] = style[coord]
   }
 
   whenSizeChanged(chatModel, _ => {
@@ -104,34 +104,33 @@ module.exports = _ => {
     boundingBoxToStyle(viewportModel, chatModel, minX, minY, maxX, maxY)
     chatModel.style.width = ""
     chatModel.style.height = ""
-    applyModelToOriginal()
+    applyPositionToOriginal(chatModel.style)
   })
 
   makeDraggable(chatModel, viewportModel, chatModel.querySelector('.inner'), {
-    onDrag: applyModelToOriginal
+    onDrag: _ => applyPositionToOriginal(chatModel.style)
   })
 
   panel.querySelector('.save-settings-button').onclick = _ => {
-    console.log('clickeando save')
-    console.log('salvando settings')
-
+    MicroModal.close('tco-settings-modal')
     setSettings('background', styleToSettings({ 'background-color': colorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
     setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
-    MicroModal.close('tco-settings-modal')
   }
 
   panel.querySelector('.cancel-settings-button').onclick = _ => {
-    console.log('clickeando cancel')
-    console.log('rollbackeando settings')
-
     MicroModal.close('tco-settings-modal')
+    const currentSettings = window._TCO.currentSettings
+    applyPositionToOriginal(settingsToStyle(currentSettings.position, STYLE_ATTRS.POSITION))
+    applyBackground({ 'background-color': currentSettings.background })
   }
 
   panel.showPanel = _ => {
     const currentSettings = window._TCO.currentSettings
     colorPicker.color.rgbaString = settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color']
 
-    applyStyle(document.body, 'settingsChatModelPosition', '.tco-settings-modal .modal__container .settings-input-container .position-input .chat-model', settingsToStyle(currentSettings.position, STYLE_ATTRS.POSITION))
+    const chatContainer = document.querySelector('.anu-chat-overlay-container')
+    for (const coord of ['left', 'right', 'top', 'bottom'])
+      chatModel.style[coord] = chatContainer.style[coord]
 
     MicroModal.show('tco-settings-modal')
   }

@@ -1,9 +1,9 @@
 .tco-settings-modal .modal__container {
-  width: 90%;
+  width: 500px;
 }
 
 .tco-settings-modal .modal__container .settings-header {
-  margin: 20px 0;
+  margin: 10px 0 20px 0;
 }
 
 .tco-settings-modal .modal__container .settings-label {
@@ -15,7 +15,7 @@
 
 .tco-settings-modal .modal__container .settings-divider {
   margin: 10px auto;
-  border: .5px solid #BBB;
+  border: .5px solid rgba(0, 0, 0, 0.1);
   width: 100%;
 }
 
