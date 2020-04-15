@@ -31,7 +31,7 @@ const getSettings = async _ => {
       'font-size': 'inherit',
       color: 'rgba(255, 255, 255, 1)',
       'font-family': 'inherit',
-      'text-shadow': '-1px -1px 0 #000000, 1px -1px 0 #000000, 1px 1px 0 #000000, -1px 1px 0 #000000'
+      'text-shadow': 'rgba(0, 0, 0, 1)'
     }, STYLE_ATTRS.FONT)
   }
   

@@ -74,19 +74,31 @@ const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
   /* TEMP */
   // FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow'],
-  FONT: ['color'],
+  FONT: ['color', 'text-shadow'],
   BACKGROUND: ['background-color']
 }
 
-const settingsToStyle = (settings, attrNames) => {
-  const attrs = settings.split('_'),
-        out = {}
-  for (let i = 0; i < attrNames.length; i++)
-    out[attrNames[i]] = attrs[i]
-  return out
-} 
+const SETTINGS_TO_STYLE_FN = {
+  'text-shadow': v => `-1px -1px 0 ${ v }, 1px -1px 0 ${ v }, 1px 1px 0 ${ v }, -1px 1px 0 ${ v }`
+}
 
-const styleToSettings = (style, attrNames) => attrNames.map(attr => style[attr]).join('_')
+const STYLE_TO_SETTINGS_FN = {
+  'text-shadow': v => v.match(/(rgba\([^)]+\))/)[1]
+}
+
+const settingsToStyle = (settings, attrNames, { raw } = { raw: false }) => {
+  const attrs = settings.split('_'),
+        out = {},
+        rawFn = v => v
+  for (let i = 0; i < attrNames.length; i++) {
+    const fn = raw ? rawFn : (SETTINGS_TO_STYLE_FN[attrNames[i]] || rawFn)
+    out[attrNames[i]] = fn(attrs[i])
+  }
+  
+  return out
+}
+
+const styleToSettings = (style, attrNames) => attrNames.map(attr => (STYLE_TO_SETTINGS_FN[attr] || (v => v))(style[attr])).join('_')
 
 const applyStyle = (body, id, selector, style) => {
   const fullId = `tco-style-${ id }`,
@@ -114,5 +126,7 @@ module.exports = {
   applyStyle,
   applyBackground,
   applyFont,
-  STYLE_ATTRS
+  STYLE_ATTRS,
+  SETTINGS_TO_STYLE_FN,
+  STYLE_TO_SETTINGS_FN
 }

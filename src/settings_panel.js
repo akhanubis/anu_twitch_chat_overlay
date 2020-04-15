@@ -2,11 +2,12 @@ const MicroModal = require('micromodal').default
 const iro = require('@jaames/iro').default
 require('iro-transparency-plugin').default
 const { peepoPainter } = require('./images')
-const { applyBackground, applyFont, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
+const { applyBackground, applyFont, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
 const { setSettings } = require('./settings')
 const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
 const makeDraggable = require('./draggable')
+const createColorPicker = require('./color_picker')
 
 module.exports = _ => {
   const panel = document.createElement('div')
@@ -61,6 +62,14 @@ module.exports = _ => {
                 <div class="font-color-picker"></div>
               </div>
             </div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Font outline
+              </div>
+              <div class="settings-input-container">
+                <div class="font-outline-color-picker"></div>
+              </div>
+            </div>
           </div>
         </main>
         <div class="modal__footer chat-room tw-justify-content-end tw-flex tw-flex-row">
@@ -87,29 +96,13 @@ module.exports = _ => {
     </div>
   `
 
-  const backgroundColorPicker = new iro.ColorPicker(panel.querySelector('.background-color-picker'), {
-    transparency: true,
-    wheelLightness: false,
-    layoutDirection: 'horizontal',
-    width: 100,
-    height: 100
-  })
-
-  backgroundColorPicker.on('color:change', color => {
-    applyBackground({ 'background-color': color.rgbaString })
-  })
-
-  const fontColorPicker = new iro.ColorPicker(panel.querySelector('.font-color-picker'), {
-    transparency: true,
-    wheelLightness: false,
-    layoutDirection: 'horizontal',
-    width: 100,
-    height: 100
-  })
-
-  fontColorPicker.on('color:change', color => {
-    applyFont({ color: color.rgbaString })
-  })
+  const backgroundColorPicker = createColorPicker(panel.querySelector('.background-color-picker'), color => applyBackground({ 'background-color': color })),
+        onFontChange = _ => applyFont({
+          color: fontColorPicker.getColor(),
+          'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor())
+        }),
+        fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
+        fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange)
 
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
@@ -152,12 +145,10 @@ module.exports = _ => {
 
   panel.showPanel = _ => {
     const currentSettings = window._TCO.currentSettings
-    backgroundColorPicker.color.rgbaString = settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color']
-    /* TEMP fix for deprecated settings */
-    let currentColor = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT).color
-    if (currentColor === 'inherit')
-      currentColor = 'rgba(255, 255, 255, 1)'
-    fontColorPicker.color.rgbaString = currentColor
+    backgroundColorPicker.setColor(settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color'])
+    fontColorPicker.setColor(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT)['color'])
+    console.log(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true }))
+    fontOutlineColorPicker.setColor(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })['text-shadow'])
 
     const chatContainer = document.querySelector('.anu-chat-overlay-container')
     for (const coord of ['left', 'right', 'top', 'bottom'])
