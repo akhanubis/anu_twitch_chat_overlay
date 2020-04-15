@@ -1,0 +1,60 @@
+.tco-settings-modal .modal__container {
+  width: 90%;
+}
+
+.tco-settings-modal .modal__container .settings-header {
+  margin: 20px 0;
+}
+
+.tco-settings-modal .modal__container .settings-label {
+  padding-right: 10px;
+  width: 30%;
+  text-align: right;
+  display: inline-block;
+}
+
+.tco-settings-modal .modal__container .settings-divider {
+  margin: 10px auto;
+  border: .5px solid #BBB;
+  width: 100%;
+}
+
+.tco-settings-modal .modal__container .settings-input-container {
+  padding-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tco-settings-modal .modal__container .settings-input-container .position-input {
+  position: relative;
+  width: 160px;
+  height: 90px;
+  overflow: hidden;
+}
+
+.tco-settings-modal .modal__container .settings-input-container .position-input .viewport-model {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  z-index: 1;
+}
+
+.tco-settings-modal .modal__container .settings-input-container .position-input .chat-model {
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  resize: both;
+  overflow: auto;
+}
+
+.tco-settings-modal .modal__container .settings-input-container .position-input .chat-model .inner {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #000000;
+  cursor: grab;
+}
+
+.tco-settings-modal .modal__container .settings-input-container .settings-tip {
+  margin-top: 10px;
+}

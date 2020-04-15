@@ -110,8 +110,10 @@ module.exports = (element, container, innerIframeContainer) => {
         container.addEventListener("mousedown", resizeStart.bind(this, resizeState))
         container.addEventListener("touchmove", resize.bind(this, resizeState))
         container.addEventListener("mousemove", resize.bind(this, resizeState))
-        innerIframeContainer.contentDocument.body.addEventListener("touchmove", e => resize(resizeState, e, innerIframeContainer))
-        innerIframeContainer.contentDocument.body.addEventListener("mousemove", e => resize(resizeState, e, innerIframeContainer))
+        if (innerIframeContainer) {
+          innerIframeContainer.contentDocument.body.addEventListener("touchmove", e => resize(resizeState, e, innerIframeContainer))
+          innerIframeContainer.contentDocument.body.addEventListener("mousemove", e => resize(resizeState, e, innerIframeContainer))
+        }
         container.addEventListener("touchend", resizeEnd.bind(this, resizeState))
         container.addEventListener("mouseup", resizeEnd.bind(this, resizeState))
 

@@ -3,9 +3,9 @@ const { addClass, removeClass, hasClass } = require('./class_utils')
 const createChatContainer = require('./chat_container')
 const createIframe = require('./iframe')
 const createToggle = require('./toggle')
-const { attachFrameStyle } = require('./frame_style')
+const { attachFrameStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
 const { whenElementLoaded, whenClassToggled } = require('./observer')
-const { getSettings } = require('./settings')
+const { getSettings, setSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 
@@ -24,7 +24,10 @@ const init = async _ => {
           iframe = createIframe(_ => {
             const mouseEventsContainer = document.querySelector('.video-player__overlay')
             makeResizable(chatContainer, mouseEventsContainer, iframe)
-            makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), chatContainer.querySelectorAll('.settings, .settings *'))
+            makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), {
+              onDragEnd: _ => setSettings('position', styleToSettings(chatContainer.style, STYLE_ATTRS.POSITION)),
+              excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
+            })
 
             attachFrameStyle(iframe)
             iframe.style = ''

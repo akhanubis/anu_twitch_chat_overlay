@@ -1,7 +1,5 @@
 const { addClass, removeClass } = require('./class_utils')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
-const { setSettings } = require('./settings')
-const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const dragStart = (dragState, e) => {
   if (dragState.excludedElements.includes(e.target))
@@ -30,7 +28,7 @@ const dragStart = (dragState, e) => {
   addClass(document.body, 'dragging-chat')
 }
 
-const dragEnd = (dragState, e) => {
+const dragEnd = (dragState, onDragEnd, e) => {
   if (!dragState.active)
     return
   e.preventDefault()
@@ -38,10 +36,10 @@ const dragEnd = (dragState, e) => {
 
   dragState.active = false
   removeClass(document.body, 'dragging-chat')
-  setSettings('position', styleToSettings(dragState.dragged.style, STYLE_ATTRS.POSITION))
+  onDragEnd()
 }
 
-const drag = (dragState, e) => {
+const drag = (dragState, onDrag, e) => {
   if (!dragState.active)
     return
   e.preventDefault()
@@ -66,26 +64,30 @@ const drag = (dragState, e) => {
   endY = Math.min(Math.max(endY, 0), dragState.container.clientHeight - dragState.dragged.clientHeight)
 
   boundingBoxToStyle(dragState.container, dragState.dragged, endX, endY, endX + dragState.dragged.clientWidth, endY + dragState.dragged.clientHeight)
+  onDrag()
 }
 
-module.exports = (element, container, anchor, excludedElements) => {
+module.exports = (element, container, anchor, { onDragEnd, excludedElements, onDrag }) => {
   const dragState = {
           dragged: element,
           container: container,
           anchor: anchor,
           active: false,
-          excludedElements: Array.from(excludedElements)
+          excludedElements: Array.from(excludedElements || [])
         }
+
+  onDrag = onDrag || (() => {})
+  onDragEnd = onDragEnd || (() => {})
   container.addEventListener("touchstart", dragStart.bind(this, dragState))
   container.addEventListener("mousedown", dragStart.bind(this, dragState))
-  container.addEventListener("touchmove", drag.bind(this, dragState))
-  container.addEventListener("mousemove", drag.bind(this, dragState))
-  container.addEventListener("touchend", dragEnd.bind(this, dragState))
-  container.addEventListener("mouseup", dragEnd.bind(this, dragState))
+  container.addEventListener("touchmove", drag.bind(this, dragState, onDrag))
+  container.addEventListener("mousemove", drag.bind(this, dragState, onDrag))
+  container.addEventListener("touchend", dragEnd.bind(this, dragState, onDragEnd))
+  container.addEventListener("mouseup", dragEnd.bind(this, dragState, onDragEnd))
 
   whenOutOfBounds = e => {
     drag(dragState, e)
-    dragEnd(dragState, e)
+    dragEnd(dragState, onDragEnd, e)
   }
   document.body.addEventListener("touchstart", whenOutOfBounds)
   document.body.addEventListener("mousedown", whenOutOfBounds)

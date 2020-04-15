@@ -2,8 +2,11 @@ const MicroModal = require('micromodal').default
 const iro = require('@jaames/iro').default
 require('iro-transparency-plugin').default
 const { peepoPainter } = require('./images')
-const { applyBackground, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
+const { applyBackground, applyStyle, settingsToStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
 const { setSettings } = require('./settings')
+const { whenSizeChanged } = require('./observer')
+const { boundingBoxToStyle } = require('./bounding_box_utils')
+const makeDraggable = require('./draggable')
 
 module.exports = _ => {
   const panel = document.createElement('div')
@@ -20,10 +23,33 @@ module.exports = _ => {
           <img class="logo" src="${ peepoPainter }">
         </header>
         <main class="modal__content chat-room tw-flex tw-flex-column tw-flex-grow-1 tw-flex-shrink-1 tw-full-width" id="tco-settings-modal-content">
-          <div class="background-color-picker"></div>
-          <p>
-            Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
-          </p>
+          <div class="settings-header">
+            Tip: Keep the chat window to the sides of the screen so you can preview your changes
+          </div>
+          <div class="settings-row">
+            <div class="settings-label">
+              Placement
+            </div>
+            <div class="settings-input-container">
+              <div class="settings-input position-input">
+                <div class="viewport-model">
+                  <div class="chat-model">
+                    <div class="inner"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="settings-tip">You can also drag and resize the chat window directly</div>
+            </div>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-row">
+            <div class="settings-label">
+              Background color
+            </div>
+            <div class="settings-input-container">
+              <div class="background-color-picker"></div>
+            </div>
+          </div>
         </main>
         <div class="modal__footer chat-room tw-justify-content-end tw-flex tw-flex-row">
           <div class="tw-mg-l-05">
@@ -50,11 +76,39 @@ module.exports = _ => {
   `
 
   const colorPicker = new iro.ColorPicker(panel.querySelector('.background-color-picker'), {
-    transparency: true
+    transparency: true,
+    wheelLightness: false,
+    layoutDirection: 'horizontal',
+    width: 100,
+    height: 100
   })
 
   colorPicker.on('color:change', color => {
     applyBackground({ 'background-color': color.rgbaString })
+  })
+
+  const viewportModel = panel.querySelector('.viewport-model'),
+        chatModel = panel.querySelector('.chat-model')
+    
+  applyModelToOriginal = _ => {
+    const chatContainer = document.querySelector('.anu-chat-overlay-container')
+    for (const coord of ['left', 'right', 'top', 'bottom'])
+      chatContainer.style[coord] = chatModel.style[coord]
+  }
+
+  whenSizeChanged(chatModel, _ => {
+    const minX = Math.min(Math.max(chatModel.offsetLeft, 0), viewportModel.clientWidth),
+          maxX = Math.min(Math.max(chatModel.offsetLeft + chatModel.clientWidth, 0), viewportModel.clientWidth),
+          minY = Math.min(Math.max(chatModel.offsetTop, 0), viewportModel.clientHeight),
+          maxY = Math.min(Math.max(chatModel.offsetTop + chatModel.clientHeight, 0), viewportModel.clientHeight)
+    boundingBoxToStyle(viewportModel, chatModel, minX, minY, maxX, maxY)
+    chatModel.style.width = ""
+    chatModel.style.height = ""
+    applyModelToOriginal()
+  })
+
+  makeDraggable(chatModel, viewportModel, chatModel.querySelector('.inner'), {
+    onDrag: applyModelToOriginal
   })
 
   panel.querySelector('.save-settings-button').onclick = _ => {
@@ -62,6 +116,7 @@ module.exports = _ => {
     console.log('salvando settings')
 
     setSettings('background', styleToSettings({ 'background-color': colorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
+    setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
     MicroModal.close('tco-settings-modal')
   }
 
@@ -75,6 +130,8 @@ module.exports = _ => {
   panel.showPanel = _ => {
     const currentSettings = window._TCO.currentSettings
     colorPicker.color.rgbaString = settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color']
+
+    applyStyle(document.body, 'settingsChatModelPosition', '.tco-settings-modal .modal__container .settings-input-container .position-input .chat-model', settingsToStyle(currentSettings.position, STYLE_ATTRS.POSITION))
 
     MicroModal.show('tco-settings-modal')
   }

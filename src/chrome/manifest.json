@@ -11,7 +11,8 @@
     "css": [
       "assets/index.css",
       "assets/resizable.css",
-      "assets/modal.css"
+      "assets/modal.css",
+      "assets/settings.css"
     ],
     "js": [
       "index.js"

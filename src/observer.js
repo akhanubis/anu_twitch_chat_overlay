@@ -37,7 +37,34 @@ const whenClassToggled = (element, klass, whenFound) => {
   checkMutations([{ oldValue: "", target: { className: klass } }])
 }
 
+const whenSizeChanged = (element, whenFound) => {
+  const checkMutations = mutations => {
+    for (const m of mutations) {
+      const oldSize = {
+              w: ((m.oldValue || "").match(/(^|(; ))width: ([^;]+);/) || [, , , ""])[3],
+              h: ((m.oldValue || "").match(/(^|(; ))height: ([^;]+);/) || [, , , ""])[3]
+            },
+            newSize = {
+              w: m.target.style.width,
+              h: m.target.style.height
+            }
+      if (oldSize.w !== newSize.w || oldSize.h !== newSize.h) {
+        whenFound()
+        break
+      }
+    }
+  }
+  
+  new MutationObserver(checkMutations).observe(element, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ['style']
+  })
+  checkMutations([{ oldValue: "", target: element }])
+}
+
 module.exports = {
   whenElementLoaded,
-  whenClassToggled
+  whenClassToggled,
+  whenSizeChanged
 }

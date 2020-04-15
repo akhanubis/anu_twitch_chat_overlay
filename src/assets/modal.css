@@ -20,7 +20,7 @@
 }
 
 .modal__container {
-  max-width: 500px;
+  max-width: 800px;
   max-height: 90%;
   overflow-y: auto;
   box-sizing: border-box;
