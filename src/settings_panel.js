@@ -78,6 +78,15 @@ module.exports = _ => {
             <div class="settings-divider"></div>
             <div class="settings-row">
               <div class="settings-label">
+                Font size (in px)
+              </div>
+              <div class="settings-input-container">
+                <input type="number" class="font-size-picker tw-block tw-border-radius-medium tw-font-size-6 tw-textarea tw-textarea--no-resize">
+              </div>
+            </div>
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
                 Font color
               </div>
               <div class="settings-input-container">
@@ -153,11 +162,13 @@ module.exports = _ => {
           'color': fontColorPicker.getColor(),
           'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
           'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-weight'),
-          'font-family': fontFamilyPicker.value
+          'font-family': fontFamilyPicker.value,
+          'font-size': `${ fontSizePicker.value }px`
         }),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
         fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange),
-        fontFamilyPicker = panel.querySelector('.font-family-picker')
+        fontFamilyPicker = panel.querySelector('.font-family-picker'),
+        fontSizePicker = panel.querySelector('.font-size-picker')
 
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
@@ -201,6 +212,8 @@ module.exports = _ => {
 
   fontFamilyPicker.onchange = onFontChange
 
+  fontSizePicker.onchange = onFontChange
+
   panel.querySelector('.save-settings-button').onclick = _ => {
     MicroModal.close('tco-settings-modal')
     setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
@@ -221,6 +234,7 @@ module.exports = _ => {
           currentFontSettings = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })
     enableSelectedFontWeight(currentFontSettings['font-weight'])
     fontFamilyPicker.value = currentFontSettings['font-family']
+    fontSizePicker.value = parseFloat(currentFontSettings['font-size'])
     fontColorPicker.setColor(currentFontSettings['color'])
     fontOutlineColorPicker.setColor(currentFontSettings['text-shadow'])
     backgroundColorPicker.setColor(settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color'])

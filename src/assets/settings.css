@@ -89,3 +89,7 @@
 #tco-settings-modal .IroHandle {
   cursor: grab;
 }
+
+.tco-settings-modal .modal__container .settings-input-container .font-size-picker {
+  width: 72px;
+}

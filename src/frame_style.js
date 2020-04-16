@@ -72,9 +72,7 @@ const attachFrameStyle = iframe => {
 
 const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
-  /* TEMP */
-  // FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow'],
-  FONT: ['color', 'text-shadow', 'font-weight', 'font-family'],
+  FONT: ['color', 'text-shadow', 'font-weight', 'font-family', 'font-size'],
   BACKGROUND: ['background-color']
 }
 
@@ -117,7 +115,10 @@ const iframeBody = _ => document.querySelector('.anu-chat-overlay-container ifra
 
 const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content', backgroundStyle)
 
-const applyFont = fontStyle => applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message', fontStyle)
+const applyFont = fontStyle => {
+  const fullStyle = { ...fontStyle, 'line-height': `calc(${ fontStyle['font-size'] } * 5 / 3)` }
+  applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message', fullStyle)
+}
 
 module.exports = {
   attachFrameStyle,
