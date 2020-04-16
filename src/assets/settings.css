@@ -24,8 +24,17 @@
 }
 
 .tco-settings-modal .modal__container .settings-scroller {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   max-height: 350px;
+}
+
+.tco-settings-modal .modal__container .settings-scroller .simplebar-content {
+  overflow-x: hidden;
+}
+
+.tco-settings-modal .modal__container .settings-scroller .simplebar-placeholder {
+  display: none !important;
 }
 
 .tco-settings-modal .modal__content {
@@ -37,7 +46,7 @@
 }
 
 .settings-scroller .settings-row:last-child {
-  padding-bottom: 10px;
+  padding-bottom: 30px;
 }
 
 .tco-settings-modal .modal__container .settings-input-container {

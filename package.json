@@ -40,6 +40,7 @@
     "@jaames/iro": "^5.1.5",
     "babel-loader": "^8.1.0",
     "iro-transparency-plugin": "^1.0.2",
-    "micromodal": "^0.4.6"
+    "micromodal": "^0.4.6",
+    "simplebar": "^5.1.0"
   }
 }

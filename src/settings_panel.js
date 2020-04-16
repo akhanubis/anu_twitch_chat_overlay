@@ -1,6 +1,5 @@
 const MicroModal = require('micromodal').default
-const iro = require('@jaames/iro').default
-require('iro-transparency-plugin').default
+const SimpleBar = require('simplebar').default
 const { peepoPainter } = require('./images')
 const { applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
 const { setSettings, DEFAULT_SETTINGS } = require('./settings')
@@ -312,5 +311,8 @@ module.exports = _ => {
   }
 
   document.body.append(panel)
+  new SimpleBar(panel.querySelector('.settings-scroller'), {
+    autoHide: false
+  })
   return panel
 }
