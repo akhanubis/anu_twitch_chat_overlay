@@ -1,5 +1,27 @@
 const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
+const DEFAULT_SETTINGS = {
+  position: styleToSettings({
+    left: '0%',
+    right: '75%',
+    top: '25%',
+    bottom: '25%'
+  }, STYLE_ATTRS.POSITION),
+  background: styleToSettings({
+    'background-color': 'rgba(0, 0, 0, 0.25)'
+  }, STYLE_ATTRS.BACKGROUND),
+  font: styleToSettings({
+    'font-weight': 'normal',
+    'font-size': '12px',
+    color: 'rgba(255, 255, 255, 1)',
+    'font-family': 'Roobert',
+    'text-shadow': 'rgba(0, 0, 0, 1)'
+  }, STYLE_ATTRS.FONT),
+  toggles: styleToSettings({
+    username: true
+  }, STYLE_ATTRS.TOGGLES)
+}
+
 const setSettings = (k, v) => {
   if (window._TCO.currentSettings[k] === v)
     return
@@ -16,28 +38,6 @@ const setSettings = (k, v) => {
 }
 
 const getSettings = async _ => {
-  const DEFAULT_SETTINGS = {
-    position: styleToSettings({
-      left: '0%',
-      right: '75%',
-      top: '25%',
-      bottom: '25%'
-    }, STYLE_ATTRS.POSITION),
-    background: styleToSettings({
-      'background-color': 'rgba(0, 0, 0, 0.25)'
-    }, STYLE_ATTRS.BACKGROUND),
-    font: styleToSettings({
-      'font-weight': 'normal',
-      'font-size': '12px',
-      color: 'rgba(255, 255, 255, 1)',
-      'font-family': 'Roobert',
-      'text-shadow': 'rgba(0, 0, 0, 1)'
-    }, STYLE_ATTRS.FONT),
-    toggles: styleToSettings({
-      username: true
-    }, STYLE_ATTRS.TOGGLES)
-  }
-  
   const storedSettings = await new Promise(r => chrome.storage.sync.get(['default', window._TCO.currentStream], r))
   window._TCO.currentSettings = {}
   for (const s in DEFAULT_SETTINGS)
@@ -46,5 +46,6 @@ const getSettings = async _ => {
 
 module.exports = {
   setSettings,
-  getSettings
+  getSettings,
+  DEFAULT_SETTINGS
 }

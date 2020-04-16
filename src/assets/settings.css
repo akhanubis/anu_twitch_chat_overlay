@@ -115,3 +115,13 @@
 .tco-settings-modal .modal__container .settings-input-container.username-toggle {
   width: 190px;
 }
+
+.tco-settings-modal .modal__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tco-settings-modal .modal__footer .right-buttons {
+  display: inline-flex;
+}

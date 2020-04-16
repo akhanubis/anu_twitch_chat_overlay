@@ -113,7 +113,6 @@ const applyStyle = (body, id, selector, style) => {
     body.append(existingStyleNode)
   }
   existingStyleNode.innerHTML = css
-  console.log("STYLE APLICADO", css)
 }
 
 const iframeBody = _ => document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body

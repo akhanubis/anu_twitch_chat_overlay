@@ -3,7 +3,7 @@ const iro = require('@jaames/iro').default
 require('iro-transparency-plugin').default
 const { peepoPainter } = require('./images')
 const { applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
-const { setSettings } = require('./settings')
+const { setSettings, DEFAULT_SETTINGS } = require('./settings')
 const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
 const makeDraggable = require('./draggable')
@@ -155,24 +155,37 @@ module.exports = _ => {
             </div>
           </div>
         </main>
-        <div class="modal__footer chat-room tw-justify-content-end tw-flex tw-flex-row">
-          <div class="tw-mg-l-05">
-            <button class="cancel-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-              <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                  Cancel
+        <div class="modal__footer chat-room">
+          <div class="">
+            <div class="tw-mg-l-05">
+              <button class="default-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                  <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                    Reset to default
+                  </div>
                 </div>
-              </div>
-            </button>
+              </button>
+            </div>
           </div>
-          <div class="tw-mg-l-05">
-            <button class="save-settings-button tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-core-button--primary tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-              <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                  Apply to ${ window._TCO.currentStream }
+          <div class="right-buttons tw-justify-content-end tw-flex-row">
+            <div class="tw-mg-l-05">
+              <button class="cancel-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                  <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                    Cancel
+                  </div>
                 </div>
-              </div>
-            </button>
+              </button>
+            </div>
+            <div class="tw-mg-l-05">
+              <button class="save-settings-button tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-core-button--primary tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                  <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                    Apply to ${ window._TCO.currentStream }
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -260,30 +273,40 @@ module.exports = _ => {
     
   }
 
-  panel.querySelector('.cancel-settings-button').onclick = _ => {
-    MicroModal.close('tco-settings-modal')
-    const currentSettings = window._TCO.currentSettings
-    applyPositionToOriginal(settingsToStyle(currentSettings.position, STYLE_ATTRS.POSITION))
-    applyBackground({ 'background-color': currentSettings.background })
-    applyFont(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT))
-    applyToggles(settingsToStyle(currentSettings.toggles, STYLE_ATTRS.TOGGLES))
+  const rollbackToSettings = settings => {
+    applyPositionToOriginal(settingsToStyle(settings.position, STYLE_ATTRS.POSITION))
+    applyBackground({ 'background-color': settings.background })
+    applyFont(settingsToStyle(settings.font, STYLE_ATTRS.FONT))
+    applyToggles(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES))
   }
 
-  panel.showPanel = _ => {
-    const currentSettings = window._TCO.currentSettings,
-          currentFontSettings = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })
-    enableSelectedButton(panel.querySelector(`.font-weight button[data-b-value="${ currentFontSettings['font-weight'] }"]`), weightButtons)
-    enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(currentSettings.toggles, STYLE_ATTRS.TOGGLES).username }"]`), usernameButtons)
-    fontFamilyPicker.value = currentFontSettings['font-family']
-    fontSizePicker.value = parseFloat(currentFontSettings['font-size'])
-    fontColorPicker.setColor(currentFontSettings['color'])
-    fontOutlineColorPicker.setColor(currentFontSettings['text-shadow'])
-    backgroundColorPicker.setColor(settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color'])
+  const initInputs = settings => {
+    const fontSettings = settingsToStyle(settings.font, STYLE_ATTRS.FONT, { raw: true })
+    enableSelectedButton(panel.querySelector(`.font-weight button[data-b-value="${ fontSettings['font-weight'] }"]`), weightButtons)
+    enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).username }"]`), usernameButtons)
+    fontFamilyPicker.value = fontSettings['font-family']
+    fontSizePicker.value = parseFloat(fontSettings['font-size'])
+    fontColorPicker.setColor(fontSettings['color'])
+    fontOutlineColorPicker.setColor(fontSettings['text-shadow'])
+    backgroundColorPicker.setColor(settingsToStyle(settings.background, STYLE_ATTRS.BACKGROUND)['background-color'])
 
     const chatContainer = document.querySelector('.anu-chat-overlay-container')
     for (const coord of ['left', 'right', 'top', 'bottom'])
       chatModel.style[coord] = chatContainer.style[coord]
+  }
 
+  panel.querySelector('.cancel-settings-button').onclick = _ => {
+    MicroModal.close('tco-settings-modal')
+    rollbackToSettings(window._TCO.currentSettings)
+  }
+
+  panel.querySelector('.default-settings-button').onclick = _ => {
+    rollbackToSettings(DEFAULT_SETTINGS)
+    initInputs(DEFAULT_SETTINGS)
+  }
+
+  panel.showPanel = _ => {
+    initInputs(window._TCO.currentSettings)
     MicroModal.show('tco-settings-modal')
     panel.querySelector('.save-settings-button').focus()
   }
