@@ -311,8 +311,9 @@ module.exports = _ => {
   }
 
   document.querySelector('.video-player__overlay').append(panel)
-  new SimpleBar(panel.querySelector('.settings-scroller'), {
-    autoHide: false
-  })
+  if (window.chrome && chrome.runtime && chrome.runtime.id)
+    new SimpleBar(panel.querySelector('.settings-scroller'), {
+      autoHide: false
+    })
   return panel
 }
