@@ -63,8 +63,23 @@ const whenSizeChanged = (element, whenFound) => {
   checkMutations([{ oldValue: "", target: element }])
 }
 
+const whenUrlChanged = (onChange, triggerOnSetup = false) => {
+  /* TODO: use listener instead of timeout */
+  let oldUrl = window.location.href
+  setInterval(_ => {
+    const newUrl = window.location.href
+    if (newUrl !== oldUrl) {
+      oldUrl = newUrl
+      onChange(newUrl)
+    }
+  }, 1000)
+  if (triggerOnSetup)
+    onChange(oldUrl)
+}
+
 module.exports = {
   whenElementLoaded,
   whenClassToggled,
-  whenSizeChanged
+  whenSizeChanged,
+  whenUrlChanged
 }

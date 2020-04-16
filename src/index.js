@@ -4,53 +4,63 @@ const createChatContainer = require('./chat_container')
 const createIframe = require('./iframe')
 const createToggle = require('./toggle')
 const { attachFrameStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
-const { whenElementLoaded, whenClassToggled } = require('./observer')
+const { whenElementLoaded, whenClassToggled, whenUrlChanged } = require('./observer')
 const { getSettings, setSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 
-const init = async _ => {
-  window._TCO.currentStream = ((window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1] || '').toLowerCase()
-  if (!window._TCO.currentStream)
+const getCurrentStream = _ => ((window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1] || '').toLowerCase()
+
+const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
+
+const disable = _ => removeClass(document.body, 'anu-chat-overlay-active')
+
+let enabled,
+    appendTo,
+    chatContainer,
+    iframe,
+    toggle
+
+const init = async currentStream => {
+  window._TCO.currentStream = currentStream
+  if (!currentStream)
     return
   await getSettings()
-  let enabled,
-      chatContainer
-
+  
   const initialSetup = _ => {
     const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),
           chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
-          appendTo = document.createElement('div')
-          appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode,
-          chatContainer = createChatContainer(),
-          iframe = createIframe(_ => {
-            const mouseEventsContainer = document.querySelector('.video-player__overlay')
-            makeResizable(chatContainer, mouseEventsContainer, iframe)
-            makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), {
-              onDragEnd: _ => setSettings('position', styleToSettings(chatContainer.style, STYLE_ATTRS.POSITION)),
-              excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
-            })
+          appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode
+    chatContainer = createChatContainer()
+    appendTo = document.createElement('div')
+    iframe = createIframe(_ => {
+      const mouseEventsContainer = document.querySelector('.video-player__overlay')
+      makeResizable(chatContainer, mouseEventsContainer, iframe)
+      makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), {
+        onDragEnd: _ => setSettings('position', styleToSettings(chatContainer.style, STYLE_ATTRS.POSITION)),
+        excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
+      })
 
-            attachFrameStyle(iframe)
-            iframe.style = ''
-            if (rightColumnCollapsed)
-              chatCollapser.click()
-            removeClass(chatContainer, 'loading')
-            whenElementLoaded(iframe.contentDocument.body, 'scrollable-trigger__wrapper', _ => {
-              const scrollbarHack = document.createElement('div')
-              scrollbarHack.className = 'scrollbar-hacky-hack'
-              iframe.contentDocument.body.querySelector('.scrollable-trigger__wrapper').after(scrollbarHack)
-            })
-            const html = document.querySelector('html'),
-                  iframeHtml = iframe.contentDocument.querySelector('html'),
-                  darkThemeClass = 'tw-root--theme-dark'
-            whenClassToggled(html, darkThemeClass, _ => {
-              if (hasClass(html, darkThemeClass))
-                addClass(iframeHtml, darkThemeClass)
-              else
-                removeClass(iframeHtml, darkThemeClass)
-            })
-          })
+      attachFrameStyle(iframe)
+      iframe.style = ''
+      if (rightColumnCollapsed)
+        chatCollapser.click()
+      removeClass(chatContainer, 'loading')
+      whenElementLoaded(iframe.contentDocument.body, 'scrollable-trigger__wrapper', _ => {
+        const scrollbarHack = document.createElement('div')
+        scrollbarHack.className = 'scrollbar-hacky-hack'
+        iframe.contentDocument.body.querySelector('.scrollable-trigger__wrapper').after(scrollbarHack)
+      })
+      const html = document.querySelector('html'),
+            iframeHtml = iframe.contentDocument.querySelector('html'),
+            darkThemeClass = 'tw-root--theme-dark'
+      whenClassToggled(html, darkThemeClass, _ => {
+        if (hasClass(html, darkThemeClass))
+          addClass(iframeHtml, darkThemeClass)
+        else
+          removeClass(iframeHtml, darkThemeClass)
+      })
+    })
           
     if (rightColumnCollapsed)
       chatCollapser.click()
@@ -67,11 +77,7 @@ const init = async _ => {
     appendTo.append(chatContainer)
   }
 
-  const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
-
-  const disable = _ => removeClass(document.body, 'anu-chat-overlay-active')
-
-  const toggle = createToggle()
+  toggle = createToggle()
   toggle.onclick = _ => {
     if (!chatContainer)
       initialSetup()
@@ -83,7 +89,32 @@ const init = async _ => {
   }
   document.querySelector('.player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
 
-  console.log(`Twitch Chat Overlay initialized for ${ window._TCO.currentStream }`)
+  console.log(`Twitch Chat Overlay initialized for ${ currentStream }`)
+
+  if (enabled) /* was enabled before the raid/scroll down */
+    initialSetup()
 }
 
-whenElementLoaded(document.body, 'player-controls__right-control-group', init)
+const cleanUp = _ => {
+  for (const p of document.querySelectorAll('.video-player__overlay .tco-modal'))
+    p.remove()
+  toggle?.remove()
+  if (appendTo) {
+    appendTo.remove()
+    console.log('Twitch Chat Overlay cleaned up')
+  }
+}
+
+whenElementLoaded(document.body, 'player-controls__right-control-group', _ => {
+  cleanUp()
+  init(getCurrentStream())
+})
+
+whenUrlChanged(async _ => {
+  const oldStream = window._TCO.currentStream,
+        newStream = getCurrentStream()
+  if (newStream === oldStream)
+    return
+  cleanUp()
+  init(newStream)
+}, false)
