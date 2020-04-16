@@ -310,7 +310,7 @@ module.exports = _ => {
     panel.querySelector('.save-settings-button').focus()
   }
 
-  document.body.append(panel)
+  document.querySelector('.video-player__overlay').append(panel)
   new SimpleBar(panel.querySelector('.settings-scroller'), {
     autoHide: false
   })
