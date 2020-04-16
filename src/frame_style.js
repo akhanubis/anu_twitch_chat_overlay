@@ -74,7 +74,7 @@ const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
   /* TEMP */
   // FONT: ['font-weight', 'font-size', 'color', 'font-family', 'text-shadow'],
-  FONT: ['color', 'text-shadow'],
+  FONT: ['color', 'text-shadow', 'font-weight'],
   BACKGROUND: ['background-color']
 }
 

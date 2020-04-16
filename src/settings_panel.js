@@ -8,6 +8,7 @@ const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
 const makeDraggable = require('./draggable')
 const createColorPicker = require('./color_picker')
+const { addClass, removeClass } = require('./class_utils')
 
 module.exports = _ => {
   const panel = document.createElement('div')
@@ -62,12 +63,42 @@ module.exports = _ => {
                 <div class="font-color-picker"></div>
               </div>
             </div>
+            <div class="settings-divider"></div>
             <div class="settings-row">
               <div class="settings-label">
                 Font outline
               </div>
               <div class="settings-input-container">
                 <div class="font-outline-color-picker"></div>
+              </div>
+            </div>
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Font weight
+              </div>
+              <div class="settings-input-container font-weight">
+                <button data-weight="normal" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Normal
+                    </div>
+                  </div>
+                </button>
+                <button data-weight="bold" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Bold
+                    </div>
+                  </div>
+                </button>
+                <button data-weight="bolder" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Bolder
+                    </div>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -98,8 +129,9 @@ module.exports = _ => {
 
   const backgroundColorPicker = createColorPicker(panel.querySelector('.background-color-picker'), color => applyBackground({ 'background-color': color })),
         onFontChange = _ => applyFont({
-          color: fontColorPicker.getColor(),
-          'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor())
+          'color': fontColorPicker.getColor(),
+          'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
+          'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-weight')
         }),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
         fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange)
@@ -128,6 +160,22 @@ module.exports = _ => {
     onDrag: _ => applyPositionToOriginal(chatModel.style)
   })
 
+  const weightButtons = panel.querySelectorAll('.font-weight button'),
+        enableSelectedFontWeight = currentWeight => {
+          for (const b of weightButtons) {
+            if (b.getAttribute('data-weight') === currentWeight)
+              addClass(b, 'tw-core-button--primary')
+            else
+              removeClass(b, 'tw-core-button--primary')
+          }
+        }
+
+  for (const b of weightButtons)
+    b.onclick = _ => {
+      enableSelectedFontWeight(b.getAttribute('data-weight'))
+      onFontChange()
+    }
+
   panel.querySelector('.save-settings-button').onclick = _ => {
     MicroModal.close('tco-settings-modal')
     setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
@@ -144,11 +192,12 @@ module.exports = _ => {
   }
 
   panel.showPanel = _ => {
-    const currentSettings = window._TCO.currentSettings
+    const currentSettings = window._TCO.currentSettings,
+          currentFontSettings = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })
+    enableSelectedFontWeight(currentFontSettings['font-weight'])
+    fontColorPicker.setColor(currentFontSettings['color'])
+    fontOutlineColorPicker.setColor(currentFontSettings['text-shadow'])
     backgroundColorPicker.setColor(settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color'])
-    fontColorPicker.setColor(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT)['color'])
-    console.log(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true }))
-    fontOutlineColorPicker.setColor(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })['text-shadow'])
 
     const chatContainer = document.querySelector('.anu-chat-overlay-container')
     for (const coord of ['left', 'right', 'top', 'bottom'])

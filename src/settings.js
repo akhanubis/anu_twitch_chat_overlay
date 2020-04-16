@@ -27,7 +27,7 @@ const getSettings = async _ => {
       'background-color': 'rgba(0, 0, 0, 0.25)'
     }, STYLE_ATTRS.BACKGROUND),
     font: styleToSettings({
-      'font-weight': 'inherit',
+      'font-weight': 'normal',
       'font-size': 'inherit',
       color: 'rgba(255, 255, 255, 1)',
       'font-family': 'inherit',

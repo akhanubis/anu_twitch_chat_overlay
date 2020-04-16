@@ -63,3 +63,8 @@
 .tco-settings-modal .modal__container .settings-input-container .settings-tip {
   margin-top: 10px;
 }
+
+#tco-settings-modal .settings-input-container.font-weight button.tw-core-button--primary:focus {
+  background-color: var(--color-background-button-primary-hover);
+  color: var(--color-text-button-primary);
+}
