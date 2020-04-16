@@ -26,7 +26,7 @@
 .tco-settings-modal .modal__container .settings-scroller {
   overflow-x: hidden;
   overflow-y: auto;
-  max-height: 350px;
+  height: 350px;
 }
 
 .tco-settings-modal .modal__container .settings-scroller .simplebar-content {
@@ -34,7 +34,7 @@
 }
 
 .tco-settings-modal .modal__container .settings-scroller .simplebar-placeholder {
-  display: none !important;
+  height: 0 !important;
 }
 
 .tco-settings-modal .modal__content {
