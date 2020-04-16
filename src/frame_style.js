@@ -73,7 +73,8 @@ const attachFrameStyle = iframe => {
 const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
   FONT: ['color', 'text-shadow', 'font-weight', 'font-family', 'font-size'],
-  BACKGROUND: ['background-color']
+  BACKGROUND: ['background-color'],
+  TOGGLES: ['username']
 }
 
 const SETTINGS_TO_STYLE_FN = {
@@ -82,6 +83,10 @@ const SETTINGS_TO_STYLE_FN = {
 
 const STYLE_TO_SETTINGS_FN = {
   'text-shadow': v => v.match(/(rgba\([^)]+\))/)[1]
+}
+
+const TOGGLES_SELECTORS = {
+  username: '.chat-line__message > *:nth-child(-n+3)'
 }
 
 const settingsToStyle = (settings, attrNames, { raw } = { raw: false }) => {
@@ -120,6 +125,11 @@ const applyFont = fontStyle => {
   applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message', fullStyle)
 }
 
+const applyToggles = toggles => {
+  for (const t in toggles)
+    applyStyle(iframeBody(), `toggleStyle-${ t }`, TOGGLES_SELECTORS[t], toggles[t] ? {} : { display: 'none' })
+}
+
 module.exports = {
   attachFrameStyle,
   settingsToStyle,
@@ -127,6 +137,7 @@ module.exports = {
   applyStyle,
   applyBackground,
   applyFont,
+  applyToggles,
   STYLE_ATTRS,
   SETTINGS_TO_STYLE_FN,
   STYLE_TO_SETTINGS_FN

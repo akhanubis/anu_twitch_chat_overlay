@@ -32,7 +32,10 @@ const getSettings = async _ => {
       color: 'rgba(255, 255, 255, 1)',
       'font-family': 'Roobert',
       'text-shadow': 'rgba(0, 0, 0, 1)'
-    }, STYLE_ATTRS.FONT)
+    }, STYLE_ATTRS.FONT),
+    toggles: styleToSettings({
+      username: true
+    }, STYLE_ATTRS.TOGGLES)
   }
   
   const storedSettings = await new Promise(r => chrome.storage.sync.get(['default', window._TCO.currentStream], r))

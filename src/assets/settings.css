@@ -19,21 +19,38 @@
   width: 100%;
 }
 
+.tco-settings-modal .modal__container .settings-divider.settings-main-divider {
+  margin-bottom: 0;
+}
+
 .tco-settings-modal .modal__container .settings-scroller {
   overflow: auto;
   max-height: 350px;
+}
+
+.tco-settings-modal .modal__content {
+  padding-bottom: 0;
+}
+
+.settings-scroller .settings-row:first-child {
+  padding-top: 10px;
+}
+
+.settings-scroller .settings-row:last-child {
+  padding-bottom: 10px;
 }
 
 .tco-settings-modal .modal__container .settings-input-container {
   padding-left: 10px;
   display: inline-block;
   vertical-align: middle;
+  width: 190px;
 }
 
 .tco-settings-modal .modal__container .settings-input-container .position-input {
   position: relative;
-  width: 160px;
-  height: 90px;
+  width: 180px;
+  height: calc(180px * 9 / 16);
   overflow: hidden;
 }
 
@@ -64,14 +81,14 @@
   margin-top: 10px;
 }
 
-#tco-settings-modal .settings-input-container.font-weight button.tw-core-button--primary:focus {
+#tco-settings-modal .settings-input-container button.tw-core-button--primary:focus {
   background-color: var(--color-background-button-primary-hover);
   color: var(--color-text-button-primary);
 }
 
 #tco-settings-modal .settings-input-container select {
   height: 35px;
-  width: 168.84px;
+  width: 180px;
   font-weight: bold;
   text-align-last: center;
   cursor: pointer;
@@ -92,4 +109,9 @@
 
 .tco-settings-modal .modal__container .settings-input-container .font-size-picker {
   width: 72px;
+}
+
+.tco-settings-modal .modal__container .settings-input-container.font-weight,
+.tco-settings-modal .modal__container .settings-input-container.username-toggle {
+  width: 190px;
 }

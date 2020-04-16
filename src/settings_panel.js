@@ -2,7 +2,7 @@ const MicroModal = require('micromodal').default
 const iro = require('@jaames/iro').default
 require('iro-transparency-plugin').default
 const { peepoPainter } = require('./images')
-const { applyBackground, applyFont, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
+const { applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
 const { setSettings } = require('./settings')
 const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
@@ -37,7 +37,7 @@ module.exports = _ => {
           <div class="settings-header">
             Tip: Keep the chat window to the sides of the screen so you can preview your changes
           </div>
-          <div class="settings-divider"></div>
+          <div class="settings-divider settings-main-divider"></div>
           <div class="settings-scroller">
             <div class="settings-row">
               <div class="settings-label">
@@ -108,24 +108,46 @@ module.exports = _ => {
                 Font weight
               </div>
               <div class="settings-input-container font-weight">
-                <button data-weight="normal" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="normal" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Normal
                     </div>
                   </div>
                 </button>
-                <button data-weight="bold" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="bold" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Bold
                     </div>
                   </div>
                 </button>
-                <button data-weight="bolder" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="bolder" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Bolder
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Hide usernames
+              </div>
+              <div class="settings-input-container username-toggle">
+                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Enabled
+                    </div>
+                  </div>
+                </button>
+                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Disabled
                     </div>
                   </div>
                 </button>
@@ -161,9 +183,12 @@ module.exports = _ => {
         onFontChange = _ => applyFont({
           'color': fontColorPicker.getColor(),
           'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
-          'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-weight'),
+          'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-b-value'),
           'font-family': fontFamilyPicker.value,
           'font-size': `${ fontSizePicker.value }px`
+        }),
+        onToggleChange = _ => applyToggles({
+          username: panel.querySelector('.username-toggle button.tw-core-button--primary').getAttribute('data-b-value') === 'true'
         }),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
         fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange),
@@ -195,20 +220,23 @@ module.exports = _ => {
   })
 
   const weightButtons = panel.querySelectorAll('.font-weight button'),
-        enableSelectedFontWeight = currentWeight => {
-          for (const b of weightButtons) {
-            if (b.getAttribute('data-weight') === currentWeight)
+        usernameButtons = panel.querySelectorAll('.username-toggle button')
+        enableSelectedButton = (selected, buttons, onChange) => {
+          const currentValue = selected.getAttribute('data-b-value')
+          for (const b of buttons) {
+            if (b.getAttribute('data-b-value') === currentValue)
               addClass(b, 'tw-core-button--primary')
             else
               removeClass(b, 'tw-core-button--primary')
           }
+          if (onChange)
+            onChange()
         }
 
   for (const b of weightButtons)
-    b.onclick = _ => {
-      enableSelectedFontWeight(b.getAttribute('data-weight'))
-      onFontChange()
-    }
+    b.onclick = _ => enableSelectedButton(b, weightButtons, onFontChange)
+  for (const b of usernameButtons)
+    b.onclick = _ => enableSelectedButton(b, usernameButtons, onToggleChange)
 
   fontFamilyPicker.onchange = onFontChange
 
@@ -232,7 +260,8 @@ module.exports = _ => {
   panel.showPanel = _ => {
     const currentSettings = window._TCO.currentSettings,
           currentFontSettings = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })
-    enableSelectedFontWeight(currentFontSettings['font-weight'])
+    enableSelectedButton(panel.querySelector(`.font-weight button[data-b-value="${ currentFontSettings['font-weight'] }"]`), weightButtons)
+    enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(currentSettings.toggles, STYLE_ATTRS.TOGGLES).username ? 'true' : 'false' }"]`), usernameButtons)
     fontFamilyPicker.value = currentFontSettings['font-family']
     fontSizePicker.value = parseFloat(currentFontSettings['font-size'])
     fontColorPicker.setColor(currentFontSettings['color'])
