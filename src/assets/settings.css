@@ -68,3 +68,24 @@
   background-color: var(--color-background-button-primary-hover);
   color: var(--color-text-button-primary);
 }
+
+#tco-settings-modal .settings-input-container select {
+  height: 35px;
+  width: 168.84px;
+  font-weight: bold;
+  text-align-last: center;
+  cursor: pointer;
+}
+
+#tco-settings-modal .settings-input-container option {
+  background-color: var(--color-background-input-focus);
+}
+
+#tco-settings-modal .IroWheelSaturation,
+#tco-settings-modal .IroSliderBg {
+  cursor: pointer;
+}
+
+#tco-settings-modal .IroHandle {
+  cursor: grab;
+}

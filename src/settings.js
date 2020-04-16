@@ -30,7 +30,7 @@ const getSettings = async _ => {
       'font-weight': 'normal',
       'font-size': 'inherit',
       color: 'rgba(255, 255, 255, 1)',
-      'font-family': 'inherit',
+      'font-family': 'Roobert',
       'text-shadow': 'rgba(0, 0, 0, 1)'
     }, STYLE_ATTRS.FONT)
   }

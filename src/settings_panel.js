@@ -10,6 +10,15 @@ const makeDraggable = require('./draggable')
 const createColorPicker = require('./color_picker')
 const { addClass, removeClass } = require('./class_utils')
 
+const FONT_FAMILIES = {
+  Default: 'Roobert',
+  Monospace: 'monospace',
+  'Sans-serif': 'sans-serif',
+  'Serif': 'serif',
+  Cursive: 'cursive',
+  Fantasy: 'fantasy'
+}
+
 module.exports = _ => {
   const panel = document.createElement('div')
   panel.id = 'tco-settings-modal'
@@ -52,6 +61,18 @@ module.exports = _ => {
               </div>
               <div class="settings-input-container">
                 <div class="background-color-picker"></div>
+              </div>
+            </div>
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Font family
+              </div>
+              <div class="settings-input-container">
+                <select class="font-family-picker tw-block tw-border-radius-medium tw-font-size-6 tw-textarea tw-textarea--no-resize">
+                  ${Object.entries(FONT_FAMILIES).map(([label, value]) => `<option value="${ value }">${ label }</option>`)}
+                </select>
+                <div class="settings-tip">Drop me a DM if you would like to use custom fonts</div>
               </div>
             </div>
             <div class="settings-divider"></div>
@@ -131,10 +152,12 @@ module.exports = _ => {
         onFontChange = _ => applyFont({
           'color': fontColorPicker.getColor(),
           'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
-          'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-weight')
+          'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-weight'),
+          'font-family': fontFamilyPicker.value
         }),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
-        fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange)
+        fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange),
+        fontFamilyPicker = panel.querySelector('.font-family-picker')
 
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
@@ -176,6 +199,8 @@ module.exports = _ => {
       onFontChange()
     }
 
+  fontFamilyPicker.onchange = onFontChange
+
   panel.querySelector('.save-settings-button').onclick = _ => {
     MicroModal.close('tco-settings-modal')
     setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
@@ -195,6 +220,7 @@ module.exports = _ => {
     const currentSettings = window._TCO.currentSettings,
           currentFontSettings = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })
     enableSelectedFontWeight(currentFontSettings['font-weight'])
+    fontFamilyPicker.value = currentFontSettings['font-family']
     fontColorPicker.setColor(currentFontSettings['color'])
     fontOutlineColorPicker.setColor(currentFontSettings['text-shadow'])
     backgroundColorPicker.setColor(settingsToStyle(currentSettings.background, STYLE_ATTRS.BACKGROUND)['background-color'])
