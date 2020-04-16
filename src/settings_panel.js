@@ -169,7 +169,7 @@ module.exports = _ => {
             <button class="save-settings-button tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-core-button--primary tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
               <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                 <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                  Apply
+                  Apply to ${ window._TCO.currentStream }
                 </div>
               </div>
             </button>
@@ -183,17 +183,18 @@ module.exports = _ => {
         onFontChange = _ => applyFont({
           'color': fontColorPicker.getColor(),
           'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
-          'font-weight': panel.querySelector('.font-weight button.tw-core-button--primary').getAttribute('data-b-value'),
+          'font-weight': currentButton('.font-weight'),
           'font-family': fontFamilyPicker.value,
           'font-size': `${ fontSizePicker.value }px`
         }),
         onToggleChange = _ => applyToggles({
-          username: panel.querySelector('.username-toggle button.tw-core-button--primary').getAttribute('data-b-value') === 'true'
+          username: currentButton('.username-toggle')
         }),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
         fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange),
         fontFamilyPicker = panel.querySelector('.font-family-picker'),
-        fontSizePicker = panel.querySelector('.font-size-picker')
+        fontSizePicker = panel.querySelector('.font-size-picker'),
+        currentButton = containerSelector => panel.querySelector(`${ containerSelector } button.tw-core-button--primary`).getAttribute('data-b-value')
 
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
@@ -244,9 +245,19 @@ module.exports = _ => {
 
   panel.querySelector('.save-settings-button').onclick = _ => {
     MicroModal.close('tco-settings-modal')
-    setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.color.rgbaString }, STYLE_ATTRS.BACKGROUND))
-    // setSettings('font', styleToSettings({ 'color': fontColorPicker.color.rgbaString }, STYLE_ATTRS.FONT))
+    setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.getColor() }, STYLE_ATTRS.BACKGROUND))
     setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
+    setSettings('toggles', styleToSettings({
+      username: currentButton('.username-toggle')
+    }, STYLE_ATTRS.TOGGLES)),
+    setSettings('font', styleToSettings({
+      'color': fontColorPicker.getColor(),
+      'text-shadow': fontOutlineColorPicker.getColor(),
+      'font-weight': currentButton('.font-weight'),
+      'font-family': fontFamilyPicker.value,
+      'font-size': `${ fontSizePicker.value }px`
+    }, STYLE_ATTRS.FONT))
+    
   }
 
   panel.querySelector('.cancel-settings-button').onclick = _ => {
@@ -254,14 +265,15 @@ module.exports = _ => {
     const currentSettings = window._TCO.currentSettings
     applyPositionToOriginal(settingsToStyle(currentSettings.position, STYLE_ATTRS.POSITION))
     applyBackground({ 'background-color': currentSettings.background })
-    // applyFont(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT))
+    applyFont(settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT))
+    applyToggles(settingsToStyle(currentSettings.toggles, STYLE_ATTRS.TOGGLES))
   }
 
   panel.showPanel = _ => {
     const currentSettings = window._TCO.currentSettings,
           currentFontSettings = settingsToStyle(currentSettings.font, STYLE_ATTRS.FONT, { raw: true })
     enableSelectedButton(panel.querySelector(`.font-weight button[data-b-value="${ currentFontSettings['font-weight'] }"]`), weightButtons)
-    enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(currentSettings.toggles, STYLE_ATTRS.TOGGLES).username ? 'true' : 'false' }"]`), usernameButtons)
+    enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(currentSettings.toggles, STYLE_ATTRS.TOGGLES).username }"]`), usernameButtons)
     fontFamilyPicker.value = currentFontSettings['font-family']
     fontSizePicker.value = parseFloat(currentFontSettings['font-size'])
     fontColorPicker.setColor(currentFontSettings['color'])

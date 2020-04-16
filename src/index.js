@@ -12,6 +12,7 @@ const makeResizable = require('./resizable')
 const init = async _ => {
   window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
   await getSettings()
+  console.log(window._TCO.currentSettings)
   let enabled,
       chatContainer
 

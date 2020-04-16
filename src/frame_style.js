@@ -127,7 +127,7 @@ const applyFont = fontStyle => {
 
 const applyToggles = toggles => {
   for (const t in toggles)
-    applyStyle(iframeBody(), `toggleStyle-${ t }`, TOGGLES_SELECTORS[t], toggles[t] ? {} : { display: 'none' })
+    applyStyle(iframeBody(), `toggleStyle-${ t }`, TOGGLES_SELECTORS[t], toggles[t] === 'true' ? {} : { display: 'none' })
 }
 
 module.exports = {
