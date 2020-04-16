@@ -10,7 +10,9 @@ const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 
 const init = async _ => {
-  window._TCO.currentStream = (window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1].toLowerCase()
+  window._TCO.currentStream = ((window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1] || '').toLowerCase()
+  if (!window._TCO.currentStream)
+    return
   await getSettings()
   let enabled,
       chatContainer

@@ -2,10 +2,10 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
-    left: '0%',
-    right: '75%',
-    top: '25%',
-    bottom: '25%'
+    left: '75%',
+    right: '0%',
+    top: '10%',
+    bottom: '10%'
   }, STYLE_ATTRS.POSITION),
   background: styleToSettings({
     'background-color': 'rgba(0, 0, 0, 0.25)'
