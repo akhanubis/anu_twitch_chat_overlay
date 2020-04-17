@@ -1,5 +1,9 @@
 const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
+const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
+
+const VERSION = "0.0.1-germanica"
+
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
     left: '75%',
@@ -47,5 +51,7 @@ const getSettings = async _ => {
 module.exports = {
   setSettings,
   getSettings,
-  DEFAULT_SETTINGS
+  DEFAULT_SETTINGS,
+  ISSUES_TRACKER_LINK,
+  VERSION
 }

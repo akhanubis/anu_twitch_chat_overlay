@@ -1,0 +1,39 @@
+.tco-about-modal .modal__container {
+  width: 350px;
+}
+
+.tco-about-modal .modal__content {
+  height: 150px;
+}
+
+.tco-about-modal .modal__container .header .logo {
+  top: 14px;
+  left: calc(50% + 34.24px);
+}
+
+.tco-about-modal .modal__footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.tco-about-modal .modal__footer .right-buttons {
+  display: inline-flex;
+}
+
+.tco-about-modal .modal__content p {
+  padding: 10px 0;
+}
+
+.tco-about-modal .modal__content p img.inline-image {
+  width: 24.84px;
+  margin-top: -10px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.tco-about-modal .modal__footer .version-label {
+  line-height: 30px;
+  font-size: 9px;
+  opacity: 0.5;
+}
