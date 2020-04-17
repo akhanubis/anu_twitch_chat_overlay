@@ -23,10 +23,5 @@
     "16": "assets/pepoG_16x16.png",
     "48": "assets/pepoG_48x48.png",
     "128": "assets/pepoG_128x128.png"
-  },
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "bianciottopablo2@gmail.com"
-    }
   }
 }
