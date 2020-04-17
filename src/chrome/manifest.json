@@ -1,6 +1,9 @@
 {
   "name": "Twitch Chat Overlay",
   "version": "0.0.1",
+  "version_name": "0.0.1-germanica",
+  "description": "Show Twitch chat on top of your favorite stream. Keep up with chat, send messages, and more, without leaving fullscreen mode (or expanding sidebar chat).\nCustomize position, font, background on a per stream basis and sync and store your preferences accross your devices.",
+  "author": "Pablo Bianciotto",
   "permissions": [
     "*://*.twitch.tv/",
     "storage"
@@ -22,6 +25,6 @@
   "icons": {
     "16": "assets/pepoG_16x16.png",
     "48": "assets/pepoG_48x48.png",
-    "128": "assets/pepoG_128x128.png"
+    "128": "assets/pepoG_128x128_96.png"
   }
 }
