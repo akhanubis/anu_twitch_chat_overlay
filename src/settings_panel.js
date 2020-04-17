@@ -33,7 +33,7 @@ module.exports = _ => {
           </div>
           <img class="logo" src="${ peepoPainter }">
           <div class="about-us-icon" aria-describedby="about-us-icon-tooltip">
-            <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="About TCO">
+            <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="About ATCO">
               <span class="tw-button-icon__icon">
                 <div style="width: 2rem; height: 2rem;">
                   <div class="tw-align-items-center tw-full-width tw-icon tw-icon--fill tw-inline-flex">
@@ -45,7 +45,7 @@ module.exports = _ => {
                 </div>
               </span>
             </button>
-            <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--down" data-a-target="tw-tooltip-label" role="tooltip" id="about-us-icon-tooltip">About TCO</div>
+            <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--down" data-a-target="tw-tooltip-label" role="tooltip" id="about-us-icon-tooltip">About ATCO</div>
           </div>
         </header>
         <main class="modal__content chat-room tw-flex tw-flex-column tw-flex-grow-1 tw-flex-shrink-1 tw-full-width" id="tco-settings-modal-content">

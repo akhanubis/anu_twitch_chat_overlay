@@ -12,7 +12,7 @@ module.exports = _ => {
       <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="tco-about-modal-label">
         <header class="header stream-chat-header tw-align-items-center tw-border-b tw-c-background-base tw-full-width">
           <div class="title tw-c-text-alt tw-font-size-6 tw-semibold tw-upcase">
-            About TCO
+            About ATCO
           </div>
           <img class="logo" src="${ peepoWeird }">
         </header>

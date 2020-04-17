@@ -89,7 +89,7 @@ const init = async currentStream => {
   }
   document.querySelector('.player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
 
-  console.log(`Twitch Chat Overlay initialized for ${ currentStream }`)
+  console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
 
   if (enabled) /* was enabled before the raid/scroll down */
     initialSetup()
@@ -101,7 +101,7 @@ const cleanUp = _ => {
   toggle?.remove()
   if (appendTo) {
     appendTo.remove()
-    console.log('Twitch Chat Overlay cleaned up')
+    console.log('Anu Twitch Chat Overlay cleaned up')
   }
 }
 
