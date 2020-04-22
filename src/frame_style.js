@@ -65,6 +65,14 @@ const attachFrameStyle = iframe => {
   body.anu-chat-overlay-inner .chat-list__list-container .scrollbar-hacky-hack {
     width: 4000px;
   }
+
+  body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message .tw-elevation-1 {
+    box-shadow: none !important;
+  }
+
+  body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message .tw-elevation-1 .tw-c-background-base {
+    background-color: rgba(0, 0, 0, 0) !important;
+  }
 `
   iframe.contentDocument.head.prepend(style)
   addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
