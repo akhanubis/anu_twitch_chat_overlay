@@ -1,7 +1,7 @@
 {
   "name": "Anu Twitch Chat Overlay",
-  "version": "0.0.3.1",
-  "version_name": "0.0.3-gallica",
+  "version": "0.1.0",
+  "version_name": "0.1.0-fretensis",
   "description": "Show Twitch chat on top of your favorite stream. Keep up with chat, send messages, and more, without leaving fullscreen mode",
   "author": "Pablo Bianciotto",
   "permissions": [
@@ -16,10 +16,12 @@
       "assets/resizable.css",
       "assets/modal.css",
       "assets/settings.css",
-      "assets/about.css"
+      "assets/about.css",
+      "assets/vod.css"
     ],
     "js": [
-      "index.js"
+      "index.js",
+      "vod.js"
     ]
   }],
   "icons": {

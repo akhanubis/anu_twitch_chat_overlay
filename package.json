@@ -1,11 +1,11 @@
 {
   "name": "twitch_chat_overlay",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Anu Twitch Chat Overlay",
   "main": "app.js",
   "scripts": {
-    "package:chrome": "shx rm -rf dist/chrome && shx cp -rf src/chrome dist/chrome && shx cp -rf src/assets dist/chrome/assets && shx cp dist/index.js dist/chrome/index.js && cd dist/chrome && 7z a -r ./twitch_chat_overlay.zip",
-    "package:firefox": "shx rm -rf dist/firefox && shx cp -rf src/firefox dist/firefox && shx cp -rf src/assets dist/firefox/assets && shx cp dist/index.js dist/firefox/index.js && cd dist/firefox && 7z a -r ./twitch_chat_overlay.zip",
+    "package:chrome": "shx rm -rf dist/chrome && shx cp -rf src/chrome dist/chrome && shx cp -rf src/assets dist/chrome/assets && shx cp dist/*.js dist/chrome && cd dist/chrome && 7z a -r ./twitch_chat_overlay.zip",
+    "package:firefox": "shx rm -rf dist/firefox && shx cp -rf src/firefox dist/firefox && shx cp -rf src/assets dist/firefox/assets && shx cp dist/*.js dist/firefox && cd dist/firefox && 7z a -r ./twitch_chat_overlay.zip",
     "build": "webpack",
     "build:all": "npm run build && npm run package:chrome && npm run package:firefox"
   },

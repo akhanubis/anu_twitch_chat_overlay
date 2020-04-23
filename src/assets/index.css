@@ -70,6 +70,7 @@ body.dragging-chat * {
 }
 
 .anu-chat-overlay-active .anu-chat-overlay-container .header {
+  z-index: 1000;
   display: none;
   position: absolute;
   height: 50px;

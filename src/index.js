@@ -3,13 +3,12 @@ const { addClass, removeClass, hasClass } = require('./class_utils')
 const createChatContainer = require('./chat_container')
 const createIframe = require('./iframe')
 const createToggle = require('./toggle')
-const { attachFrameStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
+const { attachBaseStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
 const { whenElementLoaded, whenClassToggled, whenUrlChanged } = require('./observer')
 const { getSettings, setSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
-
-const getCurrentStream = _ => ((window.location.href.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1] || '').toLowerCase()
+const { inVOD, getCurrentStream } = require('./current_page')
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
 
@@ -22,6 +21,8 @@ let enabled,
     toggle
 
 const init = async currentStream => {
+  if (inVOD())
+    return
   window._TCO.currentStream = currentStream
   if (!currentStream)
     return
@@ -41,7 +42,7 @@ const init = async currentStream => {
         excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
       })
 
-      attachFrameStyle(iframe)
+      attachBaseStyle(iframe.contentDocument.body)
       iframe.style = ''
       if (rightColumnCollapsed)
         chatCollapser.click()

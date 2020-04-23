@@ -1,81 +1,82 @@
 const { addClass } = require('./class_utils')
 
-const attachFrameStyle = iframe => {
+const attachBaseStyle = element => {
   const style = document.createElement('style')
   style.id = 'tco-base-style'
+  addClass(style, 'atco-injected-style')
   style.innerHTML = `
-  body.anu-chat-overlay-inner {
+  .anu-chat-overlay-inner {
     background: none !important;
   }
 
-  body.anu-chat-overlay-inner .stream-chat-header,
-  body.anu-chat-overlay-inner .channel-leaderboard,
-  body.anu-chat-overlay-inner .simplebar-track.horizontal,
-  body.anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
+  .anu-chat-overlay-inner .stream-chat-header,
+  .anu-chat-overlay-inner .channel-leaderboard,
+  .anu-chat-overlay-inner .simplebar-track.horizontal,
+  .anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
     display: none !important;
   }
 
-  body.anu-chat-overlay-inner * {
+  .anu-chat-overlay-inner * {
     visibility: hidden;
   }
 
-  body.anu-chat-overlay-inner.hovered * {
+  .anu-chat-overlay-inner.hovered * {
     visibility: visible;
   }
 
-  body.anu-chat-overlay-inner .chat-input {
+  .anu-chat-overlay-inner .chat-input {
     display: none !important;
   }
 
-  body.anu-chat-overlay-inner.hovered .chat-input {
+  .anu-chat-overlay-inner.hovered .chat-input {
     display: block !important;
   }
 
-  body.anu-chat-overlay-inner .simplebar-scroll-content {
+  .anu-chat-overlay-inner .simplebar-scroll-content {
     margin-bottom: -17px !important;
     margin-right: -17px !important;
     padding-right: 0 !important;
     overflow-x: hidden;
   }
 
-  body.anu-chat-overlay-inner .simplebar-content {
+  .anu-chat-overlay-inner .simplebar-content {
     visibility: visible;
     padding-bottom: 0 !important;
     margin-bottom: -5px;
     color: white;
   }
 
-  body.anu-chat-overlay-inner.hovered .simplebar-content {
+  .anu-chat-overlay-inner.hovered .simplebar-content {
     color: inherit;
   }
 
-  body.anu-chat-overlay-inner .simplebar-content * {
+  .anu-chat-overlay-inner .simplebar-content * {
     visibility: visible;
   }
 
-  body.anu-chat-overlay-inner .chat-list__list-container > * {
+  .anu-chat-overlay-inner .chat-list__list-container > * {
     padding-left: 5px;
     padding-right: 5px;
   }
 
-  body.anu-chat-overlay-inner.hovered .simplebar-content {
+  .anu-chat-overlay-inner.hovered .simplebar-content {
     background-color: unset;
   }
 
-  body.anu-chat-overlay-inner .chat-list__list-container .scrollbar-hacky-hack {
+  .anu-chat-overlay-inner .chat-list__list-container .scrollbar-hacky-hack {
     width: 4000px;
   }
 
-  body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message .tw-elevation-1 {
+  .anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message .tw-elevation-1 {
     box-shadow: none !important;
   }
 
-  body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message .tw-elevation-1 .tw-c-background-base {
+  .anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message .tw-elevation-1 .tw-c-background-base {
     background-color: rgba(0, 0, 0, 0) !important;
   }
 `
-  iframe.contentDocument.head.prepend(style)
-  addClass(iframe.contentDocument.body, 'anu-chat-overlay-inner')
+  element.append(style)
+  addClass(element, 'anu-chat-overlay-inner')
 }
 
 const STYLE_ATTRS = {
@@ -118,18 +119,19 @@ const applyStyle = (body, id, selector, style) => {
   if (!existingStyleNode) {
     existingStyleNode = document.createElement('style')
     existingStyleNode.id = fullId
+    addClass(existingStyleNode, 'atco-injected-style')
     body.append(existingStyleNode)
   }
   existingStyleNode.innerHTML = css
 }
 
-const iframeBody = _ => document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
+const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atco-dettached') || document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
 
-const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content', backgroundStyle)
+const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper', backgroundStyle)
 
 const applyFont = fontStyle => {
   const fullStyle = { ...fontStyle, 'line-height': `calc(${ fontStyle['font-size'] } * 5 / 3)` }
-  applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message', fullStyle)
+  applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list__list-container .chat-line__message, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper .vod-message', fullStyle)
 }
 
 const applyToggles = toggles => {
@@ -138,7 +140,7 @@ const applyToggles = toggles => {
 }
 
 module.exports = {
-  attachFrameStyle,
+  attachBaseStyle,
   settingsToStyle,
   styleToSettings,
   applyStyle,

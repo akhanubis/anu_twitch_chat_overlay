@@ -7,7 +7,7 @@
 .anu-chat-overlay-container .resize-right,
 .anu-chat-overlay-container .resize-top,
 .anu-chat-overlay-container .resize-bottom {
-  z-index: 1;
+  z-index: 1001;
   background-color: transparent;
   position: absolute;
 }
@@ -45,11 +45,11 @@
 .anu-chat-overlay-container .resize-top.resize-left,
 .anu-chat-overlay-container .resize-bottom.resize-right {
   cursor: nwse-resize;
-  z-index: 2;
+  z-index: 1002;
 }
 
 .anu-chat-overlay-container .resize-top.resize-right,
 .anu-chat-overlay-container .resize-bottom.resize-left {
   cursor: nesw-resize;
-  z-index: 2;
+  z-index: 1002;
 }

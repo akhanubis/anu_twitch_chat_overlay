@@ -1,0 +1,14 @@
+.anu-chat-overlay-container .video-chat__message-list-wrapper::-webkit-scrollbar {
+  width: 0;
+}
+
+.anu-chat-overlay-container .video-chat__message-list-wrapper {
+  margin-right: 0;
+  scrollbar-width: none;
+}
+
+.anu-chat-overlay-container .atco-dettached .video-chat__message .tw-tooltip {
+  background-color: var(--color-background-tooltip);
+  color: var(--color-text-tooltip);
+  text-shadow: none;
+}
