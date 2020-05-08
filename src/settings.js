@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.1.0-fretensis"
+const VERSION = "0.1.1-claudia"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({

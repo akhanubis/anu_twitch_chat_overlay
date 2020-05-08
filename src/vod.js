@@ -33,7 +33,7 @@ const init = async currentVOD => {
   await getSettings()
   
   const initialSetup = _ => {
-    const appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode
+    const appendToParent = document.querySelector('[data-a-target="player-controls"]').parentNode.parentNode
     chatElement = document.querySelector('.video-chat__message-list-wrapper').parentNode
     initialParent = chatElement.parentNode
     addClass(chatElement, 'atco-dettached')

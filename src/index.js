@@ -31,7 +31,7 @@ const init = async currentStream => {
   const initialSetup = _ => {
     const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),
           chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
-          appendToParent = document.querySelector('.player-controls').parentNode.parentNode.parentNode
+          appendToParent = document.querySelector('[data-a-target="player-controls"]').parentNode.parentNode
     chatContainer = createChatContainer()
     appendTo = document.createElement('div')
     iframe = createIframe(_ => {
