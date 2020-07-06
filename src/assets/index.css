@@ -16,6 +16,10 @@ body.dragging-chat * {
   display: none;
 }
 
+#anu-chat-overlay-toggle svg {
+  fill: rgba(255, 255, 255, 1);
+}
+
 .anu-chat-overlay-active .anu-chat-overlay-container {
   display: block;
 }
