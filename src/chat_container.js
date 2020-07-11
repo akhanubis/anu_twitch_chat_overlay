@@ -1,6 +1,7 @@
 const createHeader = require('./header')
 const createLoader = require('./loader')
 const { settingsToStyle, STYLE_ATTRS } = require('./frame_style')
+const { POGGIES } = require('./images')
 
 module.exports = _ => {
   const container = document.createElement('div')
@@ -15,7 +16,7 @@ module.exports = _ => {
     <div class="resize-handler resize-right resize-bottom"></div>
     <div class="resize-handler resize-right resize-top"></div>
   `
-  container.append(createHeader(), createLoader('Loading chat'))
+  container.append(createHeader(), createLoader('Now with auto claim Channel Points', POGGIES))
   
   const initialStyle = settingsToStyle(window._TCO.currentSettings.position, STYLE_ATTRS.POSITION)
   for (const coord of ['left', 'right', 'top', 'bottom'])

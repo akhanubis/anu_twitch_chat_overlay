@@ -50,7 +50,7 @@ module.exports = _ => {
         </header>
         <main class="modal__content chat-room tw-flex tw-flex-column tw-flex-grow-1 tw-flex-shrink-1 tw-full-width" id="tco-settings-modal-content">
           <div class="settings-header">
-            <div>Settings are synced accross your devices and stored on a per stream basis.</div>
+            <div>Settings are synced across your devices and stored on a per stream basis.</div>
             <div>Tip: Keep the chat window to the sides of the screen so you can preview your changes.</div>
           </div>
           <div class="settings-divider settings-main-divider"></div>
@@ -77,6 +77,28 @@ module.exports = _ => {
               </div>
               <div class="settings-input-container">
                 <div class="background-color-picker"></div>
+              </div>
+            </div>
+            <div class="settings-divider"></div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Auto claim channel points
+              </div>
+              <div class="settings-input-container autoclaim-toggle">
+                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Enabled
+                    </div>
+                  </div>
+                </button>
+                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Disabled
+                    </div>
+                  </div>
+                </button>
               </div>
             </div>
             <div class="settings-divider"></div>
@@ -219,6 +241,7 @@ module.exports = _ => {
         onToggleChange = _ => applyToggles({
           username: currentButton('.username-toggle')
         }),
+        onAutoclaimChange = _ => applyAutoclaim(currentButton('.autoclaim-toggle')),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
         fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange),
         fontFamilyPicker = panel.querySelector('.font-family-picker'),
@@ -228,11 +251,12 @@ module.exports = _ => {
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
     
-  applyPositionToOriginal = style => {
-    const chatContainer = document.querySelector('.anu-chat-overlay-container')
-    for (const coord of ['left', 'right', 'top', 'bottom'])
-      chatContainer.style[coord] = style[coord]
-  }
+  const applyPositionToOriginal = style => {
+          const chatContainer = document.querySelector('.anu-chat-overlay-container')
+          for (const coord of ['left', 'right', 'top', 'bottom'])
+            chatContainer.style[coord] = style[coord]
+        },
+        applyAutoclaim = stringifiedValue => window._TCO.autoClaimManager[stringifiedValue === 'true' ? 'start' : 'stop']()
 
   whenSizeChanged(chatModel, _ => {
     const minX = Math.min(Math.max(chatModel.offsetLeft, 0), viewportModel.clientWidth),
@@ -250,7 +274,8 @@ module.exports = _ => {
   })
 
   const weightButtons = panel.querySelectorAll('.font-weight button'),
-        usernameButtons = panel.querySelectorAll('.username-toggle button')
+        usernameButtons = panel.querySelectorAll('.username-toggle button'),
+        autoclaimButtons = panel.querySelectorAll('.autoclaim-toggle button'),
         enableSelectedButton = (selected, buttons, onChange) => {
           const currentValue = selected.getAttribute('data-b-value')
           for (const b of buttons) {
@@ -267,6 +292,8 @@ module.exports = _ => {
     b.onclick = _ => enableSelectedButton(b, weightButtons, onFontChange)
   for (const b of usernameButtons)
     b.onclick = _ => enableSelectedButton(b, usernameButtons, onToggleChange)
+  for (const b of autoclaimButtons)
+    b.onclick = _ => enableSelectedButton(b, autoclaimButtons, onAutoclaimChange)
 
   fontFamilyPicker.onchange = onFontChange
 
@@ -277,7 +304,8 @@ module.exports = _ => {
     setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.getColor() }, STYLE_ATTRS.BACKGROUND))
     setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
     setSettings('toggles', styleToSettings({
-      username: currentButton('.username-toggle')
+      username: currentButton('.username-toggle'),
+      autoclaim: currentButton('.autoclaim-toggle')
     }, STYLE_ATTRS.TOGGLES)),
     setSettings('font', styleToSettings({
       'color': fontColorPicker.getColor(),
@@ -286,7 +314,6 @@ module.exports = _ => {
       'font-family': fontFamilyPicker.value,
       'font-size': `${ fontSizePicker.value }px`
     }, STYLE_ATTRS.FONT))
-    
   }
 
   const rollbackToSettings = settings => {
@@ -294,12 +321,14 @@ module.exports = _ => {
     applyBackground({ 'background-color': settings.background })
     applyFont(settingsToStyle(settings.font, STYLE_ATTRS.FONT))
     applyToggles(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES))
+    applyAutoclaim(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).autoclaim)
   }
 
   const initInputs = settings => {
     const fontSettings = settingsToStyle(settings.font, STYLE_ATTRS.FONT, { raw: true })
     enableSelectedButton(panel.querySelector(`.font-weight button[data-b-value="${ fontSettings['font-weight'] }"]`), weightButtons)
     enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).username }"]`), usernameButtons)
+    enableSelectedButton(panel.querySelector(`.autoclaim-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).autoclaim }"]`), autoclaimButtons)
     fontFamilyPicker.value = fontSettings['font-family']
     fontSizePicker.value = parseFloat(fontSettings['font-size'])
     fontColorPicker.setColor(fontSettings['color'])

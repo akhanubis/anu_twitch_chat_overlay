@@ -1,4 +1,4 @@
-module.exports = text => {
+module.exports = (text, image) => {
   const loader = document.createElement('div')
   loader.className = 'loader'
   loader.innerHTML = `
@@ -7,7 +7,7 @@ module.exports = text => {
         ${ text }
       </div>
       <div class="loader-image">
-        <img src="https://cdn.betterttv.net/emote/5e37903f61ff6b51e652837c/2x">
+        <img src="${ image }">
       </div>
     </div>
   `

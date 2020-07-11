@@ -1,8 +1,8 @@
 {
   "name": "Anu Twitch Chat Overlay",
-  "version": "0.1.2",
-  "version_name": "0.1.2-fulminata",
-  "description": "Show Twitch chat on top of your favorite stream. Keep up with chat, send messages, and more, without leaving fullscreen mode",
+  "version": "0.2.0",
+  "version_name": "0.2.0-valeria-victrix",
+  "description": "Show Twitch chat on top of the stream player. Read chat, send messages, claim points, and more, without leaving fullscreen mode",
   "author": "Pablo Bianciotto",
   "permissions": [
     "*://*.twitch.tv/",

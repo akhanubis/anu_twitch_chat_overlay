@@ -9,6 +9,7 @@ const { getSettings, setSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 const { inVOD, getCurrentStream } = require('./current_page')
+const setupAutoClaimManager = require('./claim_points')
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
 
@@ -27,6 +28,7 @@ const init = async currentStream => {
   if (!currentStream)
     return
   await getSettings()
+  setupAutoClaimManager()
   
   const initialSetup = _ => {
     const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),

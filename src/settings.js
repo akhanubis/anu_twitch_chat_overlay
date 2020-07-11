@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.1.2-fulminata"
+const VERSION = "0.2.0-valeria-victrix"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
@@ -22,7 +22,8 @@ const DEFAULT_SETTINGS = {
     'text-shadow': 'rgba(0, 0, 0, 1)'
   }, STYLE_ATTRS.FONT),
   toggles: styleToSettings({
-    username: true
+    username: true,
+    autoclaim: false
   }, STYLE_ATTRS.TOGGLES)
 }
 

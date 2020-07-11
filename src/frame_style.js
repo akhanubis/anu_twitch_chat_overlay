@@ -83,7 +83,7 @@ const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
   FONT: ['color', 'text-shadow', 'font-weight', 'font-family', 'font-size'],
   BACKGROUND: ['background-color'],
-  TOGGLES: ['username']
+  TOGGLES: ['username', 'autoclaim']
 }
 
 const SETTINGS_TO_STYLE_FN = {
@@ -135,7 +135,7 @@ const applyFont = fontStyle => {
 }
 
 const applyToggles = toggles => {
-  for (const t in toggles)
+  for (const t in TOGGLES_SELECTORS)
     applyStyle(iframeBody(), `toggleStyle-${ t }`, TOGGLES_SELECTORS[t], toggles[t] === 'true' ? {} : { display: 'none' })
 }
 
