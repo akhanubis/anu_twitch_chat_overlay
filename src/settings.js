@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.2.0-valeria-victrix"
+const VERSION = "0.2.2-primigenia"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
@@ -47,6 +47,8 @@ const getSettings = async _ => {
   window._TCO.currentSettings = {}
   for (const s in DEFAULT_SETTINGS)
     window._TCO.currentSettings[s] = (storedSettings[window._TCO.currentStream] || {})[s] || (storedSettings.default || {})[s] || DEFAULT_SETTINGS[s]
+  /* TEMP fix for old settings with toggle = "true" */
+  window._TCO.currentSettings.toggles.autoclaim = !!window._TCO.currentSettings.toggles.autoclaim
 }
 
 module.exports = {
