@@ -49,10 +49,10 @@ const init = async currentStream => {
       if (rightColumnCollapsed)
         chatCollapser.click()
       removeClass(chatContainer, 'loading')
-      whenElementLoaded(iframe.contentDocument.body, 'scrollable-trigger__wrapper', _ => {
+      whenElementLoaded(iframe.contentDocument.body, 'chat-scrollable-area__message-container', _ => {
         const scrollbarHack = document.createElement('div')
         scrollbarHack.className = 'scrollbar-hacky-hack'
-        iframe.contentDocument.body.querySelector('.scrollable-trigger__wrapper').after(scrollbarHack)
+        iframe.contentDocument.body.querySelector('.chat-scrollable-area__message-container').after(scrollbarHack)
       })
       const html = document.querySelector('html'),
             iframeHtml = iframe.contentDocument.querySelector('html'),
@@ -69,7 +69,7 @@ const init = async currentStream => {
       chatCollapser.click()
     
     chatContainer.addEventListener('mouseenter', _ => {
-      const chatList = iframe.contentDocument.body.querySelector('.chat-list__list-container')
+      const chatList = iframe.contentDocument.body.querySelector('.chat-list')
       if (chatList)
         chatList.scrollTop = chatList.scrollHeight
     })
