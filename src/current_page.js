@@ -10,7 +10,7 @@ const getCurrentVOD = _ => (window.location.href.match(/\.tv\/videos\/([0-9]+)/)
 
 const getStreamFromVOD = _ => new Promise(r => {
   const interval = setInterval(_ => {
-    const header = document.querySelector('.channel-header__user')
+    const header = document.querySelector('.channel-info-content a.tw-interactive:not(.tw-link)')
     if (header.href) {
       clearInterval(interval)
       r(streamFromUrl(header.href))
