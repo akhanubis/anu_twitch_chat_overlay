@@ -7,7 +7,7 @@ const { whenElementLoaded, whenUrlChanged } = require('./observer')
 const { getSettings, setSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
-const { getStreamFromVOD, getCurrentVOD } = require('./current_page')
+const { getStreamFromVOD, getCurrentVOD, forcedVOD } = require('./current_page')
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
 
@@ -55,6 +55,12 @@ const init = async currentVOD => {
     attachTo(chatElement, chatContainer)
     appendToParent.append(appendTo)
     appendTo.append(chatContainer)
+
+    if (forcedVOD()) {
+      const scrollbarHack = document.createElement('div')
+      scrollbarHack.className = 'scrollbar-hacky-hack'
+      chatElement.querySelector('.chat-scrollable-area__message-container').after(scrollbarHack)
+    }
 
     applyBackground(settingsToStyle(window._TCO.currentSettings.background, STYLE_ATTRS.BACKGROUND))
     applyFont(settingsToStyle(window._TCO.currentSettings.font, STYLE_ATTRS.FONT))

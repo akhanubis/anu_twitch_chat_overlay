@@ -33,5 +33,6 @@ module.exports = {
   inVOD,
   getCurrentStream,
   getCurrentVOD,
-  getStreamFromVOD
+  getStreamFromVOD,
+  forcedVOD
 }

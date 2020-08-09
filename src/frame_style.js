@@ -24,12 +24,10 @@ const attachBaseStyle = element => {
     visibility: visible;
   }
 
-  .anu-chat-overlay-inner .chat-input {
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-input, /* live */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-input /* live force vod */
+  {
     display: none !important;
-  }
-
-  .anu-chat-overlay-inner.hovered .chat-input {
-    display: block !important;
   }
 
   .anu-chat-overlay-inner .simplebar-scroll-content {
@@ -40,7 +38,7 @@ const attachBaseStyle = element => {
   }
 
   .anu-chat-overlay-inner .simplebar-content,
-  .anu-chat-overlay-inner.atco-dettached,
+  .anu-chat-overlay-inner.atco-dettached
    {
     visibility: visible;
     padding-bottom: 0 !important;
@@ -56,6 +54,10 @@ const attachBaseStyle = element => {
   .anu-chat-overlay-inner .simplebar-content *,
   .anu-chat-overlay-inner.atco-dettached * {
     visibility: visible;
+  }
+
+  .anu-chat-overlay-inner.atco-dettached {
+    background-color: var(--color-background-base) !important;
   }
 
   .anu-chat-overlay-inner .chat-list > * {
@@ -133,11 +135,22 @@ const applyStyle = (body, id, selector, style) => {
 
 const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atco-dettached') || document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
 
-const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', '.anu-chat-overlay-inner .simplebar-content, .anu-chat-overlay-inner .simplebar-content .tw-c-background-alt, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper .tw-c-background-alt', backgroundStyle)
+const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', `
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .simplebar-content, /* live */
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .simplebar-content .tw-c-background-alt, /* live */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .simplebar-content, /* live force vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .simplebar-content .tw-c-background-alt, /* live force vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper, /* vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .tw-c-background-alt /* vod */
+  `, backgroundStyle)
 
 const applyFont = fontStyle => {
   const fullStyle = { ...fontStyle, 'line-height': `calc(${ fontStyle['font-size'] } * 5 / 3)` }
-  applyStyle(iframeBody(), 'chatFontStyle', 'body.anu-chat-overlay-inner:not(.hovered) .chat-list .chat-line__message, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper .vod-message', fullStyle)
+  applyStyle(iframeBody(), 'chatFontStyle', `
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-list .chat-line__message, /* live */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list .chat-line__message, /* live force vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .vod-message /* vod */
+  `, fullStyle)
 }
 
 const applyToggles = toggles => {
