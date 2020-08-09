@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.2.3-primigenia"
+const VERSION = "0.2.4-deiotariana"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = {
     bottom: '10%'
   }, STYLE_ATTRS.POSITION),
   background: styleToSettings({
-    'background-color': 'rgba(0, 0, 0, 0.25)'
+    'background-color': 'rgba(0, 0, 0, 0.25) !important'
   }, STYLE_ATTRS.BACKGROUND),
   font: styleToSettings({
     'font-weight': 'normal',

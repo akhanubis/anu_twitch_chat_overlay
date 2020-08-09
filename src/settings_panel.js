@@ -230,7 +230,7 @@ module.exports = _ => {
     </div>
   `
 
-  const backgroundColorPicker = createColorPicker(panel.querySelector('.background-color-picker'), color => applyBackground({ 'background-color': color })),
+  const backgroundColorPicker = createColorPicker(panel.querySelector('.background-color-picker'), color => applyBackground({ 'background-color': SETTINGS_TO_STYLE_FN['background-color'](color) })),
         onFontChange = _ => applyFont({
           'color': fontColorPicker.getColor(),
           'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
@@ -318,7 +318,7 @@ module.exports = _ => {
 
   const rollbackToSettings = settings => {
     applyPositionToOriginal(settingsToStyle(settings.position, STYLE_ATTRS.POSITION))
-    applyBackground({ 'background-color': settings.background })
+    applyBackground(settingsToStyle(settings.background, STYLE_ATTRS.BACKGROUND))
     applyFont(settingsToStyle(settings.font, STYLE_ATTRS.FONT))
     applyToggles(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES))
     applyAutoclaim(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).autoclaim)

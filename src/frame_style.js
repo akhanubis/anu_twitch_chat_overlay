@@ -87,11 +87,13 @@ const STYLE_ATTRS = {
 }
 
 const SETTINGS_TO_STYLE_FN = {
-  'text-shadow': v => `-1px -1px 0 ${ v }, 1px -1px 0 ${ v }, 1px 1px 0 ${ v }, -1px 1px 0 ${ v }`
+  'text-shadow': v => `-1px -1px 0 ${ v }, 1px -1px 0 ${ v }, 1px 1px 0 ${ v }, -1px 1px 0 ${ v }`,
+  'background-color': v => `${ v } !important`
 }
 
 const STYLE_TO_SETTINGS_FN = {
-  'text-shadow': v => v.match(/(rgba\([^)]+\))/)[1]
+  'text-shadow': v => v.match(/(rgba\([^)]+\))/)[1],
+  'background-color': v => v.replace(' !important', '')
 }
 
 const TOGGLES_SELECTORS = {
@@ -127,7 +129,7 @@ const applyStyle = (body, id, selector, style) => {
 
 const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atco-dettached') || document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
 
-const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper', backgroundStyle)
+const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content, body.anu-chat-overlay-inner .simplebar-content .tw-c-background-alt, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper', backgroundStyle)
 
 const applyFont = fontStyle => {
   const fullStyle = { ...fontStyle, 'line-height': `calc(${ fontStyle['font-size'] } * 5 / 3)` }
