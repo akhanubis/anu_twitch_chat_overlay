@@ -43,7 +43,7 @@ const setSettings = (k, v) => {
 }
 
 const getSettings = async _ => {
-  const storedSettings = await new Promise(r => chrome.storage.sync.get(['default', window._TCO.currentStream], r))
+  const storedSettings = (await new Promise(r => chrome.storage.sync.get(['default', window._TCO.currentStream], r))) || {}
   window._TCO.currentSettings = {}
   for (const s in DEFAULT_SETTINGS)
     window._TCO.currentSettings[s] = (storedSettings[window._TCO.currentStream] || {})[s] || (storedSettings.default || {})[s] || DEFAULT_SETTINGS[s]
