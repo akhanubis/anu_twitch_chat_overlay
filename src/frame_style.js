@@ -5,7 +5,7 @@ const attachBaseStyle = element => {
   style.id = 'tco-base-style'
   addClass(style, 'atco-injected-style')
   style.innerHTML = `
-  .anu-chat-overlay-inner {
+  .anu-chat-overlay-inner:not(.hovered) {
     background: none !important;
   }
 
@@ -39,18 +39,22 @@ const attachBaseStyle = element => {
     overflow-x: hidden;
   }
 
-  .anu-chat-overlay-inner .simplebar-content {
+  .anu-chat-overlay-inner .simplebar-content,
+  .anu-chat-overlay-inner.atco-dettached,
+   {
     visibility: visible;
     padding-bottom: 0 !important;
     margin-bottom: -5px;
     color: white;
   }
 
-  .anu-chat-overlay-inner.hovered .simplebar-content {
+  .anu-chat-overlay-inner.hovered .simplebar-content,
+  .anu-chat-overlay-inner.hovered.atco-dettached {
     color: inherit;
   }
 
-  .anu-chat-overlay-inner .simplebar-content * {
+  .anu-chat-overlay-inner .simplebar-content *,
+  .anu-chat-overlay-inner.atco-dettached * {
     visibility: visible;
   }
 
@@ -129,7 +133,7 @@ const applyStyle = (body, id, selector, style) => {
 
 const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atco-dettached') || document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
 
-const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', 'body.anu-chat-overlay-inner .simplebar-content, body.anu-chat-overlay-inner .simplebar-content .tw-c-background-alt, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper', backgroundStyle)
+const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', '.anu-chat-overlay-inner .simplebar-content, .anu-chat-overlay-inner .simplebar-content .tw-c-background-alt, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper, .anu-chat-overlay-container .atco-dettached .video-chat__message-list-wrapper .tw-c-background-alt', backgroundStyle)
 
 const applyFont = fontStyle => {
   const fullStyle = { ...fontStyle, 'line-height': `calc(${ fontStyle['font-size'] } * 5 / 3)` }

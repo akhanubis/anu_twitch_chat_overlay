@@ -34,15 +34,23 @@ const init = async currentVOD => {
   
   const initialSetup = _ => {
     const appendToParent = document.querySelector('[data-a-target="player-controls"]').parentNode.parentNode
-    chatElement = document.querySelector('.video-chat__message-list-wrapper').parentNode
+    chatElement = document.querySelector('.chat-room__content, .video-chat__message-list-wrapper').parentNode
     initialParent = chatElement.parentNode
     addClass(chatElement, 'atco-dettached')
     addClass(chatElement, 'chat-room')
-    addClass(chatElement, 'hovered')
-    chatContainer = createChatContainer()
-    removeClass(chatContainer, 'loading')
+    chatElement.addEventListener('mouseenter', _ => {
+      const chatList = chatElement.querySelector('.chat-list')
+      if (chatList)
+        chatList.scrollTop = chatList.scrollHeight
+    })
+    chatElement.addEventListener('mouseover', _ => addClass(chatElement, 'hovered'))
+    chatElement.addEventListener('mouseout', _ => removeClass(chatElement, 'hovered'))
+
     attachBaseStyle(chatElement)
     appendTo = document.createElement('div')
+
+    chatContainer = createChatContainer()
+    removeClass(chatContainer, 'loading')
 
     attachTo(chatElement, chatContainer)
     appendToParent.append(appendTo)
