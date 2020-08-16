@@ -12,7 +12,6 @@ module.exports = _ => {
         <div style="width: 2rem; height: 2rem;">
           <div class="tw-align-items-center tw-full-width tw-icon tw-icon--fill tw-inline-flex">
             <div class="tw-aspect tw-aspect--align-top">
-              <div class="tw-aspect__spacer" style="padding-bottom: 100%;"></div>
               <svg class="tw-icon__svg" width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px">
                 <path class="active" d="${ ENABLED_ICON_PATH }"/>
                 <path class="inactive" d="${ DISABLED_ICON_PATH }"/>
