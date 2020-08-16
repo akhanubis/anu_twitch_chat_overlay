@@ -43,7 +43,6 @@ const attachBaseStyle = element => {
     visibility: visible;
     padding-bottom: 0 !important;
     margin-bottom: -5px;
-    color: white;
   }
 
   .anu-chat-overlay-inner.hovered .simplebar-content,
@@ -54,6 +53,10 @@ const attachBaseStyle = element => {
   .anu-chat-overlay-inner .simplebar-content *,
   .anu-chat-overlay-inner.atco-dettached * {
     visibility: visible;
+  }
+
+  .anu-chat-overlay-container .anu-chat-overlay-inner.atco-dettached:not(.hovered) {
+    background-color: transparent !important;
   }
 
   .anu-chat-overlay-inner.atco-dettached {
