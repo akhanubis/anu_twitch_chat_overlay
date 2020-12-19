@@ -1,6 +1,6 @@
 {
   "name": "twitch_chat_overlay",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Anu Twitch Chat Overlay",
   "main": "app.js",
   "scripts": {

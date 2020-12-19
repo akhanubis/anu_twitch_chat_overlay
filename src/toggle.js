@@ -4,7 +4,7 @@ module.exports = _ => {
         DISABLED_ICON_PATH = 'M 3 5 L 3 23 L 8 23 L 8 28.078125 L 14.351563 23 L 29 23 L 29 5 Z M 5 7 L 27 7 L 27 21 L 13.648438 21 L 10 23.917969 L 10 21 L 5 21 Z',
         toggle = document.createElement('div')
   toggle.id = "anu-chat-overlay-toggle"
-  toggle.className = 'tw-inline-flex tw-relative tw-tooltip-wrapper'
+  toggle.className = 'tw-inline-flex tw-relative tw-tooltip__container'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
     <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-button-icon--overlay tw-core-button tw-core-button--overlay tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="Anu Chat overlay">
