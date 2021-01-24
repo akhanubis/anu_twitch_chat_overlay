@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.2.9"
+const VERSION = "0.3.0"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
@@ -27,6 +27,10 @@ const DEFAULT_SETTINGS = {
   }, STYLE_ATTRS.TOGGLES)
 }
 
+const DEFAULT_GLOBAL_SETTINGS = {
+  forceVod: 'false'
+}
+
 const setSettings = (k, v) => {
   if (window._TCO.currentSettings[k] === v)
     return
@@ -42,6 +46,18 @@ const setSettings = (k, v) => {
   })
 }
 
+const setGlobalSettings = (k, v) => {
+  if (window._TCO.currentGlobalSettings[k] === v)
+    return
+
+  window._TCO.currentGlobalSettings = {
+    ...window._TCO.currentGlobalSettings,
+    [k]: v
+  }
+  
+  chrome.storage.sync.set({ '__global__': window._TCO.currentGlobalSettings })
+}
+
 const getSettings = async _ => {
   const storedSettings = (await new Promise(r => chrome.storage.sync.get(['default', window._TCO.currentStream], r))) || {}
   window._TCO.currentSettings = {}
@@ -52,10 +68,20 @@ const getSettings = async _ => {
     window._TCO.currentSettings.toggles = `${ window._TCO.currentSettings.toggles }_false`
 }
 
+const getGlobalSettings = async _ => {
+  const storedSettings = (await new Promise(r => chrome.storage.sync.get(['__global__'], r))) || {}
+  window._TCO.currentGlobalSettings = {}
+  for (const s in DEFAULT_GLOBAL_SETTINGS)
+    window._TCO.currentGlobalSettings[s] = (storedSettings['__global__'] || {})[s] || DEFAULT_GLOBAL_SETTINGS[s]
+}
+
 module.exports = {
   setSettings,
+  setGlobalSettings,
   getSettings,
+  getGlobalSettings,
   DEFAULT_SETTINGS,
+  DEFAULT_GLOBAL_SETTINGS,
   ISSUES_TRACKER_LINK,
   VERSION
 }

@@ -1,6 +1,7 @@
 const forcedVOD = _ => {
   const queryParams = new URLSearchParams(window.location.search)
-  return queryParams.get('force_vod')
+  const force_vod_param = queryParams.get('force_vod')
+  return (force_vod_param || window._TCO.currentGlobalSettings.forceVod) === 'true'
 }
 
 const streamFromUrl = url => {
@@ -11,7 +12,14 @@ const streamFromUrl = url => {
 
 const getCurrentStream = _ => streamFromUrl(window.location.href)
 
-const getCurrentVOD = _ => forcedVOD() ? streamFromUrl(window.location.href) : ((window.location.href.match(/\.tv\/videos\/([0-9]+)/) || [])[1] || '')
+const getCurrentVOD = _ => {
+  const vod = (window.location.href.match(/\.tv\/videos\/([0-9]+)/) || [])[1]
+  if (vod)
+    return vod
+  if (forcedVOD())
+    return streamFromUrl(window.location.href)
+  return ''
+}
 
 const getStreamFromVOD = _ => {
   if (forcedVOD())

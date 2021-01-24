@@ -5,7 +5,7 @@ const createIframe = require('./iframe')
 const createToggle = require('./toggle')
 const { attachBaseStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
 const { whenElementLoaded, whenClassToggled, whenUrlChanged } = require('./observer')
-const { getSettings, setSettings } = require('./settings')
+const { getSettings, setSettings, getGlobalSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 const { inVOD, getCurrentStream } = require('./current_page')
@@ -108,12 +108,14 @@ const cleanUp = _ => {
   }
 }
 
-whenElementLoaded(document.body, 'player-controls__right-control-group', _ => {
+whenElementLoaded(document.body, 'player-controls__right-control-group', async _ => {
+  await getGlobalSettings()
   cleanUp()
   init(getCurrentStream())
 })
 
 whenUrlChanged(async _ => {
+  await getGlobalSettings()
   const oldStream = window._TCO.currentStream,
         newStream = getCurrentStream()
   if (newStream === oldStream)

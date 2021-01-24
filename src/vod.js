@@ -4,7 +4,7 @@ const createChatContainer = require('./chat_container')
 const createToggle = require('./toggle')
 const { attachBaseStyle, STYLE_ATTRS, applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings } = require('./frame_style')
 const { whenElementLoaded, whenUrlChanged } = require('./observer')
-const { getSettings, setSettings } = require('./settings')
+const { getSettings, setSettings, getGlobalSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 const { getStreamFromVOD, getCurrentVOD, forcedVOD } = require('./current_page')
@@ -105,12 +105,14 @@ const cleanUp = _ => {
   }
 }
 
-whenElementLoaded(document.body, 'player-controls__right-control-group', _ => {
+whenElementLoaded(document.body, 'player-controls__right-control-group', async _ => {
+  await getGlobalSettings()
   cleanUp()
   init(getCurrentVOD())
 })
 
 whenUrlChanged(async _ => {
+  await getGlobalSettings()
   const oldVideo = window._TCO.currentVOD,
         newVideo = getCurrentVOD()
   if (newVideo === oldVideo)
