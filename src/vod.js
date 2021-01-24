@@ -8,6 +8,7 @@ const { getSettings, setSettings, getGlobalSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
 const { getStreamFromVOD, getCurrentVOD, forcedVOD } = require('./current_page')
+const setupAutoClaimManager = require('./claim_points')
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
 
@@ -31,6 +32,7 @@ const init = async currentVOD => {
     return
   window._TCO.currentStream = await getStreamFromVOD()
   await getSettings()
+  setupAutoClaimManager()
   
   const initialSetup = _ => {
     const appendToParent = document.querySelector('[data-a-target="player-controls"]').parentNode.parentNode
@@ -39,7 +41,7 @@ const init = async currentVOD => {
     addClass(chatElement, 'atco-dettached')
     addClass(chatElement, 'chat-room')
     chatElement.addEventListener('mouseenter', _ => {
-      const chatList = chatElement.querySelector('.chat-list')
+      const chatList = chatElement.querySelector('.chat-list--default')
       if (chatList)
         chatList.scrollTop = chatList.scrollHeight
     })

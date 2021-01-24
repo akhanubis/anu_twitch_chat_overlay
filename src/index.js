@@ -69,7 +69,7 @@ const init = async currentStream => {
       chatCollapser.click()
     
     chatContainer.addEventListener('mouseenter', _ => {
-      const chatList = iframe.contentDocument.body.querySelector('.chat-list')
+      const chatList = iframe.contentDocument.body.querySelector('.chat-list--default')
       if (chatList)
         chatList.scrollTop = chatList.scrollHeight
     })

@@ -33,6 +33,10 @@
   height: 350px;
 }
 
+.tco-settings-modal .modal__container .settings-scroller.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
 .tco-settings-modal .modal__container .settings-scroller .simplebar-content {
   overflow-x: hidden;
 }

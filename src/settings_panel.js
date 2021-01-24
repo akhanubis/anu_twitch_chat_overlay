@@ -33,7 +33,7 @@ module.exports = _ => {
           </div>
           <img class="logo" src="${ peepoPainter }">
           <div class="about-us-icon" aria-describedby="about-us-icon-tooltip">
-            <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="About ATCO">
+            <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="About ATCO">
               <span class="tw-button-icon__icon">
                 <div style="width: 1.5rem; height: 1.5rem;">
                   <div class="tw-align-items-center tw-full-width tw-icon tw-icon--fill tw-inline-flex">
@@ -84,14 +84,14 @@ module.exports = _ => {
                 Auto claim channel points
               </div>
               <div class="settings-input-container autoclaim-toggle">
-                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Enabled
                     </div>
                   </div>
                 </button>
-                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Disabled
@@ -145,21 +145,21 @@ module.exports = _ => {
                 Font weight
               </div>
               <div class="settings-input-container font-weight">
-                <button data-b-value="normal" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="normal" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Normal
                     </div>
                   </div>
                 </button>
-                <button data-b-value="bold" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="bold" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Bold
                     </div>
                   </div>
                 </button>
-                <button data-b-value="bolder" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="bolder" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Bolder
@@ -174,14 +174,14 @@ module.exports = _ => {
                 Hide usernames
               </div>
               <div class="settings-input-container username-toggle">
-                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Enabled
                     </div>
                   </div>
                 </button>
-                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                   <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                     <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                       Disabled
@@ -195,7 +195,7 @@ module.exports = _ => {
         <div class="modal__footer chat-room">
           <div class="">
             <div class="tw-mg-l-05">
-              <button class="default-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+              <button class="default-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                 <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                   <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                     Reset to default
@@ -206,7 +206,7 @@ module.exports = _ => {
           </div>
           <div class="right-buttons tw-justify-content-end tw-flex-row">
             <div class="tw-mg-l-05">
-              <button class="cancel-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+              <button class="cancel-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                 <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                   <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                     Cancel
@@ -356,10 +356,13 @@ module.exports = _ => {
   }
 
   document.querySelector('.video-player__overlay').append(panel)
-  if (window.chrome && chrome.runtime && chrome.runtime.id)
-    new SimpleBar(panel.querySelector('.settings-scroller'), {
+  if (window.chrome && chrome.runtime && chrome.runtime.id) {
+    const scroller = panel.querySelector('.settings-scroller')
+    new SimpleBar(scroller, {
       autoHide: false
     })
+    addClass(scroller, 'overflow-y-hidden')
+  }
 
   const aboutPanel = createAboutPanel()
   panel.querySelector('.about-us-icon button').onclick = e => {

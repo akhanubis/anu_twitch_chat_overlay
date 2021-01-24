@@ -63,7 +63,7 @@ const attachBaseStyle = element => {
     background-color: var(--color-background-base) !important;
   }
 
-  .anu-chat-overlay-inner .chat-list > * {
+  .anu-chat-overlay-inner .chat-list--default > * {
     padding-left: 0;
     padding-right: 0;
   }
@@ -72,15 +72,15 @@ const attachBaseStyle = element => {
     background-color: unset;
   }
 
-  .anu-chat-overlay-inner .chat-list .scrollbar-hacky-hack {
+  .anu-chat-overlay-inner .chat-list--default .scrollbar-hacky-hack {
     width: 4000px;
   }
 
-  .anu-chat-overlay-inner:not(.hovered) .chat-list .chat-line__message .tw-elevation-1 {
+  .anu-chat-overlay-inner:not(.hovered) .chat-list--default .chat-line__message .tw-elevation-1 {
     box-shadow: none !important;
   }
 
-  .anu-chat-overlay-inner:not(.hovered) .chat-list .chat-line__message .tw-elevation-1 .tw-c-background-base {
+  .anu-chat-overlay-inner:not(.hovered) .chat-list--default .chat-line__message .tw-elevation-1 .tw-c-background-base {
     background-color: rgba(0, 0, 0, 0) !important;
   }
 `
@@ -150,8 +150,8 @@ const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBa
 const applyFont = fontStyle => {
   const fullStyle = { ...fontStyle, 'line-height': `calc(${ fontStyle['font-size'] } * 5 / 3)` }
   applyStyle(iframeBody(), 'chatFontStyle', `
-  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-list .chat-line__message, /* live */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list .chat-line__message, /* live force vod */
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-list--default .chat-line__message, /* live */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list--default .chat-line__message, /* live force vod */
   .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .vod-message /* vod */
   `, fullStyle)
 }
