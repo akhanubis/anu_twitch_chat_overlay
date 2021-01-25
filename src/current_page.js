@@ -22,11 +22,11 @@ const getCurrentVOD = _ => {
 }
 
 const getStreamFromVOD = _ => {
-  if (forcedVOD())
+  if (forcedVOD() && !(window._TCO.currentVOD || '').match(/^[0-9]+$/))
     return streamFromUrl(window.location.href)
   return new Promise(r => {
     const interval = setInterval(_ => {
-      const header = document.querySelector('.channel-info-content a.tw-interactive:not(.tw-link)')
+      const header = document.querySelector('.channel-info-content a[data-a-target="watch-mode-to-home"]')
       if (header && header.href) {
         clearInterval(interval)
         r(streamFromUrl(header.href))

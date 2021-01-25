@@ -31,6 +31,7 @@ const init = async currentVOD => {
   if (!currentVOD)
     return
   window._TCO.currentStream = await getStreamFromVOD()
+
   await getSettings()
   setupAutoClaimManager()
   
@@ -61,7 +62,7 @@ const init = async currentVOD => {
     if (forcedVOD()) {
       const scrollbarHack = document.createElement('div')
       scrollbarHack.className = 'scrollbar-hacky-hack'
-      chatElement.querySelector('.chat-scrollable-area__message-container').after(scrollbarHack)
+      chatElement.querySelector('.chat-scrollable-area__message-container, .video-chat__message-list-wrapper ul').after(scrollbarHack)
     }
 
     applyBackground(settingsToStyle(window._TCO.currentSettings.background, STYLE_ATTRS.BACKGROUND))
