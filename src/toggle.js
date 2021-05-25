@@ -4,24 +4,23 @@ module.exports = _ => {
         DISABLED_ICON_PATH = 'M 3 5 L 3 23 L 8 23 L 8 28.078125 L 14.351563 23 L 29 23 L 29 5 Z M 5 7 L 27 7 L 27 21 L 13.648438 21 L 10 23.917969 L 10 21 L 5 21 Z',
         toggle = document.createElement('div')
   toggle.id = "anu-chat-overlay-toggle"
-  toggle.className = 'tw-inline-flex tw-relative tw-tooltip__container'
+  toggle.className = 'sc-AxjAm ScAttachedTooltipWrapper-v8mg6d-0 dLtTlU'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
-    <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-button-icon--overlay tw-core-button tw-core-button--overlay tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="Anu Chat overlay">
-      <span class="tw-button-icon__icon">
-        <div style="width: 2rem; height: 2rem;">
-          <div class="tw-align-items-center tw-full-width tw-icon tw-icon--fill tw-inline-flex">
-            <div class="tw-aspect tw-aspect--align-top">
-              <svg class="tw-icon__svg" width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px">
-                <path class="active" d="${ ENABLED_ICON_PATH }"/>
-                <path class="inactive" d="${ DISABLED_ICON_PATH }"/>
-              </svg>
-            </div>
+    <button class="ScCoreButton-sc-1qn4ixc-0 ipIiPq ScButtonIcon-o7ndmn-0 cdLbRd" aria-label="Anu Chat Overlay">
+      <div class="ScButtonIconFigure-o7ndmn-1 dfPonN">
+        <div class="ScIconLayout-sc-1bgeryd-0 kbOjdP tw-icon">
+          <div class="ScAspectRatio-sc-1sw3lwy-1 dNNaBC tw-aspect">
+            <div class="ScAspectSpacer-sc-1sw3lwy-0 gkBhyN"></div>
+            <svg class="ScIconSVG-sc-1bgeryd-1 cMQeyU" width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px">
+              <path class="active" d="${ ENABLED_ICON_PATH }"></path>
+              <path class="inactive" d="${ DISABLED_ICON_PATH }"></path>
+            </svg>
           </div>
         </div>
-      </span>
+      </div>
     </button>
-    <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--up" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip">Anu Chat Overlay</div>
+    <div class="ScAttachedTooltip-v8mg6d-1 jouePo tw-tooltip" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip" direction="tw-tooltip--up">Anu Chat Overlay</div>
   `
   return toggle
 }
