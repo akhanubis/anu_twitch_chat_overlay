@@ -4,23 +4,25 @@ module.exports = _ => {
         DISABLED_ICON_PATH = 'M 3 5 L 3 23 L 8 23 L 8 28.078125 L 14.351563 23 L 29 23 L 29 5 Z M 5 7 L 27 7 L 27 21 L 13.648438 21 L 10 23.917969 L 10 21 L 5 21 Z',
         toggle = document.createElement('div')
   toggle.id = "anu-chat-overlay-toggle"
-  toggle.className = 'sc-AxjAm ScAttachedTooltipWrapper-v8mg6d-0 dLtTlU'
+  toggle.className = 'sc-AxiKw sc-fznWOq oDDQo'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
-    <button class="ScCoreButton-sc-1qn4ixc-0 ipIiPq ScButtonIcon-o7ndmn-0 cdLbRd" aria-label="Anu Chat Overlay">
-      <div class="ScButtonIconFigure-o7ndmn-1 dfPonN">
-        <div class="ScIconLayout-sc-1bgeryd-0 kbOjdP tw-icon">
-          <div class="ScAspectRatio-sc-1sw3lwy-1 dNNaBC tw-aspect">
-            <div class="ScAspectSpacer-sc-1sw3lwy-0 gkBhyN"></div>
-            <svg class="ScIconSVG-sc-1bgeryd-1 cMQeyU" width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px">
-              <path class="active" d="${ ENABLED_ICON_PATH }"></path>
-              <path class="inactive" d="${ DISABLED_ICON_PATH }"></path>
+    <button class="sc-fzozJi LlFVV sc-fznWqX lRTHo" aria-label="Anu Chat Overlay">
+      <div class="sc-fzoiQi fPEJKY">
+        <div class="sc-fzqBZW laylBS tw-icon">
+          <div class="sc-fzokOt cTfPfB tw-aspect">
+            <div class="sc-fznZeY iVCDsi"></div>
+            <svg width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px" class="sc-fzqNJr hXQgjp">
+              <g>
+                <path class="active" fill-rule="evenodd" d="${ ENABLED_ICON_PATH }" clip-rule="evenodd"></path>
+                <path class="inactive" fill-rule="evenodd" d="${ DISABLED_ICON_PATH }" clip-rule="evenodd"></path>
+              </g>
             </svg>
           </div>
         </div>
       </div>
     </button>
-    <div class="ScAttachedTooltip-v8mg6d-1 jouePo tw-tooltip" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip" direction="tw-tooltip--up">Anu Chat Overlay</div>
+    <div class="sc-fzolEj bOMxMZ tw-tooltip" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip" direction="top">Anu Chat Overlay</div>
   `
   return toggle
 }
