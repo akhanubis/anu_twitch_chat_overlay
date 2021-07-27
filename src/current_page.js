@@ -5,6 +5,8 @@ const forcedVOD = _ => {
 }
 
 const streamFromUrl = url => {
+  if (url.match(/clips\.twitch\.tv/))
+    return
   const streamName = ((url.match(/\.tv\/([a-zA-Z0-9_]+)/) || [])[1] || '').toLowerCase()
   if (streamName !== 'videos')
     return streamName
