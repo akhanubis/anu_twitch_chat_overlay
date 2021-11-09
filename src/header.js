@@ -22,7 +22,6 @@ module.exports = _ => {
           </div>
         </span>
       </button>
-      <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--down" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-drag-tooltip">Move</div>
     </div>
     <div class="settings" aria-describedby="anu-chat-overlay-settings-tooltip">
       <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-button-icon tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="Overlay Settings">
@@ -36,7 +35,6 @@ module.exports = _ => {
           </div>
         </span>
       </button>
-      <div class="tw-tooltip tw-tooltip--align-left tw-tooltip--down" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-settings-tooltip">Overlay Settings</div>
     </div>
     <div class="logo"></div>
     <img class="logo" src="${ pepoG }">

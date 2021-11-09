@@ -22,7 +22,7 @@ const FONT_FAMILIES = {
 module.exports = _ => {
   const panel = document.createElement('div')
   panel.id = 'tco-settings-modal'
-  panel.className = 'modal tco-modal tco-settings-modal micromodal-slide'
+  panel.className = 'atco-container modal tco-modal tco-settings-modal micromodal-slide'
   panel.setAttribute('aria-hidden', true)
   panel.innerHTML = `
     <div class="modal__overlay" tabindex="-1">
@@ -32,19 +32,15 @@ module.exports = _ => {
             Overlay Settings
           </div>
           <img class="logo" src="${ peepoPainter }">
-          <div class="about-us-icon" aria-describedby="about-us-icon-tooltip">
-            <button class="tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" aria-label="About ATCO">
-              <span class="tw-button-icon__icon">
-                <div style="width: 1.5rem; height: 1.5rem;">
-                  <div class="tw-align-items-center tw-full-width tw-icon tw-icon--fill tw-inline-flex">
-                    <div class="tw-aspect tw-aspect--align-top">
-                      <svg class="tw-icon__svg" width="100%" height="100%" version="1.1" viewBox="0 0 384 512" x="0px" y="0px"><path fill="currentColor" d="M202.021 0C122.202 0 70.503 32.703 29.914 91.026c-7.363 10.58-5.093 25.086 5.178 32.874l43.138 32.709c10.373 7.865 25.132 6.026 33.253-4.148 25.049-31.381 43.63-49.449 82.757-49.449 30.764 0 68.816 19.799 68.816 49.631 0 22.552-18.617 34.134-48.993 51.164-35.423 19.86-82.299 44.576-82.299 106.405V320c0 13.255 10.745 24 24 24h72.471c13.255 0 24-10.745 24-24v-5.773c0-42.86 125.268-44.645 125.268-160.627C377.504 66.256 286.902 0 202.021 0zM192 373.459c-38.196 0-69.271 31.075-69.271 69.271 0 38.195 31.075 69.27 69.271 69.27s69.271-31.075 69.271-69.271-31.075-69.27-69.271-69.27z"></path></svg>
-                    </div>
-                  </div>
-                </div>
-              </span>
-            </button>
-            <div class="tw-tooltip tw-tooltip--align-right tw-tooltip--down" data-a-target="tw-tooltip-label" role="tooltip" id="about-us-icon-tooltip">About ATCO</div>
+          <div class="Layout-sc-nxg1ff-0 about-us-icon">
+            <div class="ScIconLayout-sc-1bgeryd-0 cOOGTE tw-icon">
+              <div class="ScAspectRatio-sc-1sw3lwy-1 bneAWp tw-aspect">
+                <div class="ScAspectSpacer-sc-1sw3lwy-0 gMCXS"></div>
+                <svg width="100%" height="100%" version="1.1" viewBox="0 0 384 512" x="0px" y="0px" class="ScIconSVG-sc-1bgeryd-1 eOJUoR">
+                  <path fill="currentColor" d="M202.021 0C122.202 0 70.503 32.703 29.914 91.026c-7.363 10.58-5.093 25.086 5.178 32.874l43.138 32.709c10.373 7.865 25.132 6.026 33.253-4.148 25.049-31.381 43.63-49.449 82.757-49.449 30.764 0 68.816 19.799 68.816 49.631 0 22.552-18.617 34.134-48.993 51.164-35.423 19.86-82.299 44.576-82.299 106.405V320c0 13.255 10.745 24 24 24h72.471c13.255 0 24-10.745 24-24v-5.773c0-42.86 125.268-44.645 125.268-160.627C377.504 66.256 286.902 0 202.021 0zM192 373.459c-38.196 0-69.271 31.075-69.271 69.271 0 38.195 31.075 69.27 69.271 69.27s69.271-31.075 69.271-69.271-31.075-69.27-69.271-69.27z"></path>
+                </svg>
+              </div>
+            </div>
           </div>
         </header>
         <main class="modal__content chat-room tw-flex tw-flex-column tw-flex-grow-1 tw-flex-shrink-1 tw-full-width" id="tco-settings-modal-content">
@@ -365,7 +361,7 @@ module.exports = _ => {
   }
 
   const aboutPanel = createAboutPanel()
-  panel.querySelector('.about-us-icon button').onclick = e => {
+  panel.querySelector('.about-us-icon').onclick = e => {
     e.preventDefault()
     aboutPanel.showPanel()
   }

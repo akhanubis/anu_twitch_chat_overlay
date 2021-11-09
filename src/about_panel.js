@@ -5,7 +5,7 @@ const { peepoLove, peepoWeird } = require('./images')
 module.exports = _ => {
   const panel = document.createElement('div')
   panel.id = 'tco-about-modal'
-  panel.className = 'modal tco-modal tco-about-modal micromodal-slide'
+  panel.className = 'atco-container modal tco-modal tco-about-modal micromodal-slide'
   panel.setAttribute('aria-hidden', true)
   panel.innerHTML = `
     <div class="modal__overlay" tabindex="-1" data-micromodal-close>

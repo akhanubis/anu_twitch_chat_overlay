@@ -111,7 +111,7 @@ body.dragging-chat * {
 .anu-chat-overlay-active .anu-chat-overlay-container .header .drag-anchor {
   display: inline-block;
   position: absolute;
-  top: 10px;
+  top: 15px;
   right: 15px;  
 }
 
@@ -126,7 +126,7 @@ body.dragging-chat * {
 .anu-chat-overlay-active .anu-chat-overlay-container .header .settings {
   display: inline-block;
   position: absolute;
-  top: 10px;
+  top: 15px;
   left: 15px;  
   cursor: pointer;
 }

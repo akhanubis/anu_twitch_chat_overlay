@@ -5,7 +5,7 @@ const { POGGIES } = require('./images')
 
 module.exports = _ => {
   const container = document.createElement('div')
-  container.className = 'anu-chat-overlay-container loading'
+  container.className = 'atco-container anu-chat-overlay-container loading'
   container.innerHTML = `
     <div class="resize-handler resize-left"></div>
     <div class="resize-handler resize-right"></div>
