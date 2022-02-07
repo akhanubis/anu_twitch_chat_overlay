@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.3.9"
+const VERSION = "0.4.0"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
@@ -23,7 +23,8 @@ const DEFAULT_SETTINGS = {
   }, STYLE_ATTRS.FONT),
   toggles: styleToSettings({
     username: true,
-    autoclaim: false
+    autoclaim: false,
+    timestamp: true
   }, STYLE_ATTRS.TOGGLES)
 }
 

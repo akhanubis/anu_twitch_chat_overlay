@@ -186,6 +186,27 @@ module.exports = _ => {
                 </button>
               </div>
             </div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Hide timestamps
+              </div>
+              <div class="settings-input-container timestamp-toggle">
+                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Enabled
+                    </div>
+                  </div>
+                </button>
+                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Disabled
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
         </main>
         <div class="modal__footer chat-room">
@@ -234,7 +255,8 @@ module.exports = _ => {
           'font-size': `${ fontSizePicker.value }px`
         }),
         onToggleChange = _ => applyToggles({
-          username: currentButton('.username-toggle')
+          username: currentButton('.username-toggle'),
+          timestamp: currentButton('.timestamp-toggle')
         }),
         onAutoclaimChange = _ => applyAutoclaim(currentButton('.autoclaim-toggle')),
         fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
@@ -270,6 +292,7 @@ module.exports = _ => {
 
   const weightButtons = panel.querySelectorAll('.font-weight button'),
         usernameButtons = panel.querySelectorAll('.username-toggle button'),
+        timestampButtons = panel.querySelectorAll('.timestamp-toggle button'),
         autoclaimButtons = panel.querySelectorAll('.autoclaim-toggle button'),
         enableSelectedButton = (selected, buttons, onChange) => {
           const currentValue = selected.getAttribute('data-b-value')
@@ -287,6 +310,8 @@ module.exports = _ => {
     b.onclick = _ => enableSelectedButton(b, weightButtons, onFontChange)
   for (const b of usernameButtons)
     b.onclick = _ => enableSelectedButton(b, usernameButtons, onToggleChange)
+  for (const b of timestampButtons)
+    b.onclick = _ => enableSelectedButton(b, timestampButtons, onToggleChange)
   for (const b of autoclaimButtons)
     b.onclick = _ => enableSelectedButton(b, autoclaimButtons, onAutoclaimChange)
 
@@ -300,6 +325,7 @@ module.exports = _ => {
     setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
     setSettings('toggles', styleToSettings({
       username: currentButton('.username-toggle'),
+      timestamp: currentButton('.timestamp-toggle'),
       autoclaim: currentButton('.autoclaim-toggle')
     }, STYLE_ATTRS.TOGGLES)),
     setSettings('font', styleToSettings({
@@ -323,6 +349,7 @@ module.exports = _ => {
     const fontSettings = settingsToStyle(settings.font, STYLE_ATTRS.FONT, { raw: true })
     enableSelectedButton(panel.querySelector(`.font-weight button[data-b-value="${ fontSettings['font-weight'] }"]`), weightButtons)
     enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).username }"]`), usernameButtons)
+    enableSelectedButton(panel.querySelector(`.timestamp-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).timestamp }"]`), timestampButtons)
     enableSelectedButton(panel.querySelector(`.autoclaim-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).autoclaim }"]`), autoclaimButtons)
     fontFamilyPicker.value = fontSettings['font-family']
     fontSizePicker.value = parseFloat(fontSettings['font-size'])

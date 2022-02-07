@@ -129,7 +129,8 @@
 }
 
 .tco-settings-modal .modal__container .settings-input-container.font-weight,
-.tco-settings-modal .modal__container .settings-input-container.username-toggle {
+.tco-settings-modal .modal__container .settings-input-container.username-toggle,
+.tco-settings-modal .modal__container .settings-input-container.timestamp-toggle {
   width: 190px;
 }
 

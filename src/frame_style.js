@@ -92,7 +92,7 @@ const STYLE_ATTRS = {
   POSITION: ['left', 'right', 'top', 'bottom'],
   FONT: ['color', 'text-shadow', 'font-weight', 'font-family', 'font-size'],
   BACKGROUND: ['background-color'],
-  TOGGLES: ['username', 'autoclaim']
+  TOGGLES: ['username', 'autoclaim', 'timestamp']
 }
 
 const SETTINGS_TO_STYLE_FN = {
@@ -106,7 +106,8 @@ const STYLE_TO_SETTINGS_FN = {
 }
 
 const TOGGLES_SELECTORS = {
-  username: '.chat-line__message > *:nth-child(-n+3)'
+  username: '.chat-line__message > *:nth-child(-n+3)',
+  timestamp: '.anu-chat-overlay-container .vod-message > .vod-message__header'
 }
 
 const settingsToStyle = (settings, attrNames, { raw } = { raw: false }) => {
@@ -158,7 +159,7 @@ const applyFont = fontStyle => {
 
 const applyToggles = toggles => {
   for (const t in TOGGLES_SELECTORS)
-    applyStyle(iframeBody(), `toggleStyle-${ t }`, TOGGLES_SELECTORS[t], toggles[t] === 'true' ? {} : { display: 'none' })
+    applyStyle(iframeBody(), `toggleStyle-${ t }`, TOGGLES_SELECTORS[t], toggles[t] === 'true' ? {} : { display: 'none !important' })
 }
 
 module.exports = {
