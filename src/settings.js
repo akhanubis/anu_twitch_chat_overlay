@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
 
-const VERSION = "0.4.0"
+const VERSION = "0.4.1"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
@@ -64,9 +64,12 @@ const getSettings = async _ => {
   window._TCO.currentSettings = {}
   for (const s in DEFAULT_SETTINGS)
     window._TCO.currentSettings[s] = (storedSettings[window._TCO.currentStream] || {})[s] || (storedSettings.default || {})[s] || DEFAULT_SETTINGS[s]
+  
+  console.log(window._TCO.currentSettings.toggles)
   /* TEMP fix for old settings with toggle = "true" */
-  if (['true', 'false'].includes(window._TCO.currentSettings.toggles))
-    window._TCO.currentSettings.toggles = `${ window._TCO.currentSettings.toggles }_false`
+  const bool_toggles = window._TCO.currentSettings.toggles.split('_')
+  if (bool_toggles.length < 3)
+    window._TCO.currentSettings.toggles = `${ window._TCO.currentSettings.toggles }${ bool_toggles.length == 1 ? '_false' : '' }_true`
 }
 
 const getGlobalSettings = async _ => {
