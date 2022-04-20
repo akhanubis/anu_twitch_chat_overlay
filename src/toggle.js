@@ -4,11 +4,11 @@ module.exports = _ => {
         DISABLED_ICON_PATH = 'M 3 5 L 3 23 L 8 23 L 8 28.078125 L 14.351563 23 L 29 23 L 29 5 Z M 5 7 L 27 7 L 27 21 L 13.648438 21 L 10 23.917969 L 10 21 L 5 21 Z',
         toggle = document.createElement('div')
   toggle.id = "anu-chat-overlay-toggle"
-  toggle.className = 'Layout-sc-nxg1ff-0 ScAttachedTooltipWrapper-sc-v8mg6d-0 gCVNER'
+  toggle.className = 'Layout-sc-nxg1ff-0 ScAttachedTooltipWrapper-sc-v8mg6d-0 hOVSHb'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
-    <button class="ScCoreButton-sc-1qn4ixc-0 NUuwz ScButtonIcon-sc-o7ndmn-0 fCvKRl" aria-label="Anu Chat Overlay">
-      <div class="ScButtonIconFigure-sc-o7ndmn-1 fkBaPV">
+    <button class="ScCoreButton-sc-1qn4ixc-0 cgCHoV ScButtonIcon-sc-o7ndmn-0 kwoFXD" aria-label="Anu Chat Overlay">
+      <div class="ButtonIconFigure-sc-1ttmz5m-0 fbCCvx">
         <div class="ScIconLayout-sc-1bgeryd-0 dPgmNu">
           <div class="ScAspectRatio-sc-1sw3lwy-1 dJaMsL tw-aspect">
             <div class="ScAspectSpacer-sc-1sw3lwy-0 giUbvo"></div>
@@ -22,7 +22,7 @@ module.exports = _ => {
         </div>
       </div>
     </button>
-    <div class="ScAttachedTooltip-sc-v8mg6d-1 bnTAft tw-tooltip" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip" direction="top">Anu Chat Overlay</div>
+    <div class="ScAttachedTooltip-sc-v8mg6d-1 kqEiJv tw-tooltip" data-a-target="tw-tooltip-label" role="tooltip" id="anu-chat-overlay-toggle-tooltip" direction="top">Anu Chat Overlay</div>
   `
   return toggle
 }
