@@ -23,20 +23,21 @@ let enabled,
     appendTo,
     chatContainer,
     chatElement,
-    initialParent,
-    toggle
+    initialParent
 
 const init = async currentVOD => {
   window._TCO.currentVOD = currentVOD
-  if (!currentVOD)
+  if (!currentVOD || window._TCO.initializing)
     return
+  window._TCO.initializing = true
+
   window._TCO.currentStream = await getStreamFromVOD()
 
   await getSettings()
   setupAutoClaimManager()
   
   const initialSetup = _ => {
-    const appendToParent = document.querySelector('[data-a-target="player-controls"]').parentNode.parentNode
+    const appendToParent = document.querySelector('.video-player__overlay')
     chatElement = document.querySelector('.chat-room__content, .video-chat__message-list-wrapper').parentNode
     initialParent = chatElement.parentNode
     addClass(chatElement, 'atco-dettached')
@@ -77,7 +78,7 @@ const init = async currentVOD => {
     })
   }
 
-  toggle = createToggle()
+  const toggle = createToggle()
   toggle.onclick = _ => {
     if (!chatContainer)
       initialSetup()
@@ -88,9 +89,10 @@ const init = async currentVOD => {
       disable()
     attachTo(chatElement, enabled ? chatContainer : initialParent)
   }
-  document.querySelector('.player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
+  document.querySelector('.video-player__overlay .player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
 
-  console.log(`Anu Twitch Chat Overlay initialized for ${ currentVOD }`)
+  console.log(`Anu Twitch Chat Overlay initialized for VOD ${ currentVOD }`)
+  window._TCO.initializing = false
 
   if (enabled) /* was enabled before the video switch */
     initialSetup()
@@ -101,7 +103,8 @@ const cleanUp = _ => {
     attachTo(chatElement, initialParent)
   for (const p of document.querySelectorAll('.video-player__overlay .tco-modal, .atco-injected-style'))
     p.remove()
-  toggle?.remove()
+  for (const p of document.querySelectorAll('#anu-chat-overlay-toggle'))
+    p.remove()
   if (appendTo) {
     appendTo.remove()
     console.log('Anu Twitch Chat Overlay cleaned up')
@@ -111,7 +114,7 @@ const cleanUp = _ => {
 whenElementLoaded(document.body, 'player-controls__right-control-group', async _ => {
   await getGlobalSettings()
   cleanUp()
-  init(getCurrentVOD())
+  await init(getCurrentVOD())
 })
 
 whenUrlChanged(async _ => {
@@ -121,5 +124,5 @@ whenUrlChanged(async _ => {
   if (newVideo === oldVideo)
     return
   cleanUp()
-  init(newVideo)
+  await init(newVideo)
 }, false)

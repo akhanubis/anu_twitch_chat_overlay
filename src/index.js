@@ -18,22 +18,23 @@ const disable = _ => removeClass(document.body, 'anu-chat-overlay-active')
 let enabled,
     appendTo,
     chatContainer,
-    iframe,
-    toggle
+    iframe
 
 const init = async currentStream => {
   if (inVOD())
     return
   window._TCO.currentStream = currentStream
-  if (!currentStream)
+  if (!currentStream || window._TCO.initializing)
     return
+  window._TCO.initializing = true
+
   await getSettings()
   setupAutoClaimManager()
   
   const initialSetup = _ => {
     const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),
           chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
-          appendToParent = document.querySelector('[data-a-target="player-controls"]').parentNode.parentNode
+          appendToParent = document.querySelector('.video-player__overlay')
     chatContainer = createChatContainer()
     appendTo = document.createElement('div')
     iframe = createIframe(_ => {
@@ -80,7 +81,7 @@ const init = async currentStream => {
     appendTo.append(chatContainer)
   }
 
-  toggle = createToggle()
+  const toggle = createToggle()
   toggle.onclick = _ => {
     if (!chatContainer)
       initialSetup()
@@ -90,9 +91,10 @@ const init = async currentStream => {
     else
       disable()
   }
-  document.querySelector('.player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
+  document.querySelector('.video-player__overlay .player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
 
   console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
+  window._TCO.initializing = false
 
   if (enabled) /* was enabled before the raid/scroll down */
     initialSetup()
@@ -101,7 +103,8 @@ const init = async currentStream => {
 const cleanUp = _ => {
   for (const p of document.querySelectorAll('.video-player__overlay .tco-modal'))
     p.remove()
-  toggle?.remove()
+  for (const p of document.querySelectorAll('#anu-chat-overlay-toggle'))
+    p.remove()
   if (appendTo) {
     appendTo.remove()
     console.log('Anu Twitch Chat Overlay cleaned up')
@@ -111,7 +114,7 @@ const cleanUp = _ => {
 whenElementLoaded(document.body, 'player-controls__right-control-group', async _ => {
   await getGlobalSettings()
   cleanUp()
-  init(getCurrentStream())
+  await init(getCurrentStream())
 })
 
 whenUrlChanged(async _ => {
@@ -121,5 +124,5 @@ whenUrlChanged(async _ => {
   if (newStream === oldStream)
     return
   cleanUp()
-  init(newStream)
+  await init(newStream)
 }, false)
