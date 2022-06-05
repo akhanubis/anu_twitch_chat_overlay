@@ -30,18 +30,25 @@ const attachBaseStyle = element => {
     display: none !important;
   }
 
+  .anu-chat-overlay-inner .simplebar-content {
+    overflow-x: hidden;
+    padding-bottom: 10px !important;
+  }
+
+  .anu-chat-overlay-inner.atco-dettached .simplebar-content {
+    padding-bottom: 20px !important;
+  }
+
   .anu-chat-overlay-inner .simplebar-scroll-content {
-    margin-bottom: -17px !important;
     margin-right: -17px !important;
     padding-right: 0 !important;
-    overflow-x: hidden;
+    visibility: hidden !important;
   }
 
   .anu-chat-overlay-inner .simplebar-content,
   .anu-chat-overlay-inner.atco-dettached
    {
     visibility: visible;
-    padding-bottom: 0 !important;
     margin-bottom: -5px;
   }
 
