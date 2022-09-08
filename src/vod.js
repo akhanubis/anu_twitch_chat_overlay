@@ -89,7 +89,7 @@ const init = async currentVOD => {
       disable()
     attachTo(chatElement, enabled ? chatContainer : initialParent)
   }
-  document.querySelector('.video-player__overlay .player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
+  document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 
   console.log(`Anu Twitch Chat Overlay initialized for VOD ${ currentVOD }`)
   window._TCO.initializing = false

@@ -91,7 +91,7 @@ const init = async currentStream => {
     else
       disable()
   }
-  document.querySelector('.video-player__overlay .player-controls__right-control-group .settings-menu-button-component').parentNode.after(toggle)
+  document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 
   console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
   window._TCO.initializing = false
