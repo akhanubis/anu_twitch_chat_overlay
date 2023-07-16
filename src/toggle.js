@@ -7,8 +7,8 @@ module.exports = _ => {
   toggle.className = 'Layout-sc-1xcs6mc-0 ScAttachedTooltipWrapper-sc-1ems1ts-0 deuUPa'
   toggle.setAttribute('aria-describedby', 'anu-chat-overlay-toggle-tooltip')
   toggle.innerHTML = `
-    <button class="ScCoreButton-sc-ocjdkq-0 dNGoHt ScButtonIcon-sc-9yap0r-0 eekshR" aria-label="Anu Chat Overlay">
-      <div class="ButtonIconFigure-sc-1emm8lf-0 bxQRSJ">
+    <button class="ScCoreButton-sc-ocjdkq-0 dNGoHt ScButtonIcon-sc-9yap0r-0 eWaZXT" aria-label="Anu Chat Overlay">
+      <div class="ButtonIconFigure-sc-1emm8lf-0 kgdotM">
         <div class="ScIconLayout-sc-1q25cff-0 cMWGQu">
           <div class="ScAspectRatio-sc-18km980-1 hTTohL tw-aspect">
             <div class="ScAspectSpacer-sc-18km980-0 kiiGFY"></div>
