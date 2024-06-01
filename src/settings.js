@@ -1,8 +1,8 @@
 const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
-const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/twitch_chat_overlay_issues/issues"
+const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/anu_twitch_chat_overlay/issues"
 
-const VERSION = "0.4.10"
+const VERSION = "1.0.0"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
