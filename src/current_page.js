@@ -28,7 +28,7 @@ const getStreamFromVOD = _ => {
     return streamFromUrl(window.location.href)
   return new Promise(r => {
     const interval = setInterval(_ => {
-      const header = document.querySelector('.channel-info-content a[data-a-target="watch-mode-to-home"]')
+      const header = document.querySelector('a[data-test-selector="ChannelLink"]')
       if (header && header.href) {
         clearInterval(interval)
         r(streamFromUrl(header.href))
