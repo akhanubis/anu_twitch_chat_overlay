@@ -32,7 +32,6 @@ const attachBaseStyle = element => {
 
   .anu-chat-overlay-inner .simplebar-content {
     overflow-x: hidden;
-    padding-bottom: 10px !important;
   }
 
   .anu-chat-overlay-inner.atco-dettached .simplebar-content {
@@ -144,11 +143,8 @@ const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atc
 
 const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', `
   .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .simplebar-content, /* live */
-  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .simplebar-content .tw-c-background-alt, /* live */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .simplebar-content, /* live force vod */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .simplebar-content .tw-c-background-alt, /* live force vod */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper, /* vod */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .tw-c-background-alt /* vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list--default, /* live force vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper /* vod */
   `, backgroundStyle)
 
 const applyFont = fontStyle => {
@@ -156,7 +152,9 @@ const applyFont = fontStyle => {
   applyStyle(iframeBody(), 'chatFontStyle', `
   .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-list--default .chat-line__message, /* live */
   .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list--default .chat-line__message, /* live force vod */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .vod-message /* vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list--default .seventv-chat-message-body, /* live force vod 7tv */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .vod-message, /* vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper .seventv-chat-message-body /* vod 7tv */
   `, fullStyle)
 }
 
