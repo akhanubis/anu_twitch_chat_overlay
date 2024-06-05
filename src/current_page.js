@@ -28,10 +28,10 @@ const getStreamFromVOD = _ => {
     return streamFromUrl(window.location.href)
   return new Promise(r => {
     const interval = setInterval(_ => {
-      const header = document.querySelector('a[data-test-selector="ChannelLink"]')
-      if (header && header.href) {
+      const channel_profile_pic_link = document.querySelector('.channel-info-content #live-channel-stream-information a')
+      if (channel_profile_pic_link && channel_profile_pic_link.href) {
         clearInterval(interval)
-        r(streamFromUrl(header.href))
+        r(streamFromUrl(channel_profile_pic_link.href))
       }
     }, 500)
   })
