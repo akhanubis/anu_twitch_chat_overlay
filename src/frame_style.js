@@ -79,10 +79,6 @@ const attachBaseStyle = element => {
     background-color: unset;
   }
 
-  .anu-chat-overlay-inner .chat-list--default .scrollbar-hacky-hack {
-    width: 4000px;
-  }
-
   .anu-chat-overlay-inner:not(.hovered) .chat-list--default .chat-line__message .tw-elevation-1 {
     box-shadow: none !important;
   }

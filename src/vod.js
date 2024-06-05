@@ -60,12 +60,6 @@ const init = async currentVOD => {
     appendToParent.append(appendTo)
     appendTo.append(chatContainer)
 
-    if (forcedVOD()) {
-      const scrollbarHack = document.createElement('div')
-      scrollbarHack.className = 'scrollbar-hacky-hack'
-      chatElement.querySelector('.chat-scrollable-area__message-container, .video-chat__message-list-wrapper ul').after(scrollbarHack)
-    }
-
     applyBackground(settingsToStyle(window._TCO.currentSettings.background, STYLE_ATTRS.BACKGROUND))
     applyFont(settingsToStyle(window._TCO.currentSettings.font, STYLE_ATTRS.FONT))
     applyToggles(settingsToStyle(window._TCO.currentSettings.toggles, STYLE_ATTRS.TOGGLES))

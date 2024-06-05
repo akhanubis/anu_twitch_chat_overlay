@@ -50,11 +50,6 @@ const init = async currentStream => {
       if (rightColumnCollapsed)
         chatCollapser.click()
       removeClass(chatContainer, 'loading')
-      whenElementLoaded(iframe.contentDocument.body, 'chat-scrollable-area__message-container', _ => {
-        const scrollbarHack = document.createElement('div')
-        scrollbarHack.className = 'scrollbar-hacky-hack'
-        iframe.contentDocument.body.querySelector('.chat-scrollable-area__message-container').after(scrollbarHack)
-      })
       const html = document.querySelector('html'),
             iframeHtml = iframe.contentDocument.querySelector('html'),
             darkThemeClass = 'tw-root--theme-dark'
