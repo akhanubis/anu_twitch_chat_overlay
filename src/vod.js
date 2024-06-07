@@ -1,5 +1,6 @@
 require('./tco')
 const { addClass, removeClass } = require('./class_utils')
+const { isInChatRoom, joinChatRoom } = require('./chat_room')
 const createChatContainer = require('./chat_container')
 const createToggle = require('./toggle')
 const { attachBaseStyle, STYLE_ATTRS, applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings } = require('./frame_style')
@@ -7,7 +8,7 @@ const { whenElementLoaded, whenUrlChanged } = require('./observer')
 const { getSettings, setSettings, getGlobalSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
-const { getStreamFromVOD, getCurrentVOD, forcedVOD } = require('./current_page')
+const { getStreamFromVOD, getCurrentVOD, isRealVOD } = require('./current_page')
 const setupAutoClaimManager = require('./claim_points')
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
@@ -54,6 +55,10 @@ const init = async currentVOD => {
     appendTo = document.createElement('div')
 
     chatContainer = createChatContainer()
+
+    if (!isRealVOD() && !isInChatRoom())
+      joinChatRoom()
+    
     removeClass(chatContainer, 'loading')
 
     attachTo(chatElement, chatContainer)
