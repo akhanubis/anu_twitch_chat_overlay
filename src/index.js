@@ -58,6 +58,20 @@ const createChatOverlay = () => {
   appendTo.append(chatContainer)
 }
 
+const toggleChatOverlay = () => {
+  if (!chatContainer)
+    createChatOverlay()
+  enabled = !enabled
+  if (enabled) {
+    enable()
+    if (!isTogglingRightColumn() && window._TCO.currentGlobalSettings.autoCloseRightColumn === 'true' && !isRightColumnClosed()) {
+      toggleRightColumn()
+    }
+  } else {
+    disable()
+  }
+}
+
 const init = async currentStream => {
   if (inVOD())
     return
@@ -70,19 +84,7 @@ const init = async currentStream => {
   setupAutoClaimManager()
 
   const toggle = createToggle()
-  toggle.onclick = _ => {
-    if (!chatContainer)
-      createChatOverlay()
-    enabled = !enabled
-    if (enabled) {
-      enable()
-      if (!isTogglingRightColumn() && window._TCO.currentGlobalSettings.autoCloseRightColumn === 'true' && !isRightColumnClosed()) {
-        toggleRightColumn()
-      }
-    } else {
-      disable()
-    }
-  }
+  toggle.onclick = toggleChatOverlay
   document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 
   whenKeybindPressed(() => toggle.click())
