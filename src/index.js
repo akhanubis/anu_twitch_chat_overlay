@@ -8,7 +8,7 @@ const { whenElementLoaded, whenClassToggled, whenUrlChanged } = require('./obser
 const { getSettings, setSettings, getGlobalSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
-const { inVOD, getCurrentStream } = require('./current_page')
+const { inVOD, getCurrentStream, isTogglingRightColumn, isRightColumnClosed, toggleRightColumn } = require('./current_page')
 const setupAutoClaimManager = require('./claim_points')
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
@@ -74,10 +74,14 @@ const init = async currentStream => {
     if (!chatContainer)
       initialSetup()
     enabled = !enabled
-    if (enabled)
+    if (enabled) {
       enable()
-    else
+      if (!isTogglingRightColumn() && window._TCO.currentGlobalSettings.autoCloseRightColumn === 'true' && !isRightColumnClosed()) {
+        toggleRightColumn()
+      }
+    } else {
       disable()
+    }
   }
   document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 

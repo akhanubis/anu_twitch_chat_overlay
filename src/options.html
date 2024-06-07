@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head><title>Global Settings</title></head>
+
+<head>
+  <title>Global Settings</title>
+</head>
+
 <body style="padding: 20px; margin: auto; font-size: 100%;">
   <label>
     <input type="checkbox" id="force_vod">
     <span>Avoid iframes (?force_vod=true by default)</span>
-    <small style="display: block; margin-top: 5px;">Checking this box should improve performance and fix issues related to third party emotes</small>
+    <small style="display: block; margin-top: 5px;">Checking this box should improve performance and fix issues related
+      to third party emotes</small>
+  </label>
+  <label style="margin-top: 10px;">
+    <input type="checkbox" id="auto_close_right_column">
+    <span>Automaticaly close right column when opening chat overlay</span>
   </label>
   <div style="margin-top: 25px;">You will need to reload existing Twitch tabs to apply new settings</div>
   <div id="DEBUG" style="display: none"></div>
   <script src="options.js"></script>
 </body>
+
 </html>
