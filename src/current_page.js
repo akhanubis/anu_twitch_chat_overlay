@@ -47,11 +47,25 @@ const getStreamFromVOD = _ => {
 
 const inVOD = _ => !!getCurrentVOD()
 
+const isRightColumnClosed = () => {
+  return Boolean(document.querySelector('.right-column--collapsed'))
+}
+
+const openAndCloseRightColumn = () => {
+  rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
+  rightColumnToggle.click()
+  setTimeout(function() {
+    rightColumnToggle.click()
+  }, 500);
+}
+
 module.exports = {
   inVOD,
   isRealVOD,
   getCurrentStream,
   getCurrentVOD,
   getStreamFromVOD,
-  forcedVOD
+  forcedVOD,
+  isRightColumnClosed,
+  openAndCloseRightColumn,
 }
