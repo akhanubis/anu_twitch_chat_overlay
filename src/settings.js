@@ -29,7 +29,8 @@ const DEFAULT_SETTINGS = {
 }
 
 const DEFAULT_GLOBAL_SETTINGS = {
-  forceVod: 'false'
+  forceVod: 'false',
+  autoCloseRightColumn: 'false'
 }
 
 const setSettings = (k, v) => {

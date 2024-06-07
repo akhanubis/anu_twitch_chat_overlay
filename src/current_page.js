@@ -51,11 +51,21 @@ const isRightColumnClosed = () => {
   return Boolean(document.querySelector('.right-column--collapsed'))
 }
 
+// Hacky way to prevent double toggling when autoCloseRightColumn is true
+let isTogglingRightColumn = false;
+
+const toggleRightColumn = () => {
+  rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
+  rightColumnToggle.click()
+}
+
 const openAndCloseRightColumn = () => {
+  isTogglingRightColumn = true;
   rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
   rightColumnToggle.click()
   setTimeout(function() {
     rightColumnToggle.click()
+    isTogglingRightColumn = false;
   }, 500);
 }
 
@@ -67,5 +77,7 @@ module.exports = {
   getStreamFromVOD,
   forcedVOD,
   isRightColumnClosed,
+  isTogglingRightColumn: () => isTogglingRightColumn,
+  toggleRightColumn,
   openAndCloseRightColumn,
 }

@@ -8,8 +8,15 @@ const init = async _ => {
   force_vod_checkbox.addEventListener('change', e => {
     setGlobalSettings('forceVod', e.target.checked ? 'true' : 'false')
   })
-
   force_vod_checkbox.checked = window._TCO.currentGlobalSettings.forceVod === 'true'
+
+  const auto_close_chat_checkbox = document.querySelector('#auto_close_right_column')
+  auto_close_chat_checkbox.addEventListener('change', e => {
+    setGlobalSettings('autoCloseRightColumn', e.target.checked ? 'true' : 'false')
+  })
+  auto_close_chat_checkbox.checked = window._TCO.currentGlobalSettings.autoCloseRightColumn === 'true'
+
+
 }
 
 document.addEventListener('DOMContentLoaded', init)
