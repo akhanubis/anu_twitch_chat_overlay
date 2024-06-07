@@ -77,9 +77,18 @@ const whenUrlChanged = (onChange, triggerOnSetup = false) => {
     onChange(oldUrl)
 }
 
+const whenKeybindPressed = (onKeybind) => {
+  document.addEventListener('keydown', function(event) {
+    if (event.altKey && event.code === 'KeyC') {
+        onKeybind();
+    }
+  });
+}
+
 module.exports = {
   whenElementLoaded,
   whenClassToggled,
   whenSizeChanged,
-  whenUrlChanged
+  whenUrlChanged,
+  whenKeybindPressed
 }

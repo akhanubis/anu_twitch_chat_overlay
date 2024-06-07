@@ -4,7 +4,7 @@ const createChatContainer = require('./chat_container')
 const createIframe = require('./iframe')
 const createToggle = require('./toggle')
 const { attachBaseStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
-const { whenElementLoaded, whenClassToggled, whenUrlChanged } = require('./observer')
+const { whenElementLoaded, whenClassToggled, whenUrlChanged, whenKeybindPressed } = require('./observer')
 const { getSettings, setSettings, getGlobalSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
@@ -84,6 +84,8 @@ const init = async currentStream => {
     }
   }
   document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
+
+  whenKeybindPressed(() => toggle.click())
 
   console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
   window._TCO.initializing = false
