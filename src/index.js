@@ -16,9 +16,47 @@ const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
 const disable = _ => removeClass(document.body, 'anu-chat-overlay-active')
 
 let enabled,
-    appendTo,
-    chatContainer,
-    iframe
+  appendTo,
+  chatContainer,
+  iframe
+
+const createChatOverlay = () => {
+  const appendToParent = document.querySelector('.video-player__overlay')
+  chatContainer = createChatContainer()
+  appendTo = document.createElement('div')
+  iframe = createIframe(_ => {
+    const mouseEventsContainer = document.querySelector('.video-player__overlay')
+    makeResizable(chatContainer, mouseEventsContainer, iframe)
+    makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), {
+      onDragEnd: _ => setSettings('position', styleToSettings(chatContainer.style, STYLE_ATTRS.POSITION)),
+      excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
+    })
+
+    attachBaseStyle(iframe.contentDocument.body)
+    iframe.style = ''
+    removeClass(chatContainer, 'loading')
+    const html = document.querySelector('html'),
+      iframeHtml = iframe.contentDocument.querySelector('html'),
+      darkThemeClass = 'tw-root--theme-dark'
+    whenClassToggled(html, darkThemeClass, _ => {
+      if (hasClass(html, darkThemeClass))
+        addClass(iframeHtml, darkThemeClass)
+      else
+        removeClass(iframeHtml, darkThemeClass)
+    })
+  })
+
+  chatContainer.addEventListener('mouseenter', _ => {
+    const chatList = iframe.contentDocument.body.querySelector('.chat-list--default')
+    if (chatList)
+      chatList.scrollTop = chatList.scrollHeight
+  })
+  chatContainer.addEventListener('mouseover', _ => addClass(iframe.contentDocument.body, 'hovered'))
+  chatContainer.addEventListener('mouseout', _ => removeClass(iframe.contentDocument.body, 'hovered'))
+  chatContainer.append(iframe)
+  appendToParent.append(appendTo)
+  appendTo.append(chatContainer)
+}
 
 const init = async currentStream => {
   if (inVOD())
@@ -30,49 +68,11 @@ const init = async currentStream => {
 
   await getSettings()
   setupAutoClaimManager()
-  
-  const initialSetup = _ => {
-    const appendToParent = document.querySelector('.video-player__overlay')
-    chatContainer = createChatContainer()
-    appendTo = document.createElement('div')
-    iframe = createIframe(_ => {
-      const mouseEventsContainer = document.querySelector('.video-player__overlay')
-      makeResizable(chatContainer, mouseEventsContainer, iframe)
-      makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), {
-        onDragEnd: _ => setSettings('position', styleToSettings(chatContainer.style, STYLE_ATTRS.POSITION)),
-        excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
-      })
-
-      attachBaseStyle(iframe.contentDocument.body)
-      iframe.style = ''
-      removeClass(chatContainer, 'loading')
-      const html = document.querySelector('html'),
-            iframeHtml = iframe.contentDocument.querySelector('html'),
-            darkThemeClass = 'tw-root--theme-dark'
-      whenClassToggled(html, darkThemeClass, _ => {
-        if (hasClass(html, darkThemeClass))
-          addClass(iframeHtml, darkThemeClass)
-        else
-          removeClass(iframeHtml, darkThemeClass)
-      })
-    })
-    
-    chatContainer.addEventListener('mouseenter', _ => {
-      const chatList = iframe.contentDocument.body.querySelector('.chat-list--default')
-      if (chatList)
-        chatList.scrollTop = chatList.scrollHeight
-    })
-    chatContainer.addEventListener('mouseover', _ => addClass(iframe.contentDocument.body, 'hovered'))
-    chatContainer.addEventListener('mouseout', _ => removeClass(iframe.contentDocument.body, 'hovered'))
-    chatContainer.append(iframe)
-    appendToParent.append(appendTo)
-    appendTo.append(chatContainer)
-  }
 
   const toggle = createToggle()
   toggle.onclick = _ => {
     if (!chatContainer)
-      initialSetup()
+      createChatOverlay()
     enabled = !enabled
     if (enabled) {
       enable()
@@ -87,11 +87,11 @@ const init = async currentStream => {
 
   whenKeybindPressed(() => toggle.click())
 
-  console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
+  console.log(`Anu Twitch Chat Overlay initialized for ${currentStream}`)
   window._TCO.initializing = false
 
   if (enabled) {/* was enabled before the raid/scroll down */
-    initialSetup()
+    createChatOverlay()
   } else if (window._TCO.currentGlobalSettings.autoStart === 'true') {
     setTimeout(() => toggle.click(), 500);
   }
@@ -117,7 +117,7 @@ whenElementLoaded(document.body, 'player-controls__right-control-group', async _
 whenUrlChanged(async _ => {
   await getGlobalSettings()
   const oldStream = window._TCO.currentStream,
-        newStream = getCurrentStream()
+    newStream = getCurrentStream()
   if (newStream === oldStream)
     return
   cleanUp()
