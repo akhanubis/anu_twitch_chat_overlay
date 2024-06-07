@@ -17,6 +17,11 @@ const init = async _ => {
   auto_close_chat_checkbox.checked = window._TCO.currentGlobalSettings.autoCloseRightColumn === 'true'
 
 
+  const auto_start_checkbox = document.querySelector('#auto_start')
+  auto_start_checkbox.addEventListener('change', e => {
+    setGlobalSettings('autoStart', e.target.checked ? 'true' : 'false')
+  })
+  auto_start_checkbox.checked = window._TCO.currentGlobalSettings.autoStart === 'true'
 }
 
 document.addEventListener('DOMContentLoaded', init)

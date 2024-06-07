@@ -30,7 +30,8 @@ const DEFAULT_SETTINGS = {
 
 const DEFAULT_GLOBAL_SETTINGS = {
   forceVod: 'false',
-  autoCloseRightColumn: 'false'
+  autoCloseRightColumn: 'false',
+  autoStart: 'false'
 }
 
 const setSettings = (k, v) => {
@@ -41,7 +42,7 @@ const setSettings = (k, v) => {
     ...window._TCO.currentSettings,
     [k]: v
   }
-  
+
   chrome.storage.sync.set({
     default: window._TCO.currentSettings,
     [window._TCO.currentStream]: window._TCO.currentSettings
@@ -56,7 +57,7 @@ const setGlobalSettings = (k, v) => {
     ...window._TCO.currentGlobalSettings,
     [k]: v
   }
-  
+
   chrome.storage.sync.set({ '__global__': window._TCO.currentGlobalSettings })
 }
 
@@ -65,11 +66,11 @@ const getSettings = async _ => {
   window._TCO.currentSettings = {}
   for (const s in DEFAULT_SETTINGS)
     window._TCO.currentSettings[s] = (storedSettings[window._TCO.currentStream] || {})[s] || (storedSettings.default || {})[s] || DEFAULT_SETTINGS[s]
-  
+
   /* TEMP fix for old settings with toggle = "true" */
   const bool_toggles = window._TCO.currentSettings.toggles.split('_')
   if (bool_toggles.length < 3)
-    window._TCO.currentSettings.toggles = `${ window._TCO.currentSettings.toggles }${ bool_toggles.length == 1 ? '_false' : '' }_true`
+    window._TCO.currentSettings.toggles = `${window._TCO.currentSettings.toggles}${bool_toggles.length == 1 ? '_false' : ''}_true`
 }
 
 const getGlobalSettings = async _ => {

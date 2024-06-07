@@ -99,8 +99,11 @@ const init = async currentVOD => {
   console.log(`Anu Twitch Chat Overlay initialized for VOD ${ currentVOD }`)
   window._TCO.initializing = false
 
-  if (enabled) /* was enabled before the video switch */
+  if (enabled) { /* was enabled before the video switch */
     initialSetup()
+  } else if (window._TCO.currentGlobalSettings.autoStart === 'true') {
+    setTimeout(() => toggle.click(), 500);
+  }
 }
 
 const cleanUp = _ => {

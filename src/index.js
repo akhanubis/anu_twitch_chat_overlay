@@ -90,8 +90,11 @@ const init = async currentStream => {
   console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
   window._TCO.initializing = false
 
-  if (enabled) /* was enabled before the raid/scroll down */
+  if (enabled) {/* was enabled before the raid/scroll down */
     initialSetup()
+  } else if (window._TCO.currentGlobalSettings.autoStart === 'true') {
+    setTimeout(() => toggle.click(), 500);
+  }
 }
 
 const cleanUp = _ => {
