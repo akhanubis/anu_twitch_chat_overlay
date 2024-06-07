@@ -28,7 +28,8 @@ const streamFromUrl = url => {
 const streamFromPictureLink = async () => {
   return new Promise(r => {
     const interval = setInterval(_ => {
-      const channel_profile_pic_link = document.querySelector('.channel-info-content #live-channel-stream-information a')
+      const channel_profile_pic = document.querySelector('.channel-info-content #live-channel-stream-information .tw-image.tw-image-avatar');
+      const channel_profile_pic_link = channel_profile_pic.parentNode.parentNode;
       if (channel_profile_pic_link && channel_profile_pic_link.href) {
         clearInterval(interval)
         r(streamFromUrl(channel_profile_pic_link.href))
