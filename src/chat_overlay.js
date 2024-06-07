@@ -8,7 +8,7 @@ const { whenClassToggled } = require('./observer')
 const { setSettings } = require('./settings')
 const makeDraggable = require('./draggable')
 const makeResizable = require('./resizable')
-const { isRealVOD, isRightColumnClosed, toggleRightColumn, isTogglingRightColumn } = require('./current_page')
+const { isVOD, isRightColumnClosed, toggleRightColumn, isTogglingRightColumn } = require('./current_page')
 
 
 const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
@@ -81,7 +81,7 @@ const createNativeChatOverlay = () => {
 
     chatContainer = createChatContainer()
 
-    if (!isRealVOD() && !isInChatRoom())
+    if (!isVOD() && !isInChatRoom())
         joinChatRoom()
 
     removeClass(chatContainer, 'loading')
@@ -129,20 +129,11 @@ const toggleNativeChatOverlay = (toEnable) => {
     attachTo(chatElement, toEnable ? chatContainer : initialParent)
 }
 
-const cleanUpIFrame = _ => {
-    for (const p of document.querySelectorAll('.video-player__overlay .tco-modal'))
-        p.remove()
-    for (const p of document.querySelectorAll('#anu-chat-overlay-toggle'))
-        p.remove()
-    if (appendTo) {
-        appendTo.remove()
-        console.log('Anu Twitch Chat Overlay cleaned up')
-    }
-}
-
-const cleanUpNative = _ => {
-    if (chatContainer)
+const cleanUp = _ => {
+    if (chatElement) {
         attachTo(chatElement, initialParent)
+        chatElement = undefined
+    }
     for (const p of document.querySelectorAll('.video-player__overlay .tco-modal, .atco-injected-style'))
         p.remove()
     for (const p of document.querySelectorAll('#anu-chat-overlay-toggle'))
@@ -166,14 +157,6 @@ const toggleChatOverlay = (useIFrameOverlay, toEnable) => {
         toggleIFrameChatOverlay(toEnable)
     } else {
         toggleNativeChatOverlay(toEnable)
-    }
-}
-
-const cleanUp = (useIFrameOverlay) => {
-    if (useIFrameOverlay) {
-        cleanUpIFrame()
-    } else {
-        cleanUpNative()
     }
 }
 
