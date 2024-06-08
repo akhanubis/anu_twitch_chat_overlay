@@ -78,11 +78,14 @@ const whenUrlChanged = (onChange, triggerOnSetup = false) => {
 }
 
 const whenKeybindPressed = (onKeybind) => {
-  document.addEventListener('keydown', function (event) {
+  function onKeyDown(event) {
     if (event.altKey && event.code === 'KeyC') {
       onKeybind();
     }
-  });
+  }
+  document.addEventListener('keydown', onKeyDown);
+
+  return () => document.removeEventListener('keydown', onKeyDown);
 }
 
 const waitUntilElementLoaded = async (elementSelector, interval, timeout) => {

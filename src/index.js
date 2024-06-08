@@ -7,7 +7,7 @@ const { getSettings, getGlobalSettings } = require('./settings')
 const { getCurrentStream, forcedVOD, getCurrentVOD } = require('./current_page')
 const setupAutoClaimManager = require('./claim_points')
 
-let enabled
+let enabled, cleanupKeybind
 
 const playerButtonClass = 'player-controls__right-control-group'
 
@@ -17,6 +17,7 @@ const init = async (currentStream, currentVOD) => {
   await getGlobalSettings()
   await getSettings()
   cleanUp()
+  if (cleanupKeybind) cleanupKeybind()
 
   const useIFrame = !Boolean(currentVOD) && !forcedVOD()
 
@@ -29,7 +30,7 @@ const init = async (currentStream, currentVOD) => {
   }
   document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 
-  whenKeybindPressed(() => toggle.click())
+  cleanupKeybind = whenKeybindPressed(() => toggle.click())
 
   console.info(`Anu Twitch Chat Overlay initialized for ${currentStream}${currentVOD && `\'s VOD ${currentVOD}`}`)
 
