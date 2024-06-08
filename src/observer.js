@@ -5,11 +5,11 @@ const whenElementLoaded = (container, klass, whenFound) => {
         if (checkForElement(n))
           whenFound()
   }
-  
+
   const checkForElement = node => {
     return (node.classList && Array.from(node.classList).includes(klass)) || (node.children && Array.from(node.children).some(c => checkForElement(c)))
   }
-  
+
   new MutationObserver(checkMutations).observe(container, {
     childList: true,
     subtree: true
@@ -20,15 +20,15 @@ const whenElementLoaded = (container, klass, whenFound) => {
 const whenClassToggled = (element, klass, whenFound) => {
   const checkMutations = mutations => {
     for (const m of mutations) {
-      const wasInOld = ` ${ m.oldValue } `.includes(` ${ klass } `),
-            isInNew = ` ${ m.target.className } `.includes(` ${ klass } `)
+      const wasInOld = ` ${m.oldValue} `.includes(` ${klass} `),
+        isInNew = ` ${m.target.className} `.includes(` ${klass} `)
       if ((wasInOld && !isInNew) || (!wasInOld && isInNew)) {
         whenFound()
         break
       }
     }
   }
-  
+
   new MutationObserver(checkMutations).observe(element, {
     attributes: true,
     attributeOldValue: true,
@@ -41,20 +41,20 @@ const whenSizeChanged = (element, whenFound) => {
   const checkMutations = mutations => {
     for (const m of mutations) {
       const oldSize = {
-              w: ((m.oldValue || "").match(/(^|(; ))width: ([^;]+);/) || [, , , ""])[3],
-              h: ((m.oldValue || "").match(/(^|(; ))height: ([^;]+);/) || [, , , ""])[3]
-            },
-            newSize = {
-              w: m.target.style.width,
-              h: m.target.style.height
-            }
+        w: ((m.oldValue || "").match(/(^|(; ))width: ([^;]+);/) || [, , , ""])[3],
+        h: ((m.oldValue || "").match(/(^|(; ))height: ([^;]+);/) || [, , , ""])[3]
+      },
+        newSize = {
+          w: m.target.style.width,
+          h: m.target.style.height
+        }
       if (oldSize.w !== newSize.w || oldSize.h !== newSize.h) {
         whenFound()
         break
       }
     }
   }
-  
+
   new MutationObserver(checkMutations).observe(element, {
     attributes: true,
     attributeOldValue: true,
@@ -78,11 +78,26 @@ const whenUrlChanged = (onChange, triggerOnSetup = false) => {
 }
 
 const whenKeybindPressed = (onKeybind) => {
-  document.addEventListener('keydown', function(event) {
+  document.addEventListener('keydown', function (event) {
     if (event.altKey && event.code === 'KeyC') {
-        onKeybind();
+      onKeybind();
     }
   });
+}
+
+const waitUntilElementLoaded = async (elementSelector, interval, timeout) => {
+  return new Promise(r => {
+    const intervalId = setInterval(_ => {
+      if (document.querySelector(elementSelector)) {
+        clearInterval(intervalId)
+        r(true)
+      }
+    }, interval)
+    setTimeout(() => {
+      clearInterval(intervalId)
+      r(false)
+    }, timeout);
+  })
 }
 
 module.exports = {
@@ -90,5 +105,6 @@ module.exports = {
   whenClassToggled,
   whenSizeChanged,
   whenUrlChanged,
-  whenKeybindPressed
+  whenKeybindPressed,
+  waitUntilElementLoaded
 }

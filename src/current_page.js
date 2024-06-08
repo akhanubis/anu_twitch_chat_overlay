@@ -1,3 +1,5 @@
+const { doOnIntervalWithTimeout } = require('./func_utils')
+
 const forcedVOD = _ => {
   const queryParams = new URLSearchParams(window.location.search)
   const force_vod_param = queryParams.get('force_vod')
@@ -10,7 +12,7 @@ const getCurrentVOD = () => {
 
 const getCurrentStream = async () => {
   let currentStream = streamFromUrl(window.location.href)
-  return currentStream || streamFromPictureLink()
+  return currentStream || doOnIntervalWithTimeout(streamFromPictureLink, 500, 5000)
 }
 
 const isVOD = () => {
@@ -25,21 +27,12 @@ const streamFromUrl = url => {
     return streamName
 }
 
-const streamFromPictureLink = async () => {
-  return new Promise(r => {
-    const interval = setInterval(_ => {
-      const channel_profile_pic = document.querySelector('.channel-info-content #live-channel-stream-information .tw-image.tw-image-avatar');
-      const channel_profile_pic_link = channel_profile_pic.parentNode.parentNode;
-      if (channel_profile_pic_link && channel_profile_pic_link.href) {
-        clearInterval(interval)
-        r(streamFromUrl(channel_profile_pic_link.href))
-      }
-    }, 500)
-    setTimeout(() => {
-      clearInterval(interval)
-      r('')
-    }, 5000);
-  })
+const streamFromPictureLink = () => {
+  const channel_profile_pic = document.querySelector('.channel-info-content #live-channel-stream-information .tw-image.tw-image-avatar')
+  const channel_profile_pic_link = channel_profile_pic?.parentNode?.parentNode
+  if (channel_profile_pic_link && channel_profile_pic_link.href) {
+    return streamFromUrl(channel_profile_pic_link.href)
+  }
 }
 
 const isRightColumnClosed = () => {
@@ -47,7 +40,7 @@ const isRightColumnClosed = () => {
 }
 
 // Hacky way to prevent double toggling when autoCloseRightColumn is true
-let isTogglingRightColumn = false;
+let isTogglingRightColumn = false
 
 const toggleRightColumn = () => {
   rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
@@ -55,13 +48,13 @@ const toggleRightColumn = () => {
 }
 
 const openAndCloseRightColumn = () => {
-  isTogglingRightColumn = true;
+  isTogglingRightColumn = true
   rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
   rightColumnToggle.click()
   setTimeout(function () {
     rightColumnToggle.click()
-    isTogglingRightColumn = false;
-  }, 500);
+    isTogglingRightColumn = false
+  }, 500)
 }
 
 module.exports = {
