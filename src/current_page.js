@@ -35,6 +35,10 @@ const streamFromPictureLink = async () => {
         r(streamFromUrl(channel_profile_pic_link.href))
       }
     }, 500)
+    setTimeout(() => {
+      clearInterval(interval)
+      r('')
+    }, 5000);
   })
 }
 

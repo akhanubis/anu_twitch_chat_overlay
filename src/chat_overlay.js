@@ -140,7 +140,7 @@ const cleanUp = _ => {
         p.remove()
     if (appendTo) {
         appendTo.remove()
-        console.log('Anu Twitch Chat Overlay cleaned up')
+        console.info('Anu Twitch Chat Overlay cleaned up')
     }
 }
 

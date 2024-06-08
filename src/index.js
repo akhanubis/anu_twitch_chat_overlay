@@ -2,6 +2,7 @@ require('./tco')
 const { cleanUp, createChatOverlay, toggleChatOverlay } = require('./chat_overlay')
 const createToggle = require('./toggle')
 const { whenElementLoaded, whenUrlChanged, whenKeybindPressed } = require('./observer')
+const { debounce } = require('./func_utils')
 const { getSettings, getGlobalSettings } = require('./settings')
 const { getCurrentStream, forcedVOD, getCurrentVOD } = require('./current_page')
 const setupAutoClaimManager = require('./claim_points')
@@ -13,7 +14,7 @@ const init = async (currentStream, currentVOD) => {
   await getSettings()
   cleanUp()
 
-  const useIFrame = Boolean(currentVOD) || forcedVOD()
+  const useIFrame = !Boolean(currentVOD) && !forcedVOD()
 
   setupAutoClaimManager()
 
@@ -35,12 +36,17 @@ const init = async (currentStream, currentVOD) => {
   }
 }
 
+const debouncedInit = debounce(init, 200)
+
 whenElementLoaded(document.body, 'player-controls__right-control-group', async _ => {
   const currentStream = await getCurrentStream()
   const currentVOD = getCurrentVOD()
+
   window._TCO.currentStream = currentStream
   window._TCO.currentVOD = currentVOD
-  await init(currentStream, currentVOD)
+  if (currentStream) {
+    debouncedInit(currentStream, currentVOD)
+  }
 })
 
 whenUrlChanged(async _ => {
@@ -50,6 +56,6 @@ whenUrlChanged(async _ => {
   if (currentStream && currentStream !== window._TCO.currentStream || currentVOD !== window._TCO.currentVOD) {
     window._TCO.currentStream = currentStream
     window._TCO.currentVOD = currentVOD
-    await init(currentStream, currentVOD)
+    debouncedInit(currentStream, currentVOD)
   }
 }, false)
