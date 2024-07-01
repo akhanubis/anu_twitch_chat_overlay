@@ -4,6 +4,14 @@ const forcedVOD = _ => {
   return (force_vod_param || window._TCO.currentGlobalSettings.forceVod) === 'true'
 }
 
+const getVODId = () => {
+  return (window.location.href.match(/\.tv\/videos\/([0-9]+)/) || [])[1]
+}
+
+const isRealVOD = () => {
+  return Boolean(getVODId())
+}
+
 const streamFromUrl = url => {
   if (url.match(/clips\.twitch\.tv/))
     return
@@ -15,9 +23,9 @@ const streamFromUrl = url => {
 const getCurrentStream = _ => streamFromUrl(window.location.href)
 
 const getCurrentVOD = _ => {
-  const vod = (window.location.href.match(/\.tv\/videos\/([0-9]+)/) || [])[1]
-  if (vod)
-    return vod
+  const vod_id = getVODId()
+  if (vod_id)
+    return vod_id
   if (forcedVOD())
     return streamFromUrl(window.location.href)
   return ''
@@ -39,10 +47,25 @@ const getStreamFromVOD = _ => {
 
 const inVOD = _ => !!getCurrentVOD()
 
+const isRightColumnClosed = () => {
+  return Boolean(document.querySelector('.right-column--collapsed'))
+}
+
+const openAndCloseRightColumn = () => {
+  rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
+  rightColumnToggle.click()
+  setTimeout(function() {
+    rightColumnToggle.click()
+  }, 500);
+}
+
 module.exports = {
   inVOD,
+  isRealVOD,
   getCurrentStream,
   getCurrentVOD,
   getStreamFromVOD,
-  forcedVOD
+  forcedVOD,
+  isRightColumnClosed,
+  openAndCloseRightColumn,
 }

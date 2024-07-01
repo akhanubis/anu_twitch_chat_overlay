@@ -32,9 +32,7 @@ const init = async currentStream => {
   setupAutoClaimManager()
   
   const initialSetup = _ => {
-    const rightColumnCollapsed = document.querySelector('.right-column--collapsed'),
-          chatCollapser = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]'),
-          appendToParent = document.querySelector('.video-player__overlay')
+    const appendToParent = document.querySelector('.video-player__overlay')
     chatContainer = createChatContainer()
     appendTo = document.createElement('div')
     iframe = createIframe(_ => {
@@ -47,8 +45,6 @@ const init = async currentStream => {
 
       attachBaseStyle(iframe.contentDocument.body)
       iframe.style = ''
-      if (rightColumnCollapsed)
-        chatCollapser.click()
       removeClass(chatContainer, 'loading')
       const html = document.querySelector('html'),
             iframeHtml = iframe.contentDocument.querySelector('html'),
@@ -60,9 +56,6 @@ const init = async currentStream => {
           removeClass(iframeHtml, darkThemeClass)
       })
     })
-          
-    if (rightColumnCollapsed)
-      chatCollapser.click()
     
     chatContainer.addEventListener('mouseenter', _ => {
       const chatList = iframe.contentDocument.body.querySelector('.chat-list--default')
