@@ -77,6 +77,7 @@ const whenUrlChanged = (onChange, triggerOnSetup = false) => {
     onChange(oldUrl)
 }
 
+// Only handles to `Alt + c` for now
 const whenKeybindPressed = (onKeybind) => {
   function onKeyDown(event) {
     if (event.altKey && event.code === 'KeyC') {

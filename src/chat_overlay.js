@@ -1,3 +1,5 @@
+// TODO Reduce code duplication by abstracting some of the logic
+
 require('./tco')
 const { addClass, removeClass, hasClass } = require('./class_utils')
 const { isInChatRoom, joinChatRoom } = require('./chat_room')

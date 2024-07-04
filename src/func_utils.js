@@ -1,3 +1,5 @@
+// Creates a function that executes another function after a wait time, 
+// the wait time is reset every time the returned function is called
 const debounce = (func, wait) => {
     let timeout
 
@@ -12,6 +14,7 @@ const debounce = (func, wait) => {
     }
 }
 
+// Executes a function on an interval until either it returns a truthy value or the timeout is reached 
 function doOnIntervalWithTimeout(func, interval, timeout) {
     let intervalId, timeoutId
     let promiseResolve
@@ -52,6 +55,8 @@ function doOnIntervalWithTimeout(func, interval, timeout) {
     return promise
 }
 
+// Creates a function that executes another function using doOnIntervalWithTimeout, 
+// the resulting promise is replaced with a new one whenever the returned function is called
 function doOnIntervalWithTimeoutAndOverwrite(func, interval, timeout) {
     let promise
 
