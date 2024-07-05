@@ -22,6 +22,12 @@ const init = async _ => {
     setGlobalSettings('autoStart', e.target.checked ? 'true' : 'false')
   })
   auto_start_checkbox.checked = window._TCO.currentGlobalSettings.autoStart === 'true'
+
+  const enable_keybind_checkbox = document.querySelector('#enable_keybind')
+  enable_keybind_checkbox.addEventListener('change', e => {
+    setGlobalSettings('enableKeybind', e.target.checked ? 'true' : 'false')
+  })
+  enable_keybind_checkbox.checked = window._TCO.currentGlobalSettings.enableKeybind === 'true'
 }
 
 document.addEventListener('DOMContentLoaded', init)

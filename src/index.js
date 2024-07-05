@@ -30,7 +30,9 @@ const init = async (currentStream, currentVOD) => {
   }
   document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 
-  cleanupKeybind = whenKeybindPressed(() => toggle.click())
+  if (window._TCO.currentGlobalSettings.enableKeybind === 'true') {
+    cleanupKeybind = whenKeybindPressed(() => toggle.click())
+  }
 
   console.info(`Anu Twitch Chat Overlay initialized for ${currentStream}${currentVOD && `\'s VOD ${currentVOD}`}`)
 

@@ -31,7 +31,8 @@ const DEFAULT_SETTINGS = {
 const DEFAULT_GLOBAL_SETTINGS = {
   forceVod: 'false',
   autoCloseRightColumn: 'false',
-  autoStart: 'false'
+  autoStart: 'false',
+  enableKeybind: 'false',
 }
 
 const setSettings = (k, v) => {
