@@ -1,15 +1,22 @@
+const { doOnIntervalWithTimeout } = require('./func_utils')
+
 const forcedVOD = _ => {
   const queryParams = new URLSearchParams(window.location.search)
   const force_vod_param = queryParams.get('force_vod')
   return (force_vod_param || window._TCO.currentGlobalSettings.forceVod) === 'true'
 }
 
-const getVODId = () => {
-  return (window.location.href.match(/\.tv\/videos\/([0-9]+)/) || [])[1]
+const getCurrentVOD = () => {
+  return (window.location.href.match(/\.tv\/videos\/([0-9]+)/) || [])[1] ?? ''
 }
 
-const isRealVOD = () => {
-  return Boolean(getVODId())
+const getCurrentStream = async () => {
+  let currentStream = streamFromUrl(window.location.href)
+  return currentStream || doOnIntervalWithTimeout(streamFromPictureLink, 500, 5000)
+}
+
+const isVOD = () => {
+  return Boolean(getCurrentVOD())
 }
 
 const streamFromUrl = url => {
@@ -20,52 +27,43 @@ const streamFromUrl = url => {
     return streamName
 }
 
-const getCurrentStream = _ => streamFromUrl(window.location.href)
-
-const getCurrentVOD = _ => {
-  const vod_id = getVODId()
-  if (vod_id)
-    return vod_id
-  if (forcedVOD())
-    return streamFromUrl(window.location.href)
-  return ''
+const streamFromPictureLink = () => {
+  const channel_profile_pic = document.querySelector('.channel-info-content #live-channel-stream-information .tw-image.tw-image-avatar')
+  const channel_profile_pic_link = channel_profile_pic?.parentNode?.parentNode
+  if (channel_profile_pic_link && channel_profile_pic_link.href) {
+    return streamFromUrl(channel_profile_pic_link.href)
+  }
 }
-
-const getStreamFromVOD = _ => {
-  if (forcedVOD() && !(window._TCO.currentVOD || '').match(/^[0-9]+$/))
-    return streamFromUrl(window.location.href)
-  return new Promise(r => {
-    const interval = setInterval(_ => {
-      const channel_profile_pic_link = document.querySelector('.channel-info-content #live-channel-stream-information a')
-      if (channel_profile_pic_link && channel_profile_pic_link.href) {
-        clearInterval(interval)
-        r(streamFromUrl(channel_profile_pic_link.href))
-      }
-    }, 500)
-  })
-}
-
-const inVOD = _ => !!getCurrentVOD()
 
 const isRightColumnClosed = () => {
   return Boolean(document.querySelector('.right-column--collapsed'))
 }
 
-const openAndCloseRightColumn = () => {
+// Hacky way to prevent double toggling when autoCloseRightColumn is true
+let isTogglingRightColumn = false
+
+const toggleRightColumn = () => {
   rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
   rightColumnToggle.click()
-  setTimeout(function() {
+}
+
+const openAndCloseRightColumn = () => {
+  isTogglingRightColumn = true
+  rightColumnToggle = document.querySelector('[data-a-target="right-column__toggle-collapse-btn"]')
+  rightColumnToggle.click()
+  setTimeout(function () {
     rightColumnToggle.click()
-  }, 500);
+    isTogglingRightColumn = false
+  }, 500)
 }
 
 module.exports = {
-  inVOD,
-  isRealVOD,
+  isVOD,
   getCurrentStream,
   getCurrentVOD,
-  getStreamFromVOD,
   forcedVOD,
   isRightColumnClosed,
+  isTogglingRightColumn: () => isTogglingRightColumn,
+  toggleRightColumn,
   openAndCloseRightColumn,
 }

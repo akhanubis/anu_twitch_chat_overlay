@@ -3,7 +3,6 @@ const path = require('path');
 module.exports = {
   entry: {
     index: './src/index.js',
-    vod: './src/vod.js',
     options: './src/options.js'
   },
   output: {

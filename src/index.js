@@ -1,116 +1,82 @@
 require('./tco')
-const { addClass, removeClass, hasClass } = require('./class_utils')
-const createChatContainer = require('./chat_container')
-const createIframe = require('./iframe')
+const { cleanUp, createChatOverlay, toggleChatOverlay } = require('./chat_overlay')
 const createToggle = require('./toggle')
-const { attachBaseStyle, styleToSettings, STYLE_ATTRS } = require('./frame_style')
-const { whenElementLoaded, whenClassToggled, whenUrlChanged } = require('./observer')
-const { getSettings, setSettings, getGlobalSettings } = require('./settings')
-const makeDraggable = require('./draggable')
-const makeResizable = require('./resizable')
-const { inVOD, getCurrentStream } = require('./current_page')
+const { whenElementLoaded, whenUrlChanged, whenKeybindPressed } = require('./observer')
+const { debounce, doOnIntervalWithTimeoutAndOverwrite } = require('./func_utils')
+const { getSettings, getGlobalSettings } = require('./settings')
+const { getCurrentStream, forcedVOD, getCurrentVOD } = require('./current_page')
 const setupAutoClaimManager = require('./claim_points')
 
-const enable = _ => addClass(document.body, 'anu-chat-overlay-active')
+let enabled, cleanupKeybind
 
-const disable = _ => removeClass(document.body, 'anu-chat-overlay-active')
+const playerButtonClass = 'player-controls__right-control-group'
 
-let enabled,
-    appendTo,
-    chatContainer,
-    iframe
-
-const init = async currentStream => {
-  if (inVOD())
-    return
+const init = async (currentStream, currentVOD) => {
   window._TCO.currentStream = currentStream
-  if (!currentStream || window._TCO.initializing)
-    return
-  window._TCO.initializing = true
-
+  window._TCO.currentVOD = currentVOD
+  await getGlobalSettings()
   await getSettings()
-  setupAutoClaimManager()
-  
-  const initialSetup = _ => {
-    const appendToParent = document.querySelector('.video-player__overlay')
-    chatContainer = createChatContainer()
-    appendTo = document.createElement('div')
-    iframe = createIframe(_ => {
-      const mouseEventsContainer = document.querySelector('.video-player__overlay')
-      makeResizable(chatContainer, mouseEventsContainer, iframe)
-      makeDraggable(chatContainer, mouseEventsContainer, chatContainer.querySelector('.header'), {
-        onDragEnd: _ => setSettings('position', styleToSettings(chatContainer.style, STYLE_ATTRS.POSITION)),
-        excludedElements: chatContainer.querySelectorAll('.settings, .settings *')
-      })
+  cleanUp()
+  if (cleanupKeybind) cleanupKeybind()
 
-      attachBaseStyle(iframe.contentDocument.body)
-      iframe.style = ''
-      removeClass(chatContainer, 'loading')
-      const html = document.querySelector('html'),
-            iframeHtml = iframe.contentDocument.querySelector('html'),
-            darkThemeClass = 'tw-root--theme-dark'
-      whenClassToggled(html, darkThemeClass, _ => {
-        if (hasClass(html, darkThemeClass))
-          addClass(iframeHtml, darkThemeClass)
-        else
-          removeClass(iframeHtml, darkThemeClass)
-      })
-    })
-    
-    chatContainer.addEventListener('mouseenter', _ => {
-      const chatList = iframe.contentDocument.body.querySelector('.chat-list--default')
-      if (chatList)
-        chatList.scrollTop = chatList.scrollHeight
-    })
-    chatContainer.addEventListener('mouseover', _ => addClass(iframe.contentDocument.body, 'hovered'))
-    chatContainer.addEventListener('mouseout', _ => removeClass(iframe.contentDocument.body, 'hovered'))
-    chatContainer.append(iframe)
-    appendToParent.append(appendTo)
-    appendTo.append(chatContainer)
-  }
+  const useIFrame = !Boolean(currentVOD) && !forcedVOD()
+
+  setupAutoClaimManager()
 
   const toggle = createToggle()
-  toggle.onclick = _ => {
-    if (!chatContainer)
-      initialSetup()
+  toggle.onclick = () => {
     enabled = !enabled
-    if (enabled)
-      enable()
-    else
-      disable()
+    toggleChatOverlay(useIFrame, enabled)
   }
   document.querySelector('.video-player__overlay .player-controls__right-control-group').prepend(toggle)
 
-  console.log(`Anu Twitch Chat Overlay initialized for ${ currentStream }`)
-  window._TCO.initializing = false
+  if (window._TCO.currentGlobalSettings.enableKeybind === 'true') {
+    cleanupKeybind = whenKeybindPressed(() => toggle.click())
+  }
 
-  if (enabled) /* was enabled before the raid/scroll down */
-    initialSetup()
-}
+  console.info(`Anu Twitch Chat Overlay initialized for ${currentStream}${currentVOD && `\'s VOD ${currentVOD}`}`)
 
-const cleanUp = _ => {
-  for (const p of document.querySelectorAll('.video-player__overlay .tco-modal'))
-    p.remove()
-  for (const p of document.querySelectorAll('#anu-chat-overlay-toggle'))
-    p.remove()
-  if (appendTo) {
-    appendTo.remove()
-    console.log('Anu Twitch Chat Overlay cleaned up')
+  if (enabled) {/* was enabled before the video switch */
+    createChatOverlay(useIFrame)
+  } else if (window._TCO.currentGlobalSettings.autoStart === 'true') {
+    setTimeout(() => toggle.click(), 500);
   }
 }
 
-whenElementLoaded(document.body, 'player-controls__right-control-group', async _ => {
-  await getGlobalSettings()
-  cleanUp()
-  await init(getCurrentStream())
+const isPlayerButtonLoaded = () => Boolean(document.querySelector(`.${playerButtonClass}`))
+// Factors to take into account when setting these durations:
+// - checkInterval should be < debounceDuration
+//        If not then there is a chance for init to be called twice. For example, let's say:
+//        - `whenElementLoaded` is executed and calls `debouncedInit`, the `debounceDuration` timer starts
+//        - `whenUrlChanged` is waiting for the next tick of `checkIfPlayerButtonLoaded`
+//        - If the next tick happens after `debounceDuration` is elapsed then the ensuing call to `debouncedInit` will not reset the debounce timer,
+//        `init` will be called twice. This can only happen if `debounceDuration` <= `checkIntervalDuration`
+// - raising `debouncedDuration` increases the time it takes ATCO to init
+// - reducing `checkIntervalDuration` increases the amount of DOM checks, should be fine though 
+// TODO make `init` idempotent
+const debounceDuration = 310;
+const checkIntervalDuration = 300;
+const debouncedInit = debounce(init, debounceDuration)
+const checkIfPlayerButtonLoaded = doOnIntervalWithTimeoutAndOverwrite(isPlayerButtonLoaded, checkIntervalDuration, 4000)
+
+whenElementLoaded(document.body, playerButtonClass, async _ => {
+  const currentStream = await getCurrentStream()
+  const currentVOD = getCurrentVOD()
+
+  if (currentStream) {
+    debouncedInit(currentStream, currentVOD)
+  }
 })
 
+
 whenUrlChanged(async _ => {
-  await getGlobalSettings()
-  const oldStream = window._TCO.currentStream,
-        newStream = getCurrentStream()
-  if (newStream === oldStream)
-    return
-  cleanUp()
-  await init(newStream)
+  const currentStream = await getCurrentStream()
+  const currentVOD = getCurrentVOD()
+
+  if (currentStream && currentStream !== window._TCO.currentStream || currentVOD !== window._TCO.currentVOD) {
+    const isLoaded = await checkIfPlayerButtonLoaded()
+    if (isLoaded) {
+      debouncedInit(currentStream, currentVOD)
+    }
+  }
 }, false)

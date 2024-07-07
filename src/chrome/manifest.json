@@ -24,8 +24,7 @@
       "assets/vod.css"
     ],
     "js": [
-      "index.js",
-      "vod.js"
+      "index.js"
     ]
   }],
   "options_ui": {
