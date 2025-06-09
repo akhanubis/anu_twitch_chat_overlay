@@ -2,7 +2,7 @@ const { styleToSettings, STYLE_ATTRS } = require('./frame_style')
 
 const ISSUES_TRACKER_LINK = "https://github.com/akhanubis/anu_twitch_chat_overlay/issues"
 
-const VERSION = "1.0.4"
+const VERSION = "1.0.5"
 
 const DEFAULT_SETTINGS = {
   position: styleToSettings({
