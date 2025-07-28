@@ -2,7 +2,7 @@
   width: 0;
 }
 
-.anu-chat-overlay-container .video-chat__message-list-wrapper {
+.anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper {
   margin-right: 0;
   scrollbar-width: none;
 }

@@ -11,7 +11,6 @@ const attachBaseStyle = element => {
 
   .anu-chat-overlay-inner .stream-chat-header,
   .anu-chat-overlay-inner .channel-leaderboard,
-  .anu-chat-overlay-inner .simplebar-track.horizontal,
   .anu-chat-overlay-inner .tw-absolute.tw-full-width.tw-z-above {
     display: none !important;
   }
@@ -24,39 +23,43 @@ const attachBaseStyle = element => {
     visibility: visible;
   }
 
+  /* chat input */
   .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-input, /* live */
-  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-input /* live force vod */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-input, /* live force vod */
+  /* gift rank banner */
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-room__content > *:first-child, /* live */
+  .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-room__content > *:first-child /* live force vod */
   {
     display: none !important;
   }
 
-  .anu-chat-overlay-inner .simplebar-content {
+  .anu-chat-overlay-inner .chat-room__content {
     overflow-x: hidden;
   }
 
-  .anu-chat-overlay-inner.atco-dettached .simplebar-content {
+  .anu-chat-overlay-inner.atco-dettached .chat-room__content {
     padding-bottom: 20px !important;
   }
 
-  .anu-chat-overlay-inner .simplebar-scroll-content {
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .scrollable-area {
     margin-right: -17px !important;
     padding-right: 0 !important;
     visibility: hidden !important;
   }
 
-  .anu-chat-overlay-inner .simplebar-content,
+  .anu-chat-overlay-inner .chat-room__content,
   .anu-chat-overlay-inner.atco-dettached
    {
     visibility: visible;
     margin-bottom: -5px;
   }
 
-  .anu-chat-overlay-inner.hovered .simplebar-content,
+  .anu-chat-overlay-inner.hovered .chat-room__content,
   .anu-chat-overlay-inner.hovered.atco-dettached {
     color: inherit;
   }
 
-  .anu-chat-overlay-inner .simplebar-content *,
+  .anu-chat-overlay-inner .chat-room__content *,
   .anu-chat-overlay-inner.atco-dettached * {
     visibility: visible;
   }
@@ -74,7 +77,7 @@ const attachBaseStyle = element => {
     padding-right: 0;
   }
 
-  .anu-chat-overlay-inner.hovered .simplebar-content {
+  .anu-chat-overlay-inner.hovered .chat-room__content {
     background-color: unset;
   }
 
@@ -142,7 +145,7 @@ const applyStyle = (body, id, selector, style) => {
 const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atco-dettached') || document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
 
 const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', `
-  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .simplebar-content, /* live */
+  .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-room__content, /* live */
   .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list--default, /* live force vod */
   .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper /* vod */
   `, backgroundStyle)
