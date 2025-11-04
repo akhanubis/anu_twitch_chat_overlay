@@ -33,18 +33,6 @@
   height: 350px;
 }
 
-.tco-settings-modal .modal__container .settings-scroller.overflow-y-hidden {
-  overflow-y: hidden;
-}
-
-.tco-settings-modal .modal__container .settings-scroller .simplebar-content {
-  overflow-x: hidden;
-}
-
-.tco-settings-modal .modal__container .settings-scroller .simplebar-placeholder {
-  height: 0 !important;
-}
-
 .tco-settings-modal .modal__content {
   padding-bottom: 0;
 }

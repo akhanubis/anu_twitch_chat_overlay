@@ -1,5 +1,4 @@
 const MicroModal = require('micromodal').default
-// const SimpleBar = require('simplebar').default // Removed to fix scrolling issue in Chromium
 const { peepoPainter } = require('./images')
 const { applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
 const { setSettings, DEFAULT_SETTINGS, ISSUES_TRACKER_LINK } = require('./settings')
@@ -379,14 +378,6 @@ module.exports = _ => {
   }
 
   document.querySelector('.video-player__overlay').append(panel)
-  // Removed SimpleBar implementation for Chromium browsers to fix scrolling issue
-  // if (window.chrome && chrome.runtime && chrome.runtime.id) {
-  //   const scroller = panel.querySelector('.settings-scroller')
-  //   new SimpleBar(scroller, {
-  //     autoHide: false
-  //   })
-  //   addClass(scroller, 'overflow-y-hidden')
-  // }
 
   const aboutPanel = createAboutPanel()
   panel.querySelector('.about-us-icon').onclick = e => {

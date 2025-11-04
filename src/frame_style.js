@@ -144,7 +144,7 @@ const applyStyle = (body, id, selector, style) => {
 
 const iframeBody = _ => document.querySelector('.anu-chat-overlay-container .atco-dettached') || document.querySelector('.anu-chat-overlay-container iframe').contentDocument.body
 
-const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'simplebarBackground', `
+const applyBackground = backgroundStyle => applyStyle(iframeBody(), 'chatBackground', `
   .anu-chat-overlay-inner:not(.atco-dettached):not(.hovered) .chat-room__content, /* live */
   .anu-chat-overlay-container .atco-dettached:not(.hovered) .chat-list--default, /* live force vod */
   .anu-chat-overlay-container .atco-dettached:not(.hovered) .video-chat__message-list-wrapper /* vod */
