@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Extension",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/webpack/bin/webpack.js",
+      "args": ["--mode", "development"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Build Extension",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/webpack/bin/webpack.js",
+      "args": ["--mode", "production"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "npm: build"
+    }
+  ]
+}

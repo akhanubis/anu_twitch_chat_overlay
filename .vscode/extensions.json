@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "formulahendry.auto-rename-tag",
+    "dbaeumer.vscode-eslint",
+    "firefox-devtools.vscode-firefox-debug",
+    "ms-vscode.js-debug"
+  ]
+}

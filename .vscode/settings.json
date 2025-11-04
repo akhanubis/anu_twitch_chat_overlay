@@ -1,0 +1,25 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "javascript.preferences.includePackageJsonAutoImports": "auto",
+  "files.associations": {
+    "*.js": "javascript"
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascript"
+  },
+  "eslint.validate": [
+    "javascript",
+    "html"
+  ],
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/publish": true
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true
+  }
+}

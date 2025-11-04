@@ -2,7 +2,7 @@ const MicroModal = require('micromodal').default
 // const SimpleBar = require('simplebar').default // Removed to fix scrolling issue in Chromium
 const { peepoPainter } = require('./images')
 const { applyBackground, applyFont, applyToggles, settingsToStyle, styleToSettings, STYLE_ATTRS, SETTINGS_TO_STYLE_FN } = require('./frame_style')
-const { setSettings, DEFAULT_SETTINGS, ISSUES_TRACKER_LINK } = require('./settings')
+const { setSettings, getChannelList, getChannelSettings, saveChannelSettings, deleteChannelSettings, DEFAULT_SETTINGS, ISSUES_TRACKER_LINK } = require('./settings')
 const { whenSizeChanged } = require('./observer')
 const { boundingBoxToStyle } = require('./bounding_box_utils')
 const makeDraggable = require('./draggable')
@@ -49,6 +49,27 @@ module.exports = _ => {
             <div>Tip: Keep the chat window to the sides of the screen so you can preview your changes.</div>
           </div>
           <div class="settings-divider settings-main-divider"></div>
+          <div class="settings-row">
+            <div class="settings-label">
+              Channel Settings
+            </div>
+            <div class="settings-input-container">
+              <div class="channel-selector-container">
+                <select class="channel-selector tw-block tw-border-radius-medium tw-font-size-6 tw-textarea tw-textarea--no-resize">
+                  <option value="default">Default (all channels)</option>
+                </select>
+                <button class="delete-channel-button tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative" title="Delete channel settings" style="display: none;">
+                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
+                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
+                      Delete
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <div class="settings-tip">Select a channel to view/edit its specific settings, or use "Default" for all channels</div>
+            </div>
+          </div>
+          <div class="settings-divider"></div>
           <div class="settings-scroller">
             <div class="settings-row">
               <div class="settings-label">
@@ -235,7 +256,7 @@ module.exports = _ => {
               <button class="save-settings-button tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-core-button--primary tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
                 <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                   <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                    Apply to ${ window._TCO.currentStream }
+                    Apply to <span class="save-target-channel">${ window._TCO.currentStream }</span>
                   </div>
                 </div>
               </button>
@@ -266,7 +287,12 @@ module.exports = _ => {
         currentButton = containerSelector => panel.querySelector(`${ containerSelector } button.tw-core-button--primary`).getAttribute('data-b-value')
 
   const viewportModel = panel.querySelector('.viewport-model'),
-        chatModel = panel.querySelector('.chat-model')
+        chatModel = panel.querySelector('.chat-model'),
+        channelSelector = panel.querySelector('.channel-selector'),
+        deleteChannelButton = panel.querySelector('.delete-channel-button'),
+        saveTargetChannel = panel.querySelector('.save-target-channel')
+  
+  let selectedChannel = 'default'
     
   const applyPositionToOriginal = style => {
           const chatContainer = document.querySelector('.anu-chat-overlay-container')
@@ -319,22 +345,37 @@ module.exports = _ => {
 
   fontSizePicker.onchange = onFontChange
 
-  panel.querySelector('.save-settings-button').onclick = _ => {
+  panel.querySelector('.save-settings-button').onclick = async _ => {
     MicroModal.close('tco-settings-modal')
-    setSettings('background', styleToSettings({ 'background-color': backgroundColorPicker.getColor() }, STYLE_ATTRS.BACKGROUND))
-    setSettings('position', styleToSettings(chatModel.style, STYLE_ATTRS.POSITION))
-    setSettings('toggles', styleToSettings({
-      username: currentButton('.username-toggle'),
-      timestamp: currentButton('.timestamp-toggle'),
-      autoclaim: currentButton('.autoclaim-toggle')
-    }, STYLE_ATTRS.TOGGLES)),
-    setSettings('font', styleToSettings({
-      'color': fontColorPicker.getColor(),
-      'text-shadow': fontOutlineColorPicker.getColor(),
-      'font-weight': currentButton('.font-weight'),
-      'font-family': fontFamilyPicker.value,
-      'font-size': `${ fontSizePicker.value }px`
-    }, STYLE_ATTRS.FONT))
+    
+    const newSettings = {
+      background: styleToSettings({ 'background-color': backgroundColorPicker.getColor() }, STYLE_ATTRS.BACKGROUND),
+      position: styleToSettings(chatModel.style, STYLE_ATTRS.POSITION),
+      toggles: styleToSettings({
+        username: currentButton('.username-toggle'),
+        timestamp: currentButton('.timestamp-toggle'),
+        autoclaim: currentButton('.autoclaim-toggle')
+      }, STYLE_ATTRS.TOGGLES),
+      font: styleToSettings({
+        'color': fontColorPicker.getColor(),
+        'text-shadow': fontOutlineColorPicker.getColor(),
+        'font-weight': currentButton('.font-weight'),
+        'font-family': fontFamilyPicker.value,
+        'font-size': `${ fontSizePicker.value }px`
+      }, STYLE_ATTRS.FONT)
+    }
+    
+    // Save to selected channel
+    await saveChannelSettings(selectedChannel, newSettings)
+    
+    // If saving to current channel, also update the active settings
+    if (selectedChannel === window._TCO.currentStream || selectedChannel === 'default') {
+      window._TCO.currentSettings = newSettings
+      setSettings('background', newSettings.background)
+      setSettings('position', newSettings.position)
+      setSettings('toggles', newSettings.toggles)
+      setSettings('font', newSettings.font)
+    }
   }
 
   const rollbackToSettings = settings => {
@@ -343,6 +384,42 @@ module.exports = _ => {
     applyFont(settingsToStyle(settings.font, STYLE_ATTRS.FONT))
     applyToggles(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES))
     applyAutoclaim(settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).autoclaim)
+  }
+  
+  const loadChannelSettings = async (channel) => {
+    const settings = await getChannelSettings(channel)
+    rollbackToSettings(settings)
+    initInputs(settings)
+  }
+  
+  const updateChannelList = async () => {
+    const channels = await getChannelList()
+    channelSelector.innerHTML = ''
+    
+    channels.forEach(channel => {
+      const option = document.createElement('option')
+      option.value = channel
+      option.textContent = channel === 'default' ? 'Default (all channels)' : channel
+      channelSelector.appendChild(option)
+    })
+    
+    // Select current channel if it exists, otherwise select default
+    if (channels.includes(window._TCO.currentStream)) {
+      channelSelector.value = window._TCO.currentStream
+      selectedChannel = window._TCO.currentStream
+    } else {
+      channelSelector.value = 'default'
+      selectedChannel = 'default'
+    }
+    
+    // Update save button text
+    saveTargetChannel.textContent = selectedChannel === 'default' ? 'all channels' : selectedChannel
+    
+    // Show/hide delete button
+    deleteChannelButton.style.display = selectedChannel === 'default' ? 'none' : 'inline-flex'
+    
+    // Load the selected channel's settings
+    await loadChannelSettings(selectedChannel)
   }
 
   const initInputs = settings => {
@@ -372,8 +449,8 @@ module.exports = _ => {
     initInputs(DEFAULT_SETTINGS)
   }
 
-  panel.showPanel = _ => {
-    initInputs(window._TCO.currentSettings)
+  panel.showPanel = async _ => {
+    await updateChannelList()
     MicroModal.show('tco-settings-modal')
     panel.querySelector('.save-settings-button').focus()
   }
@@ -387,6 +464,21 @@ module.exports = _ => {
   //   })
   //   addClass(scroller, 'overflow-y-hidden')
   // }
+  
+  // Channel selector event listeners
+  channelSelector.onchange = async _ => {
+    selectedChannel = channelSelector.value
+    saveTargetChannel.textContent = selectedChannel === 'default' ? 'all channels' : selectedChannel
+    deleteChannelButton.style.display = selectedChannel === 'default' ? 'none' : 'inline-flex'
+    await loadChannelSettings(selectedChannel)
+  }
+  
+  deleteChannelButton.onclick = async _ => {
+    if (confirm(`Are you sure you want to delete settings for "${selectedChannel}"? This channel will use the default settings.`)) {
+      await deleteChannelSettings(selectedChannel)
+      await updateChannelList()
+    }
+  }
 
   const aboutPanel = createAboutPanel()
   panel.querySelector('.about-us-icon').onclick = e => {
