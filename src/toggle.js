@@ -7,19 +7,16 @@ module.exports = _ => {
   toggle.innerHTML = `
    <div class="Layout-sc-1xcs6mc-0" aria-label="Anu Chat Overlay" role="tooltip" data-microtip-position="top">
       <div class="InjectLayout-sc-1i43xsx-0 iDMNUO">
-         <div class="Layout-sc-1xcs6mc-0 ScLayoutCssVars-sc-1pn65j5-0 jfyitl gaSyOh">
-            <button class="ScCoreButton-sc-ocjdkq-0 bhSCzT ScButtonIcon-sc-9yap0r-0 exrGQc">
+         <div class="Layout-sc-1xcs6mc-0 ScLayoutCssVars-sc-1pn65j5-0 jfyitl TtKWF">
+            <button class="ScCoreButton-sc-ocjdkq-0 iPkwTD ScButtonIcon-sc-9yap0r-0 dcNXJO">
                <div class="ButtonIconFigure-sc-1emm8lf-0 lnTwMD">
-                  <div class="ScIconLayout-sc-1q25cff-0 kjQOIz">
-                     <div class="ScAspectRatio-sc-18km980-1 jgpfbi tw-aspect">
-                        <div class="ScAspectSpacer-sc-18km980-0 dYMszt"></div>
-                        <svg width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px" class="ScIconSVG-sc-1q25cff-1 jpczqG">
-                          <g>
-                            <path class="active" fill-rule="evenodd" d="${ ENABLED_ICON_PATH }" clip-rule="evenodd"></path>
-                            <path class="inactive" fill-rule="evenodd" d="${ DISABLED_ICON_PATH }" clip-rule="evenodd"></path>
-                          </g>
-                        </svg>
-                     </div>
+                  <div class="ScSvgWrapper-sc-wkgzod-0 kccyMt tw-svg">
+                     <svg width="100%" height="100%" version="1.1" viewBox="0 0 32 32" x="0px" y="0px" class="ScIconSVG-sc-1q25cff-1 jpczqG">
+                        <g>
+                           <path class="active" fill-rule="evenodd" d="${ ENABLED_ICON_PATH }" clip-rule="evenodd"></path>
+                           <path class="inactive" fill-rule="evenodd" d="${ DISABLED_ICON_PATH }" clip-rule="evenodd"></path>
+                        </g>
+                     </svg>
                   </div>
                </div>
             </button>
