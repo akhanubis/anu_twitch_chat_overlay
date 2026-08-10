@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'production',
   entry: {
     index: './src/index.js',
     vod: './src/vod.js',

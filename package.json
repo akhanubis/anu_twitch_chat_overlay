@@ -1,6 +1,6 @@
 {
   "name": "twitch_chat_overlay",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "Anu Twitch Chat Overlay",
   "main": "app.js",
   "scripts": {
@@ -32,11 +32,10 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "shx": "^0.3.2",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
+    "webpack": "^5.109.2",
+    "webpack-cli": "^7.2.2"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.8.7",
     "@jaames/iro": "^5.1.5",
     "babel-loader": "^8.1.0",
     "iro-transparency-plugin": "^1.0.2",
