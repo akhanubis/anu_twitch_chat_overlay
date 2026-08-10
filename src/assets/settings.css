@@ -108,6 +108,36 @@
   cursor: pointer;
 }
 
+.tco-settings-modal .modal__container .channel-selector-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tco-settings-modal .modal__container .channel-selector {
+  flex: 1;
+  height: 35px;
+  font-weight: bold;
+  text-align-last: center;
+  cursor: pointer;
+}
+
+.tco-settings-modal .modal__container .delete-channel-button {
+  padding: 0 15px;
+  background-color: var(--color-background-button-text);
+  color: var(--color-text-button-text);
+  border: 1px solid var(--color-border-base);
+}
+
+.tco-settings-modal .modal__container .delete-channel-button:hover {
+  background-color: var(--color-background-button-text-hover);
+}
+
+.tw-root--theme-dark .tco-settings-modal .modal__container .delete-channel-button {
+  background-color: var(--color-background-button-text);
+  color: var(--color-text-button-text);
+}
+
 #tco-settings-modal .IroHandle {
   cursor: grab;
 }

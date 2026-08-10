@@ -78,11 +78,55 @@ const getGlobalSettings = async _ => {
     window._TCO.currentGlobalSettings[s] = (storedSettings['__global__'] || {})[s] || DEFAULT_GLOBAL_SETTINGS[s]
 }
 
+const getChannelList = async _ => {
+  const allSettings = await new Promise(r => chrome.storage.sync.get(null, r))
+  const channelList = ['default']
+  
+  for (const key in allSettings) {
+    if (key !== 'default' && key !== '__global__' && typeof allSettings[key] === 'object') {
+      channelList.push(key)
+    }
+  }
+  
+  return channelList.sort()
+}
+
+const getChannelSettings = async (channel) => {
+  if (channel === 'default') {
+    return { ...DEFAULT_SETTINGS }
+  }
+  
+  const storedSettings = await new Promise(r => chrome.storage.sync.get([channel], r))
+  return { ...DEFAULT_SETTINGS, ...(storedSettings[channel] || {}) }
+}
+
+const saveChannelSettings = async (channel, settings) => {
+  if (channel === 'default') {
+    // Save to default and current channel
+    await chrome.storage.sync.set({
+      default: settings,
+      [window._TCO.currentStream]: settings
+    })
+  } else {
+    await chrome.storage.sync.set({ [channel]: settings })
+  }
+}
+
+const deleteChannelSettings = async (channel) => {
+  if (channel !== 'default') {
+    await chrome.storage.sync.remove(channel)
+  }
+}
+
 module.exports = {
   setSettings,
   setGlobalSettings,
   getSettings,
   getGlobalSettings,
+  getChannelList,
+  getChannelSettings,
+  saveChannelSettings,
+  deleteChannelSettings,
   DEFAULT_SETTINGS,
   DEFAULT_GLOBAL_SETTINGS,
   ISSUES_TRACKER_LINK,
