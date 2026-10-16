@@ -36,7 +36,7 @@ module.exports = _ => {
               <div class="ScAspectRatio-sc-1sw3lwy-1 bneAWp tw-aspect">
                 <div class="ScAspectSpacer-sc-1sw3lwy-0 gMCXS"></div>
                 <svg width="100%" height="100%" version="1.1" viewBox="0 0 384 512" x="0px" y="0px" class="ScIconSVG-sc-1bgeryd-1 eOJUoR">
-                  <path fill="currentColor" d="M202.021 0C122.202 0 70.503 32.703 29.914 91.026c-7.363 10.58-5.093 25.086 5.178 32.874l43.138 32.709c10.373 7.865 25.132 6.026 33.253-4.148 25.049-31.381 43.63-49.449 82.757-49.449 30.764 0 68.816 19.799 68.816 49.631 0 22.552-18.617 34.134-48.993 51.164-35.423 19.86-82.299 44.576-82.299 106.405V320c0 13.255 10.745 24 24 24h72.471c13.255 0 24-10.745 24-24v-5.773c0-42.86 125.268-44.645 125.268-160.627C377.504 66.256 286.902 0 202.021 0zM192 373.459c-38.196 0-69.271 31.075-69.271 69.271 0 38.195 31.075 69.27 69.271 69.27s69.271-31.075 69.271-69.271-31.075-69.27-69.271-69.27z"></path>
+                  <path fill="currentColor" d="M202.021 0C122.202 0 70.503 32.703 29.914 91.026c-7.363 10.58-5.093 25.086 5.178 32.874l43.138 32.709c10.373 7.865 25.132 6.026 33.253-4.148 25.049-3[...]"/>
                 </svg>
               </div>
             </div>
@@ -79,20 +79,8 @@ module.exports = _ => {
                 Auto claim channel points
               </div>
               <div class="settings-input-container autoclaim-toggle">
-                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Enabled
-                    </div>
-                  </div>
-                </button>
-                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Disabled
-                    </div>
-                  </div>
-                </button>
+                <button data-b-value="true" class="tw-core-button">Enabled</button>
+                <button data-b-value="false" class="tw-core-button">Disabled</button>
               </div>
             </div>
             <div class="settings-divider"></div>
@@ -140,27 +128,9 @@ module.exports = _ => {
                 Font weight
               </div>
               <div class="settings-input-container font-weight">
-                <button data-b-value="normal" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Normal
-                    </div>
-                  </div>
-                </button>
-                <button data-b-value="bold" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Bold
-                    </div>
-                  </div>
-                </button>
-                <button data-b-value="bolder" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Bolder
-                    </div>
-                  </div>
-                </button>
+                <button data-b-value="normal" class="tw-core-button">Normal</button>
+                <button data-b-value="bold" class="tw-core-button">Bold</button>
+                <button data-b-value="bolder" class="tw-core-button">Bolder</button>
               </div>
             </div>
             <div class="settings-divider"></div>
@@ -169,20 +139,8 @@ module.exports = _ => {
                 Hide usernames
               </div>
               <div class="settings-input-container username-toggle">
-                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Enabled
-                    </div>
-                  </div>
-                </button>
-                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Disabled
-                    </div>
-                  </div>
-                </button>
+                <button data-b-value="false" class="tw-core-button">Enabled</button>
+                <button data-b-value="true" class="tw-core-button">Disabled</button>
               </div>
             </div>
             <div class="settings-row">
@@ -190,20 +148,17 @@ module.exports = _ => {
                 Hide timestamps
               </div>
               <div class="settings-input-container timestamp-toggle">
-                <button data-b-value="false" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Enabled
-                    </div>
-                  </div>
-                </button>
-                <button data-b-value="true" class="tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
-                  <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
-                    <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
-                      Disabled
-                    </div>
-                  </div>
-                </button>
+                <button data-b-value="false" class="tw-core-button">Enabled</button>
+                <button data-b-value="true" class="tw-core-button">Disabled</button>
+              </div>
+            </div>
+            <div class="settings-row">
+              <div class="settings-label">
+                Enable 7TV emotes
+              </div>
+              <div class="settings-input-container seventv-toggle">
+                <button data-b-value="true" class="tw-core-button">Enabled</button>
+                <button data-b-value="false" class="tw-core-button">Disabled</button>
               </div>
             </div>
           </div>
@@ -211,7 +166,7 @@ module.exports = _ => {
         <div class="modal__footer chat-room">
           <div class="">
             <div class="tw-mg-l-05">
-              <button class="default-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+              <button class="default-settings-button tw-core-button">
                 <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                   <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                     Reset to default
@@ -222,7 +177,7 @@ module.exports = _ => {
           </div>
           <div class="right-buttons tw-justify-content-end tw-flex-row">
             <div class="tw-mg-l-05">
-              <button class="cancel-settings-button tw-align-items-center tw-full-width tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+              <button class="cancel-settings-button tw-core-button">
                 <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                   <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                     Cancel
@@ -231,7 +186,7 @@ module.exports = _ => {
               </button>
             </div>
             <div class="tw-mg-l-05">
-              <button class="save-settings-button tw-align-items-center tw-align-middle tw-border-bottom-left-radius-medium tw-border-bottom-right-radius-medium tw-border-top-left-radius-medium tw-border-top-right-radius-medium tw-core-button tw-core-button--primary tw-inline-flex tw-interactive tw-justify-content-center tw-overflow-hidden tw-relative">
+              <button class="save-settings-button tw-core-button">
                 <div class="tw-align-items-center tw-core-button-label tw-flex tw-flex-grow-0">
                   <div data-a-target="tw-core-button-label-text" class="tw-flex-grow-0">
                     Apply to ${ window._TCO.currentStream }
@@ -245,24 +200,24 @@ module.exports = _ => {
     </div>
   `
 
-  const backgroundColorPicker = createColorPicker(panel.querySelector('.background-color-picker'), color => applyBackground({ 'background-color': SETTINGS_TO_STYLE_FN['background-color'](color) })),
-        onFontChange = _ => applyFont({
+  const backgroundColorPicker = createColorPicker(panel.querySelector('.background-color-picker'), color => applyBackground({ 'background-color': SETTINGS_TO_STYLE_FN['background-color'](color) }))
+        , onFontChange = _ => applyFont({
           'color': fontColorPicker.getColor(),
           'text-shadow': SETTINGS_TO_STYLE_FN['text-shadow'](fontOutlineColorPicker.getColor()),
           'font-weight': currentButton('.font-weight'),
           'font-family': fontFamilyPicker.value,
           'font-size': `${ fontSizePicker.value }px`
-        }),
-        onToggleChange = _ => applyToggles({
+        })
+        , onToggleChange = _ => applyToggles({
           username: currentButton('.username-toggle'),
           timestamp: currentButton('.timestamp-toggle')
-        }),
-        onAutoclaimChange = _ => applyAutoclaim(currentButton('.autoclaim-toggle')),
-        fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange),
-        fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange),
-        fontFamilyPicker = panel.querySelector('.font-family-picker'),
-        fontSizePicker = panel.querySelector('.font-size-picker'),
-        currentButton = containerSelector => panel.querySelector(`${ containerSelector } button.tw-core-button--primary`).getAttribute('data-b-value')
+        })
+        , onAutoclaimChange = _ => applyAutoclaim(currentButton('.autoclaim-toggle'))
+        , fontColorPicker = createColorPicker(panel.querySelector('.font-color-picker'), onFontChange)
+        , fontOutlineColorPicker = createColorPicker(panel.querySelector('.font-outline-color-picker'), onFontChange)
+        , fontFamilyPicker = panel.querySelector('.font-family-picker')
+        , fontSizePicker = panel.querySelector('.font-size-picker')
+        , currentButton = containerSelector => panel.querySelector(`${ containerSelector } button.tw-core-button--primary`).getAttribute('data-b-value')
 
   const viewportModel = panel.querySelector('.viewport-model'),
         chatModel = panel.querySelector('.chat-model')
@@ -293,6 +248,7 @@ module.exports = _ => {
         usernameButtons = panel.querySelectorAll('.username-toggle button'),
         timestampButtons = panel.querySelectorAll('.timestamp-toggle button'),
         autoclaimButtons = panel.querySelectorAll('.autoclaim-toggle button'),
+        seventvButtons = panel.querySelectorAll('.seventv-toggle button'),
         enableSelectedButton = (selected, buttons, onChange) => {
           const currentValue = selected.getAttribute('data-b-value')
           for (const b of buttons) {
@@ -313,6 +269,8 @@ module.exports = _ => {
     b.onclick = _ => enableSelectedButton(b, timestampButtons, onToggleChange)
   for (const b of autoclaimButtons)
     b.onclick = _ => enableSelectedButton(b, autoclaimButtons, onAutoclaimChange)
+  for (const b of seventvButtons)
+    b.onclick = _ => enableSelectedButton(b, seventvButtons, _ => {})
 
   fontFamilyPicker.onchange = onFontChange
 
@@ -325,7 +283,8 @@ module.exports = _ => {
     setSettings('toggles', styleToSettings({
       username: currentButton('.username-toggle'),
       timestamp: currentButton('.timestamp-toggle'),
-      autoclaim: currentButton('.autoclaim-toggle')
+      autoclaim: currentButton('.autoclaim-toggle'),
+      seventv: currentButton('.seventv-toggle')
     }, STYLE_ATTRS.TOGGLES)),
     setSettings('font', styleToSettings({
       'color': fontColorPicker.getColor(),
@@ -350,6 +309,7 @@ module.exports = _ => {
     enableSelectedButton(panel.querySelector(`.username-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).username }"]`), usernameButtons)
     enableSelectedButton(panel.querySelector(`.timestamp-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).timestamp }"]`), timestampButtons)
     enableSelectedButton(panel.querySelector(`.autoclaim-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).autoclaim }"]`), autoclaimButtons)
+    enableSelectedButton(panel.querySelector(`.seventv-toggle button[data-b-value="${ settingsToStyle(settings.toggles, STYLE_ATTRS.TOGGLES).seventv }"]`), seventvButtons)
     fontFamilyPicker.value = fontSettings['font-family']
     fontSizePicker.value = parseFloat(fontSettings['font-size'])
     fontColorPicker.setColor(fontSettings['color'])

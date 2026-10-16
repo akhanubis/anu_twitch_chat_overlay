@@ -24,7 +24,8 @@ const DEFAULT_SETTINGS = {
   toggles: styleToSettings({
     username: true,
     autoclaim: false,
-    timestamp: true
+    timestamp: true,
+    seventv: true
   }, STYLE_ATTRS.TOGGLES)
 }
 
@@ -65,10 +66,10 @@ const getSettings = async _ => {
   for (const s in DEFAULT_SETTINGS)
     window._TCO.currentSettings[s] = (storedSettings[window._TCO.currentStream] || {})[s] || (storedSettings.default || {})[s] || DEFAULT_SETTINGS[s]
   
-  /* TEMP fix for old settings with toggle = "true" */
+  /* TEMP fix for old settings formats */
   const bool_toggles = window._TCO.currentSettings.toggles.split('_')
-  if (bool_toggles.length < 3)
-    window._TCO.currentSettings.toggles = `${ window._TCO.currentSettings.toggles }${ bool_toggles.length == 1 ? '_false' : '' }_true`
+  if (bool_toggles.length !== STYLE_ATTRS.TOGGLES.length)
+    window._TCO.currentSettings.toggles = DEFAULT_SETTINGS.toggles
 }
 
 const getGlobalSettings = async _ => {
