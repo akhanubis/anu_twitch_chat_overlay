@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "Anu Twitch Chat Overlay (Firefox)",
+  "version": "1.1.0",
+  "description": "Show Twitch chat on top of the stream player. Read chat, send messages, claim points, and more, without leaving fullscreen mode (Firefox temporary add-on)",
+  "permissions": [
+    "storage",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.twitch.tv/*"],
+      "exclude_matches": ["*://dashboard.twitch.tv/*"],
+      "css": [
+        "assets/twitch.css",
+        "assets/index.css",
+        "assets/resizable.css",
+        "assets/modal.css",
+        "assets/settings.css",
+        "assets/about.css",
+        "assets/vod.css",
+        "assets/microtip.css"
+      ],
+      "js": [
+        "index.js",
+        "vod.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}
